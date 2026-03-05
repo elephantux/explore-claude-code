@@ -1,0 +1,56 @@
+/* ── Design Tokens ─────────────────────────────────────────── */
+
+:root {
+  /* Background layers — warm charcoal, not cold blue-gray */
+  --bg-base: #141211;
+  --bg-surface: #1a1816;
+  --bg-elevated: #22201d;
+  --bg-hover: #2a2825;
+  --bg-active: #33302c;
+
+  /* Text — warm cream, not cool white */
+  --text-primary: #b8b0a4;
+  --text-secondary: #847c72;
+  --text-muted: #5c564f;
+  --text-bright: #e6dfd6;
+
+  /* Borders — warm grays */
+  --border-subtle: #272421;
+  --border-default: #3a3632;
+  --border-strong: #4d4841;
+
+  /* Accent — terracotta, not purple */
+  --accent: #c47a50;
+  --accent-hover: #d48e66;
+  --accent-muted: rgba(196, 122, 80, 0.10);
+
+  /* Badge colors — muted, earthy, not neon */
+  --badge-memory: #b07a6e;
+  --badge-commands: #8e82ad;
+  --badge-config: #7a7670;
+  --badge-mcp: #6e9468;
+  --badge-skill: #5e918a;
+  --badge-agents: #b8965e;
+  --badge-rules: #a89a48;
+  --badge-code: #5e82a0;
+
+  /* Radius — sharp, not puffy */
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+
+  /* Fonts — Space Grotesk for character, not generic Inter */
+  --font-ui: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Sidebar */
+  --sidebar-width: 270px;
+}

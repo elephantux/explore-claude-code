@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code Explorer</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Prism.js for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/void.css">
+  <link rel="stylesheet" href="css/terminal.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <div class="traffic-lights">
+        <div class="traffic-light traffic-light--close"></div>
+        <div class="traffic-light traffic-light--minimize"></div>
+        <div class="traffic-light traffic-light--maximize"></div>
+      </div>
+      <span class="title-bar__text">claude-code-explorer — my-project</span>
+      <span class="title-bar__badge">interactive</span>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar__header">My-Project</div>
+        <div class="sidebar__tree" id="file-tree"></div>
+      </aside>
+
+      <!-- Content Area -->
+      <main class="content-area">
+        <div class="tab-bar" id="tab-bar">
+          <div class="tab active" data-tab="welcome">
+            <span class="tab__dot"></span>
+            Welcome
+          </div>
+        </div>
+        <div class="content-scroll" id="content"></div>
+      </main>
+
+      <!-- Terminal Panel (right side) -->
+      <div class="terminal-panel" id="terminal-panel">
+        <div class="terminal-resize"></div>
+        <div class="terminal-header">
+          <span class="terminal-header__label">Claude Code</span>
+          <div class="terminal-header__actions">
+            <button class="terminal-header__btn terminal-header__chevron" title="Toggle">&rsaquo;</button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-output" id="terminal-output"></div>
+          <div class="terminal-input-line">
+            <span class="terminal-prompt">claude &gt;</span>
+            <input class="terminal-input" id="terminal-input" type="text" placeholder="Type /help for commands..." spellcheck="false" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Void (minimize easter egg) -->
+  <div class="void-overlay" id="void-overlay">
+    <canvas class="void__canvas" id="void-canvas"></canvas>
+    <div class="void__glow"></div>
+    <div class="void__content">
+      <div class="void__text" id="void-text">
+        <p class="void__line void__line--dim">you tried to minimize me.</p>
+        <p class="void__line void__line--bold">bold move.</p>
+        <p class="void__line void__line--main">Claude Code doesn't shrink.<br>It expands into every corner of your codebase.</p>
+        <p class="void__line void__line--dim void__line--small">Agentic coding with no limits. Infinite context. Parallel tool use.<br>Your entire repository as working memory.</p>
+      </div>
+      <button class="void__escape" id="void-escape">// escape the void</button>
+    </div>
+  </div>
+
+  <!-- Close wobble tooltip -->
+  <div class="close-tooltip" id="close-tooltip">nice try</div>
+
+  <!-- Prism.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+
+  <!-- App scripts -->
+  <script src="js/icons.js"></script>
+  <script src="js/file-explorer.js"></script>
+  <script src="js/content-loader.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/terminal.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

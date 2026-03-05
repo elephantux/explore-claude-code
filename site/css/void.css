@@ -1,0 +1,258 @@
+/* ── The Void — Minimize Easter Egg ─────────────────────────── */
+
+/* Suck-in animation on the app shell */
+.app-shell.entering-void {
+  animation: suck-in 0.9s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  pointer-events: none;
+}
+
+.app-shell.exiting-void {
+  animation: spit-out 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes suck-in {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  40% {
+    transform: scale(0.6) rotate(1.5deg);
+    opacity: 0.8;
+    filter: blur(1px);
+  }
+  70% {
+    transform: scale(0.15) rotate(4deg);
+    opacity: 0.4;
+    filter: blur(4px);
+  }
+  100% {
+    transform: scale(0) rotate(10deg);
+    opacity: 0;
+    filter: blur(12px);
+  }
+}
+
+@keyframes spit-out {
+  0% {
+    transform: scale(0) rotate(-5deg);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  60% {
+    transform: scale(1.03) rotate(0.5deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  80% {
+    transform: scale(0.98) rotate(-0.2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* Void overlay */
+.void-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.void-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Particle canvas — fills the void */
+.void__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Pulsing central glow — dramatic singularity */
+.void__glow {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196, 122, 80, 0.15) 0%, rgba(196, 122, 80, 0.06) 30%, rgba(140, 80, 50, 0.02) 55%, transparent 70%);
+  pointer-events: none;
+  animation: void-pulse 3s ease-in-out infinite;
+}
+
+@keyframes void-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}
+
+/* Content sits above canvas */
+.void__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 560px;
+  padding: 0 24px;
+}
+
+.void__text {
+  margin-bottom: 48px;
+}
+
+.void__line {
+  opacity: 0;
+  transform: translateY(12px);
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.void-overlay.active .void__line {
+  animation: void-line-in 0.7s ease forwards;
+}
+
+/* Bumped up all text brightness */
+.void__line--dim {
+  font-size: 17px;
+  color: #8a8279;
+  letter-spacing: 0.01em;
+}
+
+.void__line--bold {
+  font-size: 26px;
+  font-weight: 700;
+  color: #f0ebe4;
+  letter-spacing: -0.02em;
+}
+
+.void__line--main {
+  font-size: 20px;
+  color: #d4cdc4;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.void__line--small {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 28px;
+  color: #6e6860;
+}
+
+/* Staggered fade-in for each line */
+.void-overlay.active .void__line:nth-child(1) { animation-delay: 0.6s; }
+.void-overlay.active .void__line:nth-child(2) { animation-delay: 1.4s; }
+.void-overlay.active .void__line:nth-child(3) { animation-delay: 2.4s; }
+.void-overlay.active .void__line:nth-child(4) { animation-delay: 3.6s; }
+
+@keyframes void-line-in {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Escape button */
+.void__escape {
+  opacity: 0;
+  background: none;
+  border: 1px solid #4d4841;
+  color: #c47a50;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 10px 28px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.void-overlay.active .void__escape {
+  animation: void-line-in 0.7s ease forwards;
+  animation-delay: 4.4s;
+}
+
+.void__escape:hover {
+  border-color: #c47a50;
+  color: #e09a6e;
+  background: rgba(196, 122, 80, 0.08);
+}
+
+/* ── Close Wobble ──────────────────────────────────────────── */
+
+.app-shell.wobble {
+  animation: wobble 0.5s ease;
+}
+
+@keyframes wobble {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(-1.5deg) scale(0.99); }
+  30% { transform: rotate(1.2deg); }
+  45% { transform: rotate(-0.8deg); }
+  60% { transform: rotate(0.5deg); }
+  75% { transform: rotate(-0.2deg); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.close-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--bg-elevated, #22201d);
+  color: var(--accent, #c47a50);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid var(--border-default, #3a3632);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 10000;
+  white-space: nowrap;
+}
+
+.close-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Maximize fullscreen toggle ────────────────────────────── */
+
+.app-shell.fullscreen {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+}
+
+.app-shell.fullscreen .sidebar {
+  display: none;
+}
+
+.app-shell.fullscreen .title-bar__text::after {
+  content: ' [fullscreen]';
+  color: var(--accent, #c47a50);
+}

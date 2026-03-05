@@ -1,0 +1,85 @@
+/* ── Prism.js Theme — Warm Dark ───────────────────────────── */
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: var(--text-primary);
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.7;
+  tab-size: 2;
+  hyphens: none;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: var(--text-secondary);
+}
+
+/* Numbers, booleans, constants — warm rose */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+  color: #d4937a;
+}
+
+/* Strings — muted sage green */
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin {
+  color: #8aab7c;
+}
+
+/* Operators — warm gold */
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string {
+  color: #c4a86e;
+}
+
+/* Keywords — dusty blue */
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #7d9ab8;
+}
+
+/* Functions — warm cream */
+.token.function,
+.token.class-name {
+  color: #c8b89a;
+}
+
+/* Variables, regex — muted amber */
+.token.regex,
+.token.important,
+.token.variable {
+  color: #c49a6e;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}

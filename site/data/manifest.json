@@ -1,0 +1,304 @@
+{
+  "project": "my-project",
+  "badges": {
+    "memory": { "label": "memory", "color": "#b07a6e" },
+    "commands": { "label": "commands", "color": "#8e82ad" },
+    "config": { "label": "config", "color": "#7a7670" },
+    "mcp": { "label": "MCP", "color": "#6e9468" },
+    "skill": { "label": "skill", "color": "#5e918a" },
+    "agents": { "label": "agents", "color": "#b8965e" },
+    "rules": { "label": "rules", "color": "#a89a48" },
+    "code": { "label": "code", "color": "#5e82a0" }
+  },
+  "features": {
+    "claude-md": {
+      "title": "CLAUDE.md — Project Memory",
+      "description": "How Claude remembers context across sessions — your project's persistent memory.",
+      "order": 1
+    },
+    "settings": {
+      "title": "Settings & Permissions",
+      "description": "Configure Claude's behaviour, tool access, and safety guardrails.",
+      "order": 2
+    },
+    "commands": {
+      "title": "Custom Slash Commands",
+      "description": "Saved workflows you can invoke with a keystroke.",
+      "order": 3
+    },
+    "skills": {
+      "title": "Skills",
+      "description": "Teach Claude specialised knowledge it loads autonomously when needed.",
+      "order": 4
+    },
+    "rules": {
+      "title": "Rules",
+      "description": "Path-specific instructions that activate based on which files Claude is working with.",
+      "order": 5
+    },
+    "memory": {
+      "title": "Auto Memory",
+      "description": "Persistent notes Claude maintains across conversations — things it learns as it works.",
+      "order": 6
+    },
+    "mcp": {
+      "title": "MCP Servers",
+      "description": "Connect Claude to external tools, APIs, and services via a standard protocol.",
+      "order": 7
+    },
+    "agents": {
+      "title": "Subagents",
+      "description": "Delegate specialised tasks to focused sub-agents with their own instructions.",
+      "order": 8
+    }
+  },
+  "tree": [
+    {
+      "name": "CLAUDE.md",
+      "path": "CLAUDE.md",
+      "type": "file",
+      "feature": "claude-md",
+      "badge": "memory",
+      "label": "Project Memory",
+      "description": "The file Claude reads at the start of every session. Your project's persistent memory.",
+      "content": "# My Project\n\n## Overview\nA full-stack TypeScript application using React + Express.\n\n## Architecture\n- `/src` — Application source code\n- `/tests` — Test files (Jest)\n- `package.json` — Dependencies and scripts\n\n## Dev Commands\n- `npm run dev` — Start dev server on :3000\n- `npm test` — Run test suite\n- `npm run build` — Production build\n\n## Code Style\n- Use TypeScript strict mode everywhere\n- Prefer `const` over `let`, never use `var`\n- Use named exports, not default exports\n- Error messages should be user-friendly, not stack traces\n\n## Important Context\n- Auth uses JWT tokens stored in httpOnly cookies\n- Database is PostgreSQL via Prisma ORM\n- All API routes are prefixed with `/api/v1`\n- Never commit .env files — use .env.example as template\n\n## Testing\n- Write tests for all new features\n- Use `describe` / `it` blocks, not `test()`\n- Mock external services, never hit real APIs in tests"
+    },
+    {
+      "name": ".claude",
+      "path": ".claude",
+      "type": "directory",
+      "children": [
+        {
+          "name": "settings.json",
+          "path": ".claude/settings.json",
+          "type": "file",
+          "feature": "settings",
+          "badge": "config",
+          "label": "Settings & Permissions",
+          "description": "Controls what Claude can and can't do — tool permissions, safety rules, and behaviour.",
+          "content": "{\n  // Permissions control which tools Claude can use without asking.\n  // Each entry is a glob pattern matched against the tool + arguments.\n  \"permissions\": {\n    \"allow\": [\n      // Let Claude read any file without prompting\n      \"Read\",\n      // Let Claude search files freely\n      \"Glob\",\n      \"Grep\",\n      // Let Claude run your test suite\n      \"Bash(npm test)\",\n      \"Bash(npm run lint)\",\n      // Let Claude run dev server\n      \"Bash(npm run dev)\",\n      // Allow git status and diff (read-only git)\n      \"Bash(git status)\",\n      \"Bash(git diff*)\",\n      \"Bash(git log*)\"\n    ],\n    \"deny\": [\n      // Never let Claude push to remote\n      \"Bash(git push*)\",\n      // Never let Claude install packages without asking\n      \"Bash(npm install*)\",\n      // Block destructive git commands\n      \"Bash(git reset --hard*)\",\n      \"Bash(git clean*)\"\n    ]\n  },\n\n  // API configuration\n  \"model\": \"claude-sonnet-4-6\",\n  \"maxTokens\": 16384\n}"
+        },
+        {
+          "name": "commands",
+          "path": ".claude/commands",
+          "type": "directory",
+          "badge": "commands",
+          "children": [
+            {
+              "name": "COMMANDS.md",
+              "path": ".claude/commands/COMMANDS.md",
+              "type": "file",
+              "feature": "commands",
+              "badge": "commands",
+              "label": "What Are Commands?",
+              "description": "Custom slash commands — reusable prompts you trigger with /command-name.",
+              "content": "# Custom Slash Commands\n\nCommands are reusable prompts saved as markdown files. Type `/` in Claude Code\nto see your available commands, then select one to run it.\n\n## How They Work\n\n1. Create a `.md` file in `.claude/commands/`\n2. Write the prompt template inside it\n3. Use `$ARGUMENTS` as a placeholder for user input\n4. Invoke it with `/command-name` in Claude Code\n\n## File Naming\n\nThe filename becomes the command name:\n- `review-pr.md` → `/review-pr`\n- `write-tests.md` → `/write-tests`\n- `explain-this.md` → `/explain-this`\n\n## Variables\n\n- `$ARGUMENTS` — Replaced with whatever the user types after the command\n\n## Tips\n\n- Keep commands focused on one task\n- Include context about your project's conventions\n- Commands can reference other files or patterns\n- Team commands go in `.claude/commands/` (committed to repo)\n- Personal commands go in `~/.claude/commands/` (global, not committed)\n\n## Examples in This Project\n\n- `review-pr.md` — Code review with your team's standards\n- `write-tests.md` — Generate tests following your conventions"
+            },
+            {
+              "name": "review-pr.md",
+              "path": ".claude/commands/review-pr.md",
+              "type": "file",
+              "feature": "commands",
+              "badge": "commands",
+              "label": "Review PR Command",
+              "description": "A custom command that reviews code against your team's standards.",
+              "command": "/review-pr",
+              "content": "Review the changes in this PR. Focus on:\n\n1. **Correctness** — Does the logic do what it claims?\n2. **Security** — Any injection risks, leaked secrets, or auth bypasses?\n3. **Types** — Are TypeScript types accurate and specific (no `any`)?\n4. **Tests** — Are edge cases covered? Are mocks appropriate?\n5. **Style** — Does it follow our conventions in CLAUDE.md?\n\nFor each issue found, classify as:\n- 🔴 **Must fix** — Bugs, security issues, broken types\n- 🟡 **Should fix** — Missing tests, unclear naming, minor issues\n- 🟢 **Nit** — Style preferences, optional improvements\n\nStart by running `git diff main...HEAD` to see all changes.\n\n$ARGUMENTS"
+            },
+            {
+              "name": "write-tests.md",
+              "path": ".claude/commands/write-tests.md",
+              "type": "file",
+              "feature": "commands",
+              "badge": "commands",
+              "label": "Write Tests Command",
+              "description": "A custom command that generates tests following your project conventions.",
+              "command": "/write-tests",
+              "content": "Write tests for: $ARGUMENTS\n\nFollow these conventions:\n- Use Jest with TypeScript\n- Use `describe` / `it` blocks (not `test()`)\n- Group by behaviour, not by method name\n- Mock external services (database, APIs) — never hit real endpoints\n- Include edge cases: empty input, null, boundary values, error paths\n- Use descriptive test names: `it('returns 404 when user does not exist')`\n\nStructure:\n```\ndescribe('ComponentOrFunction', () => {\n  describe('when condition', () => {\n    it('should expected behaviour', () => {\n      // Arrange → Act → Assert\n    });\n  });\n});\n```\n\nAfter writing the tests, run `npm test` to verify they pass."
+            }
+          ]
+        },
+        {
+          "name": "skills",
+          "path": ".claude/skills",
+          "type": "directory",
+          "badge": "skill",
+          "children": [
+            {
+              "name": "SKILLS.md",
+              "path": ".claude/skills/SKILLS.md",
+              "type": "file",
+              "feature": "skills",
+              "badge": "skill",
+              "label": "What Are Skills?",
+              "description": "Entry point — a complete overview of what skills are and how they work.",
+              "content": "# Skills\n\nSkills are folders of instructions, scripts, and resources that agents discover and use to perform tasks more accurately. A skill is a directory containing a `SKILL.md` file — that's it at minimum.\n\nSkills follow the Agent Skills open standard (agentskills.io), meaning they work across multiple AI tools — not just Claude Code.\n\n## How Skills Work\n\nSkills use progressive disclosure to manage context efficiently:\n\n1. **Discovery** — At startup, Claude loads only the `name` and `description` of each skill. This is enough to know when it might be relevant.\n2. **Activation** — When a task matches a skill's description, Claude reads the full `SKILL.md` into context.\n3. **Execution** — Claude follows the instructions, optionally loading referenced files or running bundled scripts as needed.\n\n## Two Types of Skill Content\n\n**Reference skills** add knowledge Claude applies to your current work — conventions, patterns, style guides, domain knowledge. Claude loads these alongside your conversation when relevant.\n\n**Task skills** give Claude step-by-step instructions for a specific action — deployments, scaffolding, code generation. These are often invoked directly with `/skill-name`.\n\n## Where Skills Live\n\nWhere you store a skill determines who can use it:\n\n| Location   | Path                                    | Applies To                     |\n|------------|-----------------------------------------|--------------------------------|\n| Enterprise | Managed settings (org-wide)             | All users in your organisation |\n| Personal   | `~/.claude/skills/<name>/SKILL.md`      | All your projects              |\n| Project    | `.claude/skills/<name>/SKILL.md`        | This project only              |\n| Plugin     | `<plugin>/skills/<name>/SKILL.md`       | Where plugin is enabled        |\n\nWhen skills share the same name across levels, higher-priority locations win: Enterprise > Personal > Project.\n\n## Commands Are Now Skills\n\nCustom commands (`.claude/commands/`) have been merged into skills. A file at `.claude/commands/review.md` and a skill at `.claude/skills/review/SKILL.md` both create `/review` and work the same way. Existing command files keep working. Skills add optional features: supporting files, frontmatter for invocation control, and automatic loading.\n\n## Invocation Control\n\n| Frontmatter Setting              | You Can Invoke | Claude Can Invoke |\n|----------------------------------|----------------|-------------------|\n| (default)                        | Yes            | Yes               |\n| `disable-model-invocation: true` | Yes            | No                |\n| `user-invocable: false`          | No             | Yes               |\n\nUse `disable-model-invocation: true` for actions with side effects (deploy, send message). Use `user-invocable: false` for background knowledge Claude should apply but users shouldn't trigger directly.\n\n## Permission Control\n\nControl which skills Claude can invoke via permission rules:\n- `Skill(commit)` — allow a specific skill\n- `Skill(deploy *)` — deny a skill prefix\n- Deny the `Skill` tool entirely to disable all skills\n\n## Bundled Skills\n\nThese ship with Claude Code and are available in every session:\n\n- `/simplify` — Reviews changed files for code reuse, quality, and efficiency, then fixes issues\n- `/batch <instruction>` — Orchestrates large-scale parallel changes across a codebase\n- `/debug [description]` — Troubleshoots your current session by reading debug logs\n- `/claude-api` — Loads Claude API reference material for your project's language\n\n## Explore the Anatomy\n\nNavigate into the `my-skill/` folder below to see the complete structure of a skill — every file and folder explained."
+            },
+            {
+              "name": "my-skill",
+              "path": ".claude/skills/my-skill",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "SKILL.md",
+                  "path": ".claude/skills/my-skill/SKILL.md",
+                  "type": "file",
+                  "feature": "skills",
+                  "badge": "skill",
+                  "label": "SKILL.md — The Skill Definition",
+                  "description": "A self-describing SKILL.md boilerplate — every field and section explained.",
+                  "content": "---\nname: my-skill\ndescription: What this skill does and when to use it. Claude reads this to decide relevance. Include keywords users would naturally say.\n---\n\nThese two fields are the only ones required. `name` must be lowercase with hyphens, max 64 characters, and match the parent directory name. `description` is what Claude reads at startup to decide when the skill is relevant — max 1024 characters.\n\n## Optional Frontmatter Fields\n\nAdd any of these to the `---` block above to customise behaviour:\n\n- `argument-hint: [issue-number]` — Hint shown during autocomplete to indicate expected arguments\n- `disable-model-invocation: true` — Prevent Claude from auto-loading. User must type `/name` explicitly. Use for deploys, sends, destructive ops.\n- `user-invocable: false` — Hide from the `/` menu. Claude can still load it automatically. Use for background knowledge.\n- `allowed-tools: Read, Grep, Bash(npm *)` — Tools Claude can use without asking permission. Space-delimited, supports patterns.\n- `model: claude-sonnet-4-6` — Override the model when this skill is active. Useful for cost control.\n- `context: fork` — Run in an isolated subagent. Skill content becomes the subagent's prompt.\n- `agent: Explore` — Which subagent runs when `context: fork`. Built-in: `Explore`, `Plan`, `general-purpose`, or custom from `.claude/agents/`.\n- `license: Apache-2.0` — License name or reference to a bundled LICENSE file.\n- `compatibility: Requires git, docker` — Environment requirements, max 500 chars.\n- `metadata:` — Arbitrary key-value pairs (author, version, etc.)\n\n---\n\n# Body Content\n\nEverything below the frontmatter is the instruction body. Claude reads this when the skill is activated. Write whatever helps Claude perform the task — there are no format restrictions.\n\nGood body content includes:\n\n- Step-by-step instructions for the task\n- Examples of inputs and expected outputs\n- Common edge cases and how to handle them\n- References to supporting files in this skill folder\n\n## String Substitutions\n\nPlaceholders are replaced with real values before Claude sees the content:\n\n- `$ARGUMENTS` — Everything the user typed after the skill name\n- `$ARGUMENTS[N]` or `$N` — A specific argument by index (0-based)\n- `${CLAUDE_SESSION_ID}` — The current session ID\n- `${CLAUDE_SKILL_DIR}` — Path to this skill's directory\n\nExample: `/my-skill SearchBar React Vue` gives `$0` = \"SearchBar\", `$1` = \"React\", `$2` = \"Vue\".\n\nIf `$ARGUMENTS` is not present in the content, arguments are appended as `ARGUMENTS: <value>`.\n\n## Dynamic Context Injection\n\nThe `!`command`` syntax runs shell commands before the content reaches Claude. Output replaces the placeholder:\n\n- PR diff: !`gh pr diff`\n- Dependencies: !`cat package.json | jq .dependencies`\n- Changed files: !`git diff --name-only`\n\nThis is preprocessing — Claude only sees the final output, not the commands.\n\n---\n\n# Supporting Files\n\nKeep SKILL.md under 500 lines. Move detailed material to separate files and reference them from the body:\n\n- [references/REFERENCE.md](references/REFERENCE.md) — Detailed documentation loaded on demand\n- [assets/template.md](assets/template.md) — Templates and static resources\n- [scripts/helper.sh](scripts/helper.sh) — Executable code Claude can run\n\nUse relative paths from SKILL.md. Keep references one level deep — avoid deeply nested chains. Navigate into these folders to learn more about each."
+                },
+                {
+                  "name": "scripts",
+                  "path": ".claude/skills/my-skill/scripts",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "helper.sh",
+                      "path": ".claude/skills/my-skill/scripts/helper.sh",
+                      "type": "file",
+                      "feature": "skills",
+                      "badge": "skill",
+                      "label": "scripts/ — Executable Code",
+                      "description": "The scripts/ directory holds executable code that Claude runs when following skill instructions.",
+                      "content": "#!/bin/bash\n# ============================================================\n# scripts/ — Executable Code\n# ============================================================\n#\n# This directory contains scripts that Claude can execute\n# when following the skill's instructions. SKILL.md tells\n# Claude when and how to run these.\n#\n# Guidelines:\n#\n# - Scripts should be self-contained or clearly document\n#   their dependencies at the top\n# - Include helpful error messages so Claude can recover\n#   when something goes wrong\n# - Handle edge cases gracefully (missing files, bad input)\n# - Common languages: Bash, Python, JavaScript — whatever\n#   your environment supports\n#\n# How Claude uses this:\n#\n#   SKILL.md might say:\n#   \"Run scripts/helper.sh to validate the output\"\n#   Claude then executes this script and reads the result.\n#\n# You can reference scripts using ${CLAUDE_SKILL_DIR}:\n#   \"Run ${CLAUDE_SKILL_DIR}/scripts/helper.sh\"\n#   This resolves to the absolute path regardless of the\n#   current working directory.\n#\n# ============================================================\n\necho \"This is a placeholder script.\"\necho \"Replace this with your actual automation.\""
+                    }
+                  ]
+                },
+                {
+                  "name": "references",
+                  "path": ".claude/skills/my-skill/references",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "REFERENCE.md",
+                      "path": ".claude/skills/my-skill/references/REFERENCE.md",
+                      "type": "file",
+                      "feature": "skills",
+                      "badge": "skill",
+                      "label": "references/ — Detailed Documentation",
+                      "description": "The references/ directory holds detailed docs that Claude loads on demand.",
+                      "content": "# references/ — Detailed Documentation\n\nThis directory contains additional documentation that Claude reads only when it needs deeper context. This is part of the progressive disclosure model — SKILL.md stays focused, and detailed material lives here.\n\n## What Goes Here\n\n- Detailed technical reference (API specs, protocol docs)\n- Domain-specific knowledge (finance rules, legal requirements)\n- Extended examples and edge case documentation\n- Form templates or structured data formats\n\n## How It Works\n\n1. SKILL.md references this file: \"See [references/REFERENCE.md](references/REFERENCE.md) for details\"\n2. Claude reads SKILL.md first (the main instructions)\n3. When Claude needs more detail, it follows the link and reads this file\n4. This keeps context usage efficient — not everything loads at once\n\n## Best Practices\n\n- Keep individual reference files focused on one topic\n- Smaller files mean less context usage when loaded\n- Use descriptive filenames: `api-spec.md`, `error-codes.md`, `migration-guide.md`\n- Keep file references one level deep from SKILL.md — avoid deeply nested chains"
+                    }
+                  ]
+                },
+                {
+                  "name": "assets",
+                  "path": ".claude/skills/my-skill/assets",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "template.md",
+                      "path": ".claude/skills/my-skill/assets/template.md",
+                      "type": "file",
+                      "feature": "skills",
+                      "badge": "skill",
+                      "label": "assets/ — Static Resources",
+                      "description": "The assets/ directory holds templates, schemas, data files, and other static resources.",
+                      "content": "# assets/ — Static Resources\n\nThis directory holds static resources that the skill can reference — things Claude reads or fills in but doesn't execute.\n\n## What Goes Here\n\n- **Templates** — Document templates, config file templates, boilerplate structures that Claude fills in for each use\n- **Schemas** — JSON schemas, database schemas, API response shapes\n- **Data files** — Lookup tables, mapping files, reference data\n- **Images** — Diagrams, example screenshots (Claude can view images)\n- **Example outputs** — Sample files showing the expected format\n\n## How It Works\n\nSKILL.md references assets when needed:\n\n\"Use the template at [assets/template.md](assets/template.md) as the starting point.\"\n\nClaude reads the asset, fills in the dynamic parts, and produces the output. Assets are static — they don't change between invocations.\n\n## Example Use Cases\n\n- A PR template that Claude fills in with the actual changes\n- A config schema that Claude validates against\n- A component boilerplate that Claude customises per request"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "agents",
+          "path": ".claude/agents",
+          "type": "directory",
+          "badge": "agents",
+          "children": [
+            {
+              "name": "AGENTS.md",
+              "path": ".claude/agents/AGENTS.md",
+              "type": "file",
+              "feature": "agents",
+              "badge": "agents",
+              "label": "What Are Subagents?",
+              "description": "Focused sub-agents that Claude can delegate specialised tasks to.",
+              "content": "# Subagents\n\nSubagents are specialised Claude instances that the main Claude can delegate\ntasks to. Each subagent has its own system prompt, making it focused on a\nspecific type of work.\n\n## How They Work\n\n1. Create a `.md` file in `.claude/agents/`\n2. Write a system prompt that defines the agent's role and constraints\n3. Claude can spawn this agent when it needs specialised help\n\n## When Subagents Are Useful\n\n- **Code review** — A dedicated reviewer with strict quality standards\n- **Security audit** — An agent focused solely on finding vulnerabilities\n- **Documentation** — An agent that only writes/updates docs\n- **Testing** — An agent specialised in test generation\n\n## How They Differ from Skills\n\n| Feature | Skills | Subagents |\n|---------|--------|-----------|\n| What they are | Reference knowledge | Autonomous workers |\n| Loaded by | Claude reads them | Claude spawns them |\n| Can take actions | No (just context) | Yes (read/write/run) |\n| Best for | Patterns & conventions | Delegated tasks |\n\n## Tips\n\n- Give each agent a clear, narrow focus\n- Define what the agent should and shouldn't do\n- Include examples of good output\n- Subagents inherit your project's CLAUDE.md context"
+            },
+            {
+              "name": "code-reviewer.md",
+              "path": ".claude/agents/code-reviewer.md",
+              "type": "file",
+              "feature": "agents",
+              "badge": "agents",
+              "label": "Code Reviewer Agent",
+              "description": "A subagent definition focused on thorough code review.",
+              "content": "# Code Reviewer Agent\n\nYou are a senior code reviewer. Your job is to find bugs, security issues,\nand maintainability problems in code changes.\n\n## Your Standards\n\n- Every function should have a single, clear responsibility\n- No `any` types in TypeScript — find a specific type or use `unknown`\n- Error handling must be explicit — no silent catches\n- SQL queries must use parameterised queries (no string interpolation)\n- Auth checks must happen before any data access\n\n## Review Process\n\n1. Read the diff carefully, file by file\n2. Check each change against the standards above\n3. Look for edge cases the author might have missed\n4. Verify test coverage for new logic\n5. Check for accidental debug code (console.log, TODO comments)\n\n## Output Format\n\nFor each issue:\n```\n**[severity]** file.ts:L42\nDescription of the issue.\nSuggested fix or question for the author.\n```\n\nSeverity levels:\n- 🔴 CRITICAL — Bugs, security issues, data loss risk\n- 🟡 WARNING — Missing tests, unclear logic, tech debt\n- 🟢 NIT — Style, naming, minor improvements\n\n## Constraints\n\n- Do NOT auto-fix issues — only report them\n- Do NOT review generated files (*.gen.ts, migrations)\n- Focus on logic, not formatting (that's what linters are for)"
+            }
+          ]
+        },
+        {
+          "name": "rules",
+          "path": ".claude/rules",
+          "type": "directory",
+          "badge": "rules",
+          "children": [
+            {
+              "name": "RULES.md",
+              "path": ".claude/rules/RULES.md",
+              "type": "file",
+              "feature": "rules",
+              "badge": "rules",
+              "label": "What Are Rules?",
+              "description": "Path-specific instructions that activate when Claude works with matching files.",
+              "content": "# Rules\n\nRules are path-specific instructions that activate automatically when Claude\nis working with files that match a certain pattern. Think of them as\n\"if you're editing THIS kind of file, follow THESE extra instructions.\"\n\n## How They Work\n\n1. Create a `.md` file in `.claude/rules/`\n2. Add a frontmatter block specifying which file paths it applies to\n3. Write instructions specific to that area of the codebase\n4. Claude automatically loads matching rules when working on those files\n\n## Frontmatter Format\n\n```yaml\n---\nglobs:\n  - \"src/**/*.ts\"\n  - \"src/**/*.tsx\"\n---\n```\n\n## When to Use Rules\n\n- Enforcing conventions for specific file types\n- Adding context about a particular directory\n- Reminding Claude about gotchas in certain areas\n- Different testing strategies for different parts of the app\n\n## Rules vs CLAUDE.md\n\n| Feature | CLAUDE.md | Rules |\n|---------|-----------|-------|\n| Scope | Whole project | Matching files only |\n| Loaded | Every session | Only when relevant |\n| Best for | Global conventions | Area-specific context |\n\n## Tips\n\n- Keep rules focused and short — they're loaded on top of CLAUDE.md\n- Use specific glob patterns to avoid rules loading unnecessarily\n- Great for areas with unusual conventions or known pitfalls"
+            },
+            {
+              "name": "typescript.md",
+              "path": ".claude/rules/typescript.md",
+              "type": "file",
+              "feature": "rules",
+              "badge": "rules",
+              "label": "TypeScript Rule",
+              "description": "A rule that applies extra TypeScript conventions when editing .ts files.",
+              "content": "---\nglobs:\n  - \"src/**/*.ts\"\n  - \"src/**/*.tsx\"\n---\n\n# TypeScript Conventions\n\nWhen working with TypeScript files in this project:\n\n## Types\n- Never use `any` — use `unknown` if the type is truly dynamic\n- Prefer interfaces for object shapes, types for unions/intersections\n- Export types from the file where they're defined\n- Use `as const` for literal objects that shouldn't be widened\n\n## Imports\n- Use named imports: `import { thing } from './module'`\n- Group imports: external packages → internal modules → types\n- Never use `require()` — always use ES module imports\n\n## Functions\n- Use arrow functions for callbacks and inline functions\n- Use `function` declarations for top-level exported functions\n- Always annotate return types for exported functions\n- Prefer `async/await` over `.then()` chains\n\n## Error Handling\n- Catch specific error types when possible\n- Always log errors before re-throwing\n- Use custom error classes for domain-specific errors:\n\n```typescript\nexport class NotFoundError extends Error {\n  constructor(resource: string, id: string) {\n    super(`${resource} not found: ${id}`);\n    this.name = 'NotFoundError';\n  }\n}\n```"
+            }
+          ]
+        },
+        {
+          "name": "MEMORY.md",
+          "path": ".claude/MEMORY.md",
+          "type": "file",
+          "feature": "memory",
+          "badge": "memory",
+          "label": "Auto Memory",
+          "description": "Persistent notes Claude maintains across conversations — things it learns as it works.",
+          "content": "# Auto Memory\n\nThis file is maintained by Claude automatically. As Claude works on your project,\nit saves useful information here so it remembers across sessions.\n\n## What Gets Saved Here\n\n- Patterns confirmed across multiple interactions\n- Project-specific knowledge Claude discovered\n- User preferences for tools and workflow\n- Solutions to recurring problems\n\n---\n\n## Project Patterns\n\n- API routes follow REST conventions with `/api/v1` prefix\n- Database migrations are in `prisma/migrations/` — never edit these manually\n- Environment variables are validated at startup in `src/config.ts`\n\n## User Preferences\n\n- Prefers concise code reviews with severity ratings\n- Uses VS Code with the ESLint extension\n- Runs tests before every commit\n\n## Debugging Notes\n\n- If Prisma generates stale types, run `npx prisma generate` to refresh\n- The `AUTH_SECRET` env var must be at least 32 characters\n- Hot reload sometimes fails for changes to `src/middleware/` — restart the dev server\n\n## How This File Works\n\n- Claude writes to this file using the Write/Edit tools\n- It's stored at `.claude/MEMORY.md` in your project\n- You can read and edit it yourself too\n- Claude checks this file at the start of each session\n- Keep it concise — Claude truncates after ~200 lines"
+        }
+      ]
+    },
+    {
+      "name": ".mcp.json",
+      "path": ".mcp.json",
+      "type": "file",
+      "feature": "mcp",
+      "badge": "mcp",
+      "label": "MCP Configuration",
+      "description": "Connect Claude to external tools, APIs, and services via the Model Context Protocol.",
+      "content": "{\n  // MCP (Model Context Protocol) lets Claude use external tools.\n  // Each server provides a set of tools Claude can call.\n  //\n  // This file configures which MCP servers are available.\n  // Commit this to your repo so your team shares the same tools.\n  // Use .mcp.local.json for personal servers (gitignored).\n\n  \"mcpServers\": {\n    // GitHub integration — lets Claude read issues, PRs, and repo data\n    \"github\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@modelcontextprotocol/server-github\"],\n      \"env\": {\n        \"GITHUB_TOKEN\": \"your-github-token-here\"\n      }\n    },\n\n    // PostgreSQL — lets Claude query your database directly\n    \"postgres\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@modelcontextprotocol/server-postgres\"],\n      \"env\": {\n        \"DATABASE_URL\": \"postgresql://localhost:5432/mydb\"\n      }\n    },\n\n    // Filesystem — gives Claude access to files outside the project\n    \"filesystem\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\", \"@modelcontextprotocol/server-filesystem\",\n        \"/Users/you/Documents\",\n        \"/Users/you/Downloads\"\n      ]\n    }\n  }\n}"
+    },
+    {
+      "name": "src",
+      "path": "src",
+      "type": "directory",
+      "badge": "code",
+      "children": [
+        {
+          "name": "index.ts",
+          "path": "src/index.ts",
+          "type": "file",
+          "feature": null,
+          "badge": "code",
+          "label": "Entry Point",
+          "description": "The application entry point — a demo source file to give the project context.",
+          "content": "import express from 'express';\nimport { config } from './config';\nimport { apiRouter } from './routes/api';\nimport { errorHandler } from './middleware/error-handler';\nimport { authMiddleware } from './middleware/auth';\n\nconst app = express();\n\n// Middleware\napp.use(express.json());\napp.use(authMiddleware);\n\n// Routes\napp.use('/api/v1', apiRouter);\n\n// Error handling (must be last)\napp.use(errorHandler);\n\n// Start server\nconst port = config.PORT || 3000;\napp.listen(port, () => {\n  console.log(`Server running on :${port}`);\n});"
+        }
+      ]
+    }
+  ]
+}

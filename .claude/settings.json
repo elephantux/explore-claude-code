@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080\" screenshot-v3-welcome.png --viewport-size=\"1400,900\" --wait-for-timeout=2000)",
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080#.claude/skills/docx/SKILL.md\" screenshot-v3-skill.png --viewport-size=\"1400,900\" --wait-for-timeout=2000)",
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080#.claude/rules/typescript.md\" screenshot-v3-rule.png --viewport-size=\"1400,900\" --wait-for-timeout=2000)",
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080\" screenshot-v3-mobile.png --viewport-size=\"390,844\" --wait-for-timeout=2000)",
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080\" screenshot-final-welcome.png --viewport-size=\"1400,900\" --wait-for-timeout=2000)",
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080#.mcp.json\" screenshot-final-mcp.png --viewport-size=\"1400,900\" --wait-for-timeout=2000)",
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080\" screenshot-final-mobile.png --viewport-size=\"390,844\" --wait-for-timeout=2000)",
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080#.claude/agents/code-reviewer.md\" screenshot-final-agent.png --viewport-size=\"1400,900\" --wait-for-timeout=2000)",
+      "Bash(npx playwright screenshot --browser chromium http://localhost:8080 site/screenshots/current-state.png --viewport-size=1400,900)",
+      "Bash(npx playwright screenshot --browser chromium http://localhost:8080 site/screenshots/warm-v2-welcome.png --viewport-size=1400,900)",
+      "Bash(npx playwright screenshot --browser chromium \"http://localhost:8080#.claude/agents/code-reviewer.md\" site/screenshots/warm-v2-agents.png --viewport-size=1400,900)",
+      "Bash(npx playwright screenshot --browser chromium http://localhost:8080 site/screenshots/warm-v2-mobile.png --viewport-size=390,844)",
+      "WebSearch"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\luker\\Documents\\Teaching Claude Code"
+    ]
+  }
+}
