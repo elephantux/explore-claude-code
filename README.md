@@ -7,9 +7,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/LukeRenton/exploreclaudecode/blob/main/LICENSE"><img src="https://img.shields.io/github/license/LukeRenton/exploreclaudecode?style=flat-square&color=8e82ad" alt="License"></a>
-  <a href="https://github.com/LukeRenton/exploreclaudecode/stargazers"><img src="https://img.shields.io/github/stars/LukeRenton/exploreclaudecode?style=flat-square&color=b8965e" alt="Stars"></a>
-  <a href="https://github.com/LukeRenton/exploreclaudecode/issues"><img src="https://img.shields.io/github/issues/LukeRenton/exploreclaudecode?style=flat-square&color=5e918a" alt="Issues"></a>
+  <a href="https://github.com/LukeRenton/exploreclaudecode/blob/main/LICENSE"><img src="https://img.shields.io/github/license/LukeRenton/explore-claude-code?style=flat-square&color=8e82ad" alt="License"></a>
+  <a href="https://github.com/LukeRenton/exploreclaudecode/stargazers"><img src="https://img.shields.io/github/stars/LukeRenton/explore-claude-code?style=flat-square&color=b8965e" alt="Stars"></a>
+  <a href="https://github.com/LukeRenton/exploreclaudecode/issues"><img src="https://img.shields.io/github/issues/LukeRenton/explore-claude-code?style=flat-square&color=5e918a" alt="Issues"></a>
   <img src="https://img.shields.io/badge/zero%20dependencies-vanilla%20JS-3a3632?style=flat-square" alt="Zero Dependencies">
 </p>
 

@@ -21,7 +21,7 @@ class ContentLoader {
       cardsHtml += `
         <div class="feature-card" data-feature="${id}">
           <div class="feature-card__icon">${Icons.forFeature(id, 22)}</div>
-          <div class="feature-card__title">${f.title.split(' — ')[0]}</div>
+          <div class="feature-card__title">${f.title}</div>
           <div class="feature-card__desc">${f.description}</div>
         </div>`;
     }
@@ -559,8 +559,10 @@ class ContentLoader {
     s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     // Italic
     s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    // Links
-    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a class="md-link" href="$2">$1</a>');
+    // Tooltips — [text](^tooltip text)
+    s = s.replace(/\[([^\]]+)\]\(\^([^)]+)\)/g, '<span class="md-tooltip" tabindex="0">$1<span class="md-tooltip__tip">$2</span></span>');
+    // Links (open in new tab)
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a class="md-link" href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
     return s;
   }
 

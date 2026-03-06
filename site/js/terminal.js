@@ -140,19 +140,19 @@ class Terminal {
           <div class="term-banner-section__title">Quick Start</div>
           <div class="term-banner-cmd-row">
             <span class="term-text--accent">/help</span>
-            <span class="term-text--dim">— list all commands</span>
+            <span class="term-text--dim">- list all commands</span>
           </div>
           <div class="term-banner-cmd-row">
             <span class="term-text--accent">/init</span>
-            <span class="term-text--dim">— watch CLAUDE.md get created</span>
+            <span class="term-text--dim">- watch CLAUDE.md get created</span>
           </div>
           <div class="term-banner-cmd-row">
             <span class="term-text--accent">/doctor</span>
-            <span class="term-text--dim">— run a health check</span>
+            <span class="term-text--dim">- run a health check</span>
           </div>
           <div class="term-banner-cmd-row">
             <span class="term-text--accent">/diff</span>
-            <span class="term-text--dim">— see a live diff demo</span>
+            <span class="term-text--dim">- see a live diff demo</span>
           </div>
         </div>
 
