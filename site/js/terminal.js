@@ -242,6 +242,10 @@ class Terminal {
       '/config': () => this._cmdConfig(),
       '/memory': () => this._cmdMemory(),
       '/loop': () => this._cmdLoop(rawCmd),
+      '/fast': () => this._cmdFast(),
+      '/rewind': () => this._cmdRewind(),
+      '/sandbox': () => this._cmdSandbox(),
+      '/keybindings': () => this._cmdKeybindings(),
     };
 
     if (handlers[cmd]) {
@@ -279,6 +283,10 @@ class Terminal {
       ['/config', 'Открыть обозреватель настроек'],
       ['/memory', 'Посмотреть записи авто-памяти'],
       ['/loop', 'Запустить команду с повторением по интервалу'],
+      ['/fast', 'Переключить fast mode (ускорение Opus 4.6)'],
+      ['/rewind', 'Откат к предыдущему состоянию'],
+      ['/sandbox', 'Настроить режим песочницы'],
+      ['/keybindings', 'Открыть настройки горячих клавиш'],
       ['/clear', 'Очистить вывод терминала'],
     ];
 
@@ -619,6 +627,69 @@ class Terminal {
     else if (lastOne >= 2 && lastOne <= 4) form = forms[1];
     else form = forms[2];
     return `${num} ${form}`;
+  }
+
+  _cmdFast() {
+    this._fastModeOn = !this._fastModeOn;
+    const status = this._fastModeOn ? 'ON' : 'OFF';
+    const icon = this._fastModeOn ? '\u21af' : '';
+
+    this._animateSequence([
+      { html: `<div class="term-heading">Fast Mode ${status}</div>`, delay: 200 },
+      { html: this._fastModeOn
+        ? '<div class="term-text--success">Fast mode включён. Ответы Opus 4.6 будут в 2.5x быстрее.</div>'
+        : '<div class="term-text--dim">Fast mode выключен. Стандартная скорость и стоимость.</div>', delay: 150 },
+      { html: '<hr class="term-hr">', delay: 100 },
+      { html: this._fastModeOn
+        ? `<div class="term-stat"><span class="term-stat__key">Стоимость</span><span class="term-stat__val term-stat__val--accent">$30/150 MTok</span></div>`
+        : `<div class="term-stat"><span class="term-stat__key">Стоимость</span><span class="term-stat__val">Стандартная</span></div>`, delay: 100 },
+      { html: this._fastModeOn
+        ? `<div class="term-text--dim">Иконка ${icon} появится рядом с промптом.</div>`
+        : '<div class="term-text--dim">Модель остаётся Opus 4.6.</div>', delay: 0 },
+    ]);
+  }
+
+  _cmdRewind() {
+    this._animateSequence([
+      { html: '<div class="term-heading">Checkpoints сессии</div>', delay: 200 },
+      { html: '<div class="term-text--dim">Нажмите Esc+Esc или используйте /rewind</div>', delay: 150 },
+      { html: '<hr class="term-hr">', delay: 100 },
+      { html: '<div class="term-text">\u25cf <span class="term-text--accent">12:34</span> — Исправь баг в auth.ts</div>', delay: 120 },
+      { html: '<div class="term-text">\u25cb <span class="term-text--dim">12:28</span> — Добавь валидацию токена</div>', delay: 100 },
+      { html: '<div class="term-text">\u25cb <span class="term-text--dim">12:15</span> — Рефакторинг компонента Login</div>', delay: 100 },
+      { html: '<div class="term-text">\u25cb <span class="term-text--dim">11:58</span> — Начальная настройка проекта</div>', delay: 100 },
+      { html: '<hr class="term-hr">', delay: 150 },
+      { html: '<div class="term-text--dim">Действия: <span class="term-text--accent">Restore code</span>, <span class="term-text--accent">Restore conversation</span>, <span class="term-text--accent">Summarize</span></div>', delay: 0 },
+    ]);
+  }
+
+  _cmdSandbox() {
+    this._animateSequence([
+      { html: '<div class="term-heading">Настройка песочницы</div>', delay: 200 },
+      { html: '<div class="term-text--dim">Выберите режим работы bash-команд:</div>', delay: 150 },
+      { html: '<hr class="term-hr">', delay: 100 },
+      { html: '<div class="term-text">\u25cf <span class="term-text--accent">Auto-allow</span> — команды в песочнице выполняются автоматически</div>', delay: 120 },
+      { html: '<div class="term-text">\u25cb <span class="term-text--dim">Regular permissions</span> — стандартный flow разрешений</div>', delay: 100 },
+      { html: '<div class="term-text">\u25cb <span class="term-text--dim">Disabled</span> — песочница отключена</div>', delay: 100 },
+      { html: '<hr class="term-hr">', delay: 150 },
+      { html: '<div class="term-stat"><span class="term-stat__key">Файловая система</span><span class="term-stat__val term-text--success">Изолирована</span></div>', delay: 100 },
+      { html: '<div class="term-stat"><span class="term-stat__key">Сеть</span><span class="term-stat__val term-text--success">Ограничена</span></div>', delay: 100 },
+      { html: '<div class="term-stat"><span class="term-stat__key">Платформа</span><span class="term-stat__val">macOS (Seatbelt)</span></div>', delay: 0 },
+    ]);
+  }
+
+  _cmdKeybindings() {
+    this._appendHtml(`
+      <div class="term-block">
+        <div class="term-text--dim">Открытие настроек клавиатурных сокращений...</div>
+      </div>
+    `);
+    // Navigate to keybindings in the file explorer
+    setTimeout(() => {
+      if (window.app && window.app.explorer) {
+        window.app.explorer.selectPath('.claude/keybindings.json');
+      }
+    }, 300);
   }
 
   // ── Utilities ─────────────────────────────────────────────

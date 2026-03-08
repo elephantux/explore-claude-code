@@ -1,16 +1,26 @@
 /**
  * File Explorer - Renders the sidebar file tree from manifest data.
  * Animates tree connector lines (├── └──) drawn on canvas as children are revealed.
+ * Supports multiple sections (e.g., My-Project, Global).
  */
 
 class FileExplorer {
   constructor(manifest, onFileSelect) {
     this.manifest = manifest;
     this.onFileSelect = onFileSelect;
-    this.expandedDirs = new Set(['.claude']);
+    this.expandedDirs = new Set(['.claude', '~/.claude']);
     this.selectedPath = null;
     this.flatFiles = [];
-    this._buildFlatList(manifest.tree);
+
+    // Build flat list from all sections
+    if (manifest.sections) {
+      for (const section of manifest.sections) {
+        this._buildFlatList(section.tree);
+      }
+    } else if (manifest.tree) {
+      // Backwards compatibility
+      this._buildFlatList(manifest.tree);
+    }
   }
 
   _buildFlatList(nodes) {
@@ -27,7 +37,39 @@ class FileExplorer {
     const container = document.getElementById('file-tree');
     if (!container) return;
     container.innerHTML = '';
-    container.appendChild(this._renderNodes(this.manifest.tree, 0));
+
+    // Render sections if available
+    if (this.manifest.sections) {
+      for (const section of this.manifest.sections) {
+        container.appendChild(this._renderSection(section));
+      }
+    } else if (this.manifest.tree) {
+      // Backwards compatibility
+      container.appendChild(this._renderNodes(this.manifest.tree, 0));
+    }
+  }
+
+  _renderSection(section) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'tree-section';
+    wrapper.dataset.sectionId = section.id;
+
+    // Section header
+    const header = document.createElement('div');
+    header.className = 'tree-section__header';
+    header.textContent = section.name;
+    if (section.description) {
+      header.setAttribute('title', section.description);
+    }
+    wrapper.appendChild(header);
+
+    // Section tree
+    const treeContainer = document.createElement('div');
+    treeContainer.className = 'tree-section__tree';
+    treeContainer.appendChild(this._renderNodes(section.tree, 0));
+    wrapper.appendChild(treeContainer);
+
+    return wrapper;
   }
 
   _renderNodes(nodes, depth) {
@@ -58,6 +100,7 @@ class FileExplorer {
     const isExpanded = this.expandedDirs.has(node.path);
     const icon = document.createElement('span');
     icon.className = 'tree-icon tree-icon--svg';
+    // Note: innerHTML used here with trusted static SVG from Icons module
     icon.innerHTML = isExpanded ? Icons.folderOpen(14) : Icons.folderClosed(14);
     item.appendChild(icon);
 
@@ -112,10 +155,12 @@ class FileExplorer {
 
       if (expanding) {
         this.expandedDirs.add(node.path);
+        // Note: innerHTML used here with trusted static SVG from Icons module
         icon.innerHTML = Icons.folderOpen(14);
         if (childrenDiv) this._expandChildren(childrenDiv, depth);
       } else {
         this.expandedDirs.delete(node.path);
+        // Note: innerHTML used here with trusted static SVG from Icons module
         icon.innerHTML = Icons.folderClosed(14);
         if (childrenDiv) this._collapseChildren(childrenDiv);
       }
@@ -340,6 +385,7 @@ class FileExplorer {
 
     const icon = document.createElement('span');
     icon.className = 'tree-icon tree-icon--svg';
+    // Note: innerHTML used here with trusted static SVG from Icons module
     icon.innerHTML = Icons.forFile(node.path, 14);
     item.appendChild(icon);
 
@@ -376,7 +422,7 @@ class FileExplorer {
   }
 
   selectPath(path) {
-    const node = this._findNode(this.manifest.tree, path);
+    const node = this._findNodeInSections(path);
     if (node) {
       this._expandParents(path);
       this.selectedPath = path;
@@ -385,6 +431,18 @@ class FileExplorer {
         this.onFileSelect(node);
       }
     }
+  }
+
+  _findNodeInSections(path) {
+    if (this.manifest.sections) {
+      for (const section of this.manifest.sections) {
+        const found = this._findNode(section.tree, path);
+        if (found) return found;
+      }
+    } else if (this.manifest.tree) {
+      return this._findNode(this.manifest.tree, path);
+    }
+    return null;
   }
 
   _findNode(nodes, path) {

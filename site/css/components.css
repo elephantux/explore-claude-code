@@ -1,3 +1,31 @@
+/* ── Tree Sections ─────────────────────────────────────────── */
+
+.tree-section {
+  margin-bottom: var(--space-lg);
+}
+
+.tree-section:last-child {
+  margin-bottom: 0;
+}
+
+.tree-section__header {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: var(--space-xs);
+  cursor: default;
+  user-select: none;
+}
+
+.tree-section__tree {
+  /* Container for tree nodes */
+}
+
 /* ── File Tree ──────────────────────────────────────────────── */
 
 .tree-item {
@@ -91,6 +119,8 @@
 .tree-badge--marketplace { background: rgba(122, 139, 94, 0.12); color: var(--badge-marketplace); }
 .tree-badge--hooks { background: rgba(173, 110, 94, 0.12); color: var(--badge-hooks); }
 .tree-badge--code { background: rgba(94, 130, 160, 0.12); color: var(--badge-code); }
+.tree-badge--global { background: rgba(138, 122, 158, 0.12); color: #8a7a9e; }
+.tree-badge--cli { background: rgba(106, 138, 126, 0.12); color: #6a8a7e; }
 
 /* Deprecated badge — subtle, warm red-gray */
 .tree-badge--deprecated {

@@ -1,5 +1,4 @@
 {
-  "project": "my-project",
   "badges": {
     "memory": {
       "label": "память",
@@ -40,6 +39,14 @@
     "code": {
       "label": "код",
       "color": "#5e82a0"
+    },
+    "global": {
+      "label": "глобал",
+      "color": "#8a7a9e"
+    },
+    "cli": {
+      "label": "CLI",
+      "color": "#6a8a7e"
     }
   },
   "features": {
@@ -88,330 +95,544 @@
       "title": "Маркетплейсы",
       "description": "Распространение и поиск плагинов через курируемые каталоги.",
       "order": 9
+    },
+    "global-settings": {
+      "title": "Глобальные настройки",
+      "description": "Персональные настройки в ~/.claude/, применяемые ко всем проектам.",
+      "order": 10
+    },
+    "auto-memory": {
+      "title": "Auto Memory",
+      "description": "Автоматическая память — Claude сам накапливает знания между сессиями.",
+      "order": 11
+    },
+    "keybindings": {
+      "title": "Клавиатурные сокращения",
+      "description": "Настройка горячих клавиш и клавиатурных аккордов.",
+      "order": 12
+    },
+    "cli-features": {
+      "title": "CLI Features",
+      "description": "Возможности терминала: Fast Mode, Checkpointing, Sandboxing.",
+      "order": 13
+    },
+    "fast-mode": {
+      "title": "Fast Mode",
+      "description": "Ускорение ответов Opus 4.6 в 2.5 раза с переключением через /fast.",
+      "order": 14
+    },
+    "checkpointing": {
+      "title": "Checkpointing",
+      "description": "Автоматическое отслеживание изменений с возможностью отката через /rewind.",
+      "order": 15
+    },
+    "sandboxing": {
+      "title": "Sandboxing",
+      "description": "Песочница для безопасного выполнения команд с изоляцией файловой системы и сети.",
+      "order": 16
     }
   },
-  "tree": [
+  "sections": [
     {
-      "name": ".claude",
-      "path": ".claude",
-      "type": "directory",
-      "children": [
+      "id": "project",
+      "name": "My-Project",
+      "description": "Проектные настройки .claude/",
+      "tree": [
         {
-          "name": "settings.json",
-          "path": ".claude/settings.json",
-          "type": "file",
-          "feature": "settings",
-          "badge": "config",
-          "label": "Настройки и разрешения",
-          "description": "Контролирует, что Claude может и не может делать — разрешения инструментов, правила безопасности и поведение.",
-          "contentFile": ".claude/settings.json"
-        },
-        {
-          "name": "commands",
-          "path": ".claude/commands",
+          "name": ".claude",
+          "path": ".claude",
           "type": "directory",
-          "badge": "commands",
           "children": [
             {
-              "name": "COMMANDS.md",
-              "path": ".claude/commands/COMMANDS.md",
+              "name": "settings.json",
+              "path": ".claude/settings.json",
               "type": "file",
-              "feature": "commands",
-              "badge": "commands",
-              "label": "Команды (устарело)",
-              "description": "Узнайте об оригинальной системе слэш-команд и о том, как она была объединена с навыками.",
-              "contentFile": ".claude/commands/COMMANDS.md"
+              "feature": "settings",
+              "badge": "config",
+              "label": "Настройки проекта",
+              "description": "Командные настройки проекта — разрешения инструментов, правила безопасности. Коммитятся в git.",
+              "contentFile": ".claude/settings.json"
             },
             {
-              "name": "my-command",
-              "path": ".claude/commands/my-command",
+              "name": "commands",
+              "path": ".claude/commands",
               "type": "directory",
+              "badge": "commands",
               "children": [
                 {
-                  "name": "my-command.md",
-                  "path": ".claude/commands/my-command/my-command.md",
+                  "name": "COMMANDS.md",
+                  "path": ".claude/commands/COMMANDS.md",
                   "type": "file",
                   "feature": "commands",
                   "badge": "commands",
-                  "label": "Шаблон файла команды",
-                  "description": "Стартовый файл команды, показывающий формат шаблона промпта и как работает $ARGUMENTS.",
-                  "contentFile": ".claude/commands/my-command/my-command.md"
+                  "label": "Команды (устарело)",
+                  "description": "Узнайте об оригинальной системе слэш-команд и о том, как она была объединена с навыками.",
+                  "contentFile": ".claude/commands/COMMANDS.md"
+                },
+                {
+                  "name": "my-command",
+                  "path": ".claude/commands/my-command",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "my-command.md",
+                      "path": ".claude/commands/my-command/my-command.md",
+                      "type": "file",
+                      "feature": "commands",
+                      "badge": "commands",
+                      "label": "Шаблон файла команды",
+                      "description": "Стартовый файл команды, показывающий формат шаблона промпта и как работает $ARGUMENTS.",
+                      "contentFile": ".claude/commands/my-command/my-command.md"
+                    }
+                  ]
                 }
               ]
-            }
-          ]
-        },
-        {
-          "name": "skills",
-          "path": ".claude/skills",
-          "type": "directory",
-          "badge": "skill",
-          "children": [
-            {
-              "name": "SKILLS.md",
-              "path": ".claude/skills/SKILLS.md",
-              "type": "file",
-              "feature": "skills",
-              "badge": "skill",
-              "label": "Что такое навыки?",
-              "description": "Узнайте, что такое навыки, как их создавать и как Claude автоматически обнаруживает и загружает их.",
-              "contentFile": ".claude/skills/SKILLS.md"
             },
             {
-              "name": "my-skill",
-              "path": ".claude/skills/my-skill",
+              "name": "skills",
+              "path": ".claude/skills",
               "type": "directory",
+              "badge": "skill",
               "children": [
                 {
-                  "name": "SKILL.md",
-                  "path": ".claude/skills/my-skill/SKILL.md",
+                  "name": "SKILLS.md",
+                  "path": ".claude/skills/SKILLS.md",
                   "type": "file",
                   "feature": "skills",
                   "badge": "skill",
-                  "label": "SKILL.md — Определение навыка",
-                  "description": "Стартовый SKILL.md с аннотациями всех полей frontmatter, секций тела и переменных.",
-                  "contentFile": ".claude/skills/my-skill/SKILL.md"
+                  "label": "Что такое навыки?",
+                  "description": "Узнайте, что такое навыки, как их создавать и как Claude автоматически обнаруживает и загружает их.",
+                  "contentFile": ".claude/skills/SKILLS.md"
                 },
                 {
-                  "name": "scripts",
-                  "path": ".claude/skills/my-skill/scripts",
+                  "name": "my-skill",
+                  "path": ".claude/skills/my-skill",
                   "type": "directory",
                   "children": [
                     {
-                      "name": "helper.sh",
-                      "path": ".claude/skills/my-skill/scripts/helper.sh",
+                      "name": "SKILL.md",
+                      "path": ".claude/skills/my-skill/SKILL.md",
                       "type": "file",
                       "feature": "skills",
                       "badge": "skill",
-                      "label": "scripts/ — Исполняемый код",
-                      "description": "Директория scripts/ содержит исполняемый код, который Claude запускает при выполнении инструкций навыка.",
-                      "contentFile": ".claude/skills/my-skill/scripts/helper.sh"
-                    }
-                  ]
-                },
-                {
-                  "name": "references",
-                  "path": ".claude/skills/my-skill/references",
-                  "type": "directory",
-                  "children": [
+                      "label": "SKILL.md — Определение навыка",
+                      "description": "Стартовый SKILL.md с аннотациями всех полей frontmatter, секций тела и переменных.",
+                      "contentFile": ".claude/skills/my-skill/SKILL.md"
+                    },
                     {
-                      "name": "REFERENCE.md",
-                      "path": ".claude/skills/my-skill/references/REFERENCE.md",
-                      "type": "file",
-                      "feature": "skills",
-                      "badge": "skill",
-                      "label": "references/ — Подробная документация",
-                      "description": "Директория references/ содержит подробную документацию, которую Claude загружает по требованию.",
-                      "contentFile": ".claude/skills/my-skill/references/REFERENCE.md"
-                    }
-                  ]
-                },
-                {
-                  "name": "assets",
-                  "path": ".claude/skills/my-skill/assets",
-                  "type": "directory",
-                  "children": [
+                      "name": "scripts",
+                      "path": ".claude/skills/my-skill/scripts",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "helper.sh",
+                          "path": ".claude/skills/my-skill/scripts/helper.sh",
+                          "type": "file",
+                          "feature": "skills",
+                          "badge": "skill",
+                          "label": "scripts/ — Исполняемый код",
+                          "description": "Директория scripts/ содержит исполняемый код, который Claude запускает при выполнении инструкций навыка.",
+                          "contentFile": ".claude/skills/my-skill/scripts/helper.sh"
+                        }
+                      ]
+                    },
                     {
-                      "name": "template.md",
-                      "path": ".claude/skills/my-skill/assets/template.md",
-                      "type": "file",
-                      "feature": "skills",
-                      "badge": "skill",
-                      "label": "assets/ — Статические ресурсы",
-                      "description": "Директория assets/ содержит шаблоны, схемы, файлы данных и другие статические ресурсы.",
-                      "contentFile": ".claude/skills/my-skill/assets/template.md"
+                      "name": "references",
+                      "path": ".claude/skills/my-skill/references",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "REFERENCE.md",
+                          "path": ".claude/skills/my-skill/references/REFERENCE.md",
+                          "type": "file",
+                          "feature": "skills",
+                          "badge": "skill",
+                          "label": "references/ — Подробная документация",
+                          "description": "Директория references/ содержит подробную документацию, которую Claude загружает по требованию.",
+                          "contentFile": ".claude/skills/my-skill/references/REFERENCE.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "assets",
+                      "path": ".claude/skills/my-skill/assets",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "template.md",
+                          "path": ".claude/skills/my-skill/assets/template.md",
+                          "type": "file",
+                          "feature": "skills",
+                          "badge": "skill",
+                          "label": "assets/ — Статические ресурсы",
+                          "description": "Директория assets/ содержит шаблоны, схемы, файлы данных и другие статические ресурсы.",
+                          "contentFile": ".claude/skills/my-skill/assets/template.md"
+                        }
+                      ]
                     }
                   ]
                 }
               ]
-            }
-          ]
-        },
-        {
-          "name": "agents",
-          "path": ".claude/agents",
-          "type": "directory",
-          "badge": "agents",
-          "children": [
-            {
-              "name": "AGENTS.md",
-              "path": ".claude/agents/AGENTS.md",
-              "type": "file",
-              "feature": "agents",
-              "badge": "agents",
-              "label": "Обзор агентов",
-              "description": "Узнайте о субагентах, командах агентов и о том, как создавать пользовательских агентов для специализированных задач.",
-              "contentFile": ".claude/agents/AGENTS.md"
             },
             {
-              "name": "my-agent",
-              "path": ".claude/agents/my-agent",
+              "name": "agents",
+              "path": ".claude/agents",
               "type": "directory",
+              "badge": "agents",
               "children": [
                 {
-                  "name": "my-agent.md",
-                  "path": ".claude/agents/my-agent/my-agent.md",
+                  "name": "AGENTS.md",
+                  "path": ".claude/agents/AGENTS.md",
                   "type": "file",
                   "feature": "agents",
                   "badge": "agents",
-                  "label": "Шаблон файла агента",
-                  "description": "Стартовый файл агента, показывающий YAML frontmatter конфигурацию и структуру системного промпта.",
-                  "contentFile": ".claude/agents/my-agent/my-agent.md"
+                  "label": "Обзор агентов",
+                  "description": "Узнайте о субагентах, командах агентов и о том, как создавать пользовательских агентов для специализированных задач.",
+                  "contentFile": ".claude/agents/AGENTS.md"
+                },
+                {
+                  "name": "my-agent",
+                  "path": ".claude/agents/my-agent",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "my-agent.md",
+                      "path": ".claude/agents/my-agent/my-agent.md",
+                      "type": "file",
+                      "feature": "agents",
+                      "badge": "agents",
+                      "label": "Шаблон файла агента",
+                      "description": "Стартовый файл агента, показывающий YAML frontmatter конфигурацию и структуру системного промпта.",
+                      "contentFile": ".claude/agents/my-agent/my-agent.md"
+                    }
+                  ]
                 }
               ]
-            }
-          ]
-        },
-        {
-          "name": "hooks",
-          "path": ".claude/hooks",
-          "type": "directory",
-          "badge": "hooks",
-          "children": [
-            {
-              "name": "HOOKS.md",
-              "path": ".claude/hooks/HOOKS.md",
-              "type": "file",
-              "feature": "hooks",
-              "badge": "hooks",
-              "label": "Обзор хуков",
-              "description": "Узнайте, как хуки перехватывают действия Claude для запуска валидации, форматирования и проверок безопасности.",
-              "contentFile": ".claude/hooks/HOOKS.md"
             },
             {
-              "name": "my-hook",
-              "path": ".claude/hooks/my-hook",
+              "name": "hooks",
+              "path": ".claude/hooks",
               "type": "directory",
+              "badge": "hooks",
               "children": [
                 {
-                  "name": "my-hook.sh",
-                  "path": ".claude/hooks/my-hook/my-hook.sh",
+                  "name": "HOOKS.md",
+                  "path": ".claude/hooks/HOOKS.md",
                   "type": "file",
                   "feature": "hooks",
                   "badge": "hooks",
-                  "label": "Шаблон скрипта хука",
-                  "description": "Стартовый скрипт хука, показывающий как читать JSON-ввод, проверять условия и возвращать решения.",
-                  "contentFile": ".claude/hooks/my-hook/my-hook.sh"
+                  "label": "Обзор хуков",
+                  "description": "Узнайте, как хуки перехватывают действия Claude для запуска валидации, форматирования и проверок безопасности.",
+                  "contentFile": ".claude/hooks/HOOKS.md"
+                },
+                {
+                  "name": "my-hook",
+                  "path": ".claude/hooks/my-hook",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "my-hook.sh",
+                      "path": ".claude/hooks/my-hook/my-hook.sh",
+                      "type": "file",
+                      "feature": "hooks",
+                      "badge": "hooks",
+                      "label": "Шаблон скрипта хука",
+                      "description": "Стартовый скрипт хука, показывающий как читать JSON-ввод, проверять условия и возвращать решения.",
+                      "contentFile": ".claude/hooks/my-hook/my-hook.sh"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "plugins",
+              "path": ".claude/plugins",
+              "type": "directory",
+              "badge": "plugins",
+              "children": [
+                {
+                  "name": "PLUGINS.md",
+                  "path": ".claude/plugins/PLUGINS.md",
+                  "type": "file",
+                  "feature": "plugins",
+                  "badge": "plugins",
+                  "label": "Что такое плагины?",
+                  "description": "Узнайте, как плагины упаковывают навыки, агентов, хуки и MCP-серверы в расширения для распространения.",
+                  "contentFile": ".claude/plugins/PLUGINS.md"
+                },
+                {
+                  "name": "my-plugin",
+                  "path": ".claude/plugins/my-plugin",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": ".claude-plugin",
+                      "path": ".claude/plugins/my-plugin/.claude-plugin",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "plugin.json",
+                          "path": ".claude/plugins/my-plugin/.claude-plugin/plugin.json",
+                          "type": "file",
+                          "feature": "plugins",
+                          "badge": "plugins",
+                          "label": "Манифест плагина",
+                          "description": "Манифест plugin.json определяет идентичность, версию и метаданные вашего плагина.",
+                          "contentFile": ".claude/plugins/my-plugin/.claude-plugin/plugin.json"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "MARKETPLACES.md",
+                  "path": ".claude/plugins/MARKETPLACES.md",
+                  "type": "file",
+                  "feature": "marketplaces",
+                  "badge": "marketplace",
+                  "label": "Маркетплейсы плагинов",
+                  "description": "Узнайте, как создавать, размещать и распространять каталоги плагинов для команд и сообществ.",
+                  "contentFile": ".claude/plugins/MARKETPLACES.md"
+                },
+                {
+                  "name": "my-marketplace",
+                  "path": ".claude/plugins/my-marketplace",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": ".claude-plugin",
+                      "path": ".claude/plugins/my-marketplace/.claude-plugin",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "marketplace.json",
+                          "path": ".claude/plugins/my-marketplace/.claude-plugin/marketplace.json",
+                          "type": "file",
+                          "feature": "marketplaces",
+                          "badge": "marketplace",
+                          "label": "Каталог маркетплейса",
+                          "description": "Файл marketplace.json содержит список плагинов и откуда их загружать.",
+                          "contentFile": ".claude/plugins/my-marketplace/.claude-plugin/marketplace.json"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
           ]
         },
         {
-          "name": "plugins",
-          "path": ".claude/plugins",
+          "name": "src",
+          "path": "src",
           "type": "directory",
-          "badge": "plugins",
+          "badge": "code",
           "children": [
             {
-              "name": "PLUGINS.md",
-              "path": ".claude/plugins/PLUGINS.md",
+              "name": "index.ts",
+              "path": "src/index.ts",
               "type": "file",
-              "feature": "plugins",
-              "badge": "plugins",
-              "label": "Что такое плагины?",
-              "description": "Узнайте, как плагины упаковывают навыки, агентов, хуки и MCP-серверы в расширения для распространения.",
-              "contentFile": ".claude/plugins/PLUGINS.md"
+              "feature": null,
+              "badge": "code",
+              "label": "Точка входа",
+              "description": "Точка входа приложения — демонстрационный исходный файл для придания проекту контекста.",
+              "contentFile": "src/index.ts"
+            }
+          ]
+        },
+        {
+          "name": "CLAUDE.md",
+          "path": "CLAUDE.md",
+          "type": "file",
+          "feature": "claude-md",
+          "badge": "memory",
+          "label": "Память проекта",
+          "description": "Файл, который Claude читает в начале каждой сессии. Постоянная память вашего проекта.",
+          "contentFile": "CLAUDE.md"
+        },
+        {
+          "name": ".mcp.json",
+          "path": ".mcp.json",
+          "type": "file",
+          "feature": "mcp",
+          "badge": "mcp",
+          "label": "Конфигурация MCP",
+          "description": "Подключение Claude к внешним инструментам, API и сервисам через Model Context Protocol.",
+          "contentFile": ".mcp.json"
+        }
+      ]
+    },
+    {
+      "id": "global",
+      "name": "Global",
+      "description": "Глобальные настройки ~/.claude/ — применяются ко всем проектам",
+      "tree": [
+        {
+          "name": "~/.claude",
+          "path": "~/.claude",
+          "type": "directory",
+          "badge": "global",
+          "children": [
+            {
+              "name": "GLOBAL.md",
+              "path": "~/.claude/GLOBAL.md",
+              "type": "file",
+              "feature": "global-settings",
+              "badge": "global",
+              "label": "Обзор ~/.claude/",
+              "description": "Структура глобальных настроек, уровни конфигурации и приоритеты.",
+              "contentFile": "~/.claude/GLOBAL.md"
             },
             {
-              "name": "my-plugin",
-              "path": ".claude/plugins/my-plugin",
+              "name": "settings.json",
+              "path": "~/.claude/settings.json",
+              "type": "file",
+              "feature": "global-settings",
+              "badge": "global",
+              "label": "Глобальные настройки",
+              "description": "Персональные настройки для всех проектов — разрешения, переменные окружения.",
+              "contentFile": "~/.claude/settings.json"
+            },
+            {
+              "name": "CLAUDE.md",
+              "path": "~/.claude/CLAUDE.md",
+              "type": "file",
+              "feature": "global-settings",
+              "badge": "memory",
+              "label": "Персональный CLAUDE.md",
+              "description": "Ваши инструкции для всех проектов — предпочтения кода, стиль, рабочие привычки.",
+              "contentFile": "~/.claude/CLAUDE.md"
+            },
+            {
+              "name": "keybindings.json",
+              "path": "~/.claude/keybindings.json",
+              "type": "file",
+              "feature": "keybindings",
+              "badge": "config",
+              "label": "Клавиатурные сокращения",
+              "description": "Настройка горячих клавиш, аккордов и привязок по контекстам.",
+              "contentFile": "~/.claude/keybindings.json"
+            },
+            {
+              "name": "KEYBINDINGS.md",
+              "path": "~/.claude/KEYBINDINGS.md",
+              "type": "file",
+              "feature": "keybindings",
+              "badge": "config",
+              "label": "Справочник keybindings",
+              "description": "Полный справочник по контекстам, действиям и синтаксису клавиатурных сокращений.",
+              "contentFile": "~/.claude/KEYBINDINGS.md"
+            },
+            {
+              "name": "rules",
+              "path": "~/.claude/rules",
               "type": "directory",
               "children": [
                 {
-                  "name": ".claude-plugin",
-                  "path": ".claude/plugins/my-plugin/.claude-plugin",
-                  "type": "directory",
-                  "children": [
-                    {
-                      "name": "plugin.json",
-                      "path": ".claude/plugins/my-plugin/.claude-plugin/plugin.json",
-                      "type": "file",
-                      "feature": "plugins",
-                      "badge": "plugins",
-                      "label": "Манифест плагина",
-                      "description": "Манифест plugin.json определяет идентичность, версию и метаданные вашего плагина.",
-                      "contentFile": ".claude/plugins/my-plugin/.claude-plugin/plugin.json"
-                    }
-                  ]
+                  "name": "RULES.md",
+                  "path": "~/.claude/rules/RULES.md",
+                  "type": "file",
+                  "feature": "global-settings",
+                  "badge": "global",
+                  "label": "Персональные правила",
+                  "description": "Модульные правила по темам, применяемые ко всем проектам.",
+                  "contentFile": "~/.claude/rules/RULES.md"
                 }
               ]
             },
             {
-              "name": "MARKETPLACES.md",
-              "path": ".claude/plugins/MARKETPLACES.md",
-              "type": "file",
-              "feature": "marketplaces",
-              "badge": "marketplace",
-              "label": "Маркетплейсы плагинов",
-              "description": "Узнайте, как создавать, размещать и распространять каталоги плагинов для команд и сообществ.",
-              "contentFile": ".claude/plugins/MARKETPLACES.md"
-            },
-            {
-              "name": "my-marketplace",
-              "path": ".claude/plugins/my-marketplace",
+              "name": "projects",
+              "path": "~/.claude/projects",
               "type": "directory",
               "children": [
                 {
-                  "name": ".claude-plugin",
-                  "path": ".claude/plugins/my-marketplace/.claude-plugin",
+                  "name": "my-project",
+                  "path": "~/.claude/projects/my-project",
                   "type": "directory",
                   "children": [
                     {
-                      "name": "marketplace.json",
-                      "path": ".claude/plugins/my-marketplace/.claude-plugin/marketplace.json",
-                      "type": "file",
-                      "feature": "marketplaces",
-                      "badge": "marketplace",
-                      "label": "Каталог маркетплейса",
-                      "description": "Файл marketplace.json содержит список плагинов и откуда их загружать.",
-                      "contentFile": ".claude/plugins/my-marketplace/.claude-plugin/marketplace.json"
+                      "name": "memory",
+                      "path": "~/.claude/projects/my-project/memory",
+                      "type": "directory",
+                      "badge": "memory",
+                      "children": [
+                        {
+                          "name": "MEMORY.md",
+                          "path": "~/.claude/projects/my-project/memory/MEMORY.md",
+                          "type": "file",
+                          "feature": "auto-memory",
+                          "badge": "memory",
+                          "label": "Auto Memory",
+                          "description": "Индекс автоматической памяти — первые 200 строк загружаются в каждую сессию.",
+                          "contentFile": "~/.claude/projects/my-project/memory/MEMORY.md"
+                        },
+                        {
+                          "name": "AUTO-MEMORY.md",
+                          "path": "~/.claude/projects/my-project/memory/AUTO-MEMORY.md",
+                          "type": "file",
+                          "feature": "auto-memory",
+                          "badge": "memory",
+                          "label": "Как работает Auto Memory",
+                          "description": "Подробное объяснение системы автоматической памяти Claude.",
+                          "contentFile": "~/.claude/projects/my-project/memory/AUTO-MEMORY.md"
+                        }
+                      ]
                     }
                   ]
                 }
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "src",
-      "path": "src",
-      "type": "directory",
-      "badge": "code",
-      "children": [
+        },
         {
-          "name": "index.ts",
-          "path": "src/index.ts",
-          "type": "file",
-          "feature": null,
-          "badge": "code",
-          "label": "Точка входа",
-          "description": "Точка входа приложения — демонстрационный исходный файл для придания проекту контекста.",
-          "contentFile": "src/index.ts"
+          "name": "cli-features",
+          "path": "cli-features",
+          "type": "directory",
+          "badge": "cli",
+          "children": [
+            {
+              "name": "CLI-FEATURES.md",
+              "path": "cli-features/CLI-FEATURES.md",
+              "type": "file",
+              "feature": "cli-features",
+              "badge": "cli",
+              "label": "Обзор CLI Features",
+              "description": "Fast Mode, Checkpointing, Sandboxing — фичи терминала без файловой структуры.",
+              "contentFile": "cli-features/CLI-FEATURES.md"
+            },
+            {
+              "name": "FAST-MODE.md",
+              "path": "cli-features/FAST-MODE.md",
+              "type": "file",
+              "feature": "fast-mode",
+              "badge": "cli",
+              "label": "Fast Mode",
+              "description": "Ускорение Opus 4.6 в 2.5 раза. Включение через /fast, стоимость и rate limits.",
+              "contentFile": "cli-features/FAST-MODE.md"
+            },
+            {
+              "name": "CHECKPOINTING.md",
+              "path": "cli-features/CHECKPOINTING.md",
+              "type": "file",
+              "feature": "checkpointing",
+              "badge": "cli",
+              "label": "Checkpointing",
+              "description": "Отслеживание изменений и откат через /rewind. Restore, summarize и ограничения.",
+              "contentFile": "cli-features/CHECKPOINTING.md"
+            },
+            {
+              "name": "SANDBOXING.md",
+              "path": "cli-features/SANDBOXING.md",
+              "type": "file",
+              "feature": "sandboxing",
+              "badge": "cli",
+              "label": "Sandboxing",
+              "description": "Песочница для безопасного выполнения — изоляция файловой системы и сети на уровне ОС.",
+              "contentFile": "cli-features/SANDBOXING.md"
+            }
+          ]
         }
       ]
-    },
-    {
-      "name": "CLAUDE.md",
-      "path": "CLAUDE.md",
-      "type": "file",
-      "feature": "claude-md",
-      "badge": "memory",
-      "label": "Память проекта",
-      "description": "Файл, который Claude читает в начале каждой сессии. Постоянная память вашего проекта.",
-      "contentFile": "CLAUDE.md"
-    },
-    {
-      "name": ".mcp.json",
-      "path": ".mcp.json",
-      "type": "file",
-      "feature": "mcp",
-      "badge": "mcp",
-      "label": "Конфигурация MCP",
-      "description": "Подключение Claude к внешним инструментам, API и сервисам через Model Context Protocol.",
-      "contentFile": ".mcp.json"
     }
   ]
 }

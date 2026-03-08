@@ -55,18 +55,32 @@ class ContentLoader {
 
   /** Navigate to the first file of a feature */
   _navigateToFeature(featureId) {
-    const node = this._findFirstFileForFeature(this.manifest.tree, featureId);
+    const node = this._findFirstFileForFeature(featureId);
     if (node && window.app && window.app.explorer) {
       window.app.explorer.selectPath(node.path);
     }
   }
 
   /** Find first file node matching a feature ID */
-  _findFirstFileForFeature(nodes, featureId) {
+  _findFirstFileForFeature(featureId) {
+    // Search across all sections
+    if (this.manifest.sections) {
+      for (const section of this.manifest.sections) {
+        const found = this._findFirstFileInNodes(section.tree, featureId);
+        if (found) return found;
+      }
+    } else if (this.manifest.tree) {
+      return this._findFirstFileInNodes(this.manifest.tree, featureId);
+    }
+    return null;
+  }
+
+  /** Recursively find first file with matching feature in nodes array */
+  _findFirstFileInNodes(nodes, featureId) {
     for (const node of nodes) {
       if (node.type === 'file' && node.feature === featureId) return node;
       if (node.children) {
-        const found = this._findFirstFileForFeature(node.children, featureId);
+        const found = this._findFirstFileInNodes(node.children, featureId);
         if (found) return found;
       }
     }
@@ -135,7 +149,7 @@ class ContentLoader {
 
     // Related files
     if (feature) {
-      const relatedNodes = this._findAllFilesForFeature(this.manifest.tree, node.feature);
+      const relatedNodes = this._findAllFilesForFeature(node.feature);
       const others = relatedNodes.filter(n => n.path !== node.path);
       if (others.length > 0) {
         html += '<div class="file-view__related">';
@@ -392,14 +406,28 @@ class ContentLoader {
   }
 
   /** Find all file nodes for a feature */
-  _findAllFilesForFeature(nodes, featureId) {
+  _findAllFilesForFeature(featureId) {
+    let results = [];
+    // Search across all sections
+    if (this.manifest.sections) {
+      for (const section of this.manifest.sections) {
+        results = results.concat(this._findAllFilesInNodes(section.tree, featureId));
+      }
+    } else if (this.manifest.tree) {
+      results = this._findAllFilesInNodes(this.manifest.tree, featureId);
+    }
+    return results;
+  }
+
+  /** Recursively find all files with matching feature in nodes array */
+  _findAllFilesInNodes(nodes, featureId) {
     let results = [];
     for (const node of nodes) {
       if (node.type === 'file' && node.feature === featureId) {
         results.push(node);
       }
       if (node.children) {
-        results = results.concat(this._findAllFilesForFeature(node.children, featureId));
+        results = results.concat(this._findAllFilesInNodes(node.children, featureId));
       }
     }
     return results;
