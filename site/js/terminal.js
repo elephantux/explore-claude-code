@@ -13,6 +13,7 @@ class Terminal {
     this.panel = null;
     this.output = null;
     this.input = null;
+    this._activeLoop = null;
   }
 
   init() {
@@ -240,6 +241,7 @@ class Terminal {
       '/status': () => this._cmdStatus(),
       '/config': () => this._cmdConfig(),
       '/memory': () => this._cmdMemory(),
+      '/loop': () => this._cmdLoop(rawCmd),
     };
 
     if (handlers[cmd]) {
@@ -276,6 +278,7 @@ class Terminal {
       ['/status', 'Версия, модель и информация об аккаунте'],
       ['/config', 'Открыть обозреватель настроек'],
       ['/memory', 'Посмотреть записи авто-памяти'],
+      ['/loop', 'Запустить команду с повторением по интервалу'],
       ['/clear', 'Очистить вывод терминала'],
     ];
 
@@ -497,6 +500,125 @@ class Terminal {
       { html: '<hr class="term-hr">', delay: 150 },
       { html: '<div class="term-text--dim">5 записей. Редактировать через <span class="term-text--accent">/memory --edit</span></div>', delay: 0 },
     ]);
+  }
+
+  _cmdLoop(rawCmd) {
+    // Parse subcommands first
+    const args = rawCmd.replace(/^\/loop\s*/i, '').trim();
+
+    // Handle /loop stop
+    if (args.toLowerCase() === 'stop') {
+      if (!this._activeLoop) {
+        this._appendHtml(`
+          <div class="term-block">
+            <div class="term-text--dim">Нет активных loop-ов для остановки.</div>
+          </div>
+        `);
+      } else {
+        const task = this._activeLoop.task;
+        this._activeLoop = null;
+        this._appendHtml(`
+          <div class="term-block">
+            <div class="term-text--success">\u2713 Loop остановлен</div>
+            <div class="term-text--dim">Задача "${this._esc(task)}" больше не будет повторяться.</div>
+          </div>
+        `);
+      }
+      return;
+    }
+
+    // Handle /loop list
+    if (args.toLowerCase() === 'list') {
+      if (!this._activeLoop) {
+        this._appendHtml(`
+          <div class="term-block">
+            <div class="term-text--dim">Нет активных loop-ов.</div>
+          </div>
+        `);
+      } else {
+        this._appendHtml(`
+          <div class="term-block">
+            <div class="term-heading">Активные loop-ы</div>
+            <div class="term-stat"><span class="term-stat__key">Задача</span><span class="term-stat__val">${this._esc(this._activeLoop.task)}</span></div>
+            <div class="term-stat"><span class="term-stat__key">Интервал</span><span class="term-stat__val">${this._activeLoop.intervalDisplay}</span></div>
+            <div class="term-stat"><span class="term-stat__key">Выполнений</span><span class="term-stat__val">${this._activeLoop.runs}</span></div>
+          </div>
+        `);
+      }
+      return;
+    }
+
+    // Parse: /loop [interval] [command/prompt]
+    const parts = rawCmd.match(/^\/loop\s+(\d+[smh]?)?\s*(.*)$/i);
+    const interval = parts && parts[1] ? parts[1] : '10m';
+    const task = parts && parts[2] ? parts[2] : '';
+
+    if (!task) {
+      this._appendHtml(`
+        <div class="term-block">
+          <div class="term-heading">Использование /loop</div>
+          <div class="term-text">Запускает команду или промпт с повторением по интервалу.</div>
+          <hr class="term-hr">
+          <div class="term-text--dim">Синтаксис:</div>
+          <div class="term-text"><span class="term-text--accent">/loop [интервал] [команда или промпт]</span></div>
+          <hr class="term-hr">
+          <div class="term-text--dim">Подкоманды:</div>
+          <div class="term-text">/loop stop — остановить активный loop</div>
+          <div class="term-text">/loop list — показать активные loop-ы</div>
+          <hr class="term-hr">
+          <div class="term-text--dim">Примеры:</div>
+          <div class="term-text">/loop 5m /doctor</div>
+          <div class="term-text">/loop 10m проверь статус деплоя</div>
+          <div class="term-text">/loop 1h запусти тесты и отправь отчёт</div>
+          <hr class="term-hr">
+          <div class="term-text--dim">Интервалы: <span class="term-text--accent">s</span>=секунды, <span class="term-text--accent">m</span>=минуты, <span class="term-text--accent">h</span>=часы. По умолчанию: 10m</div>
+        </div>
+      `);
+      return;
+    }
+
+    const intervalDisplay = this._formatInterval(interval);
+
+    // Store active loop
+    this._activeLoop = { task, interval, intervalDisplay, runs: 1 };
+
+    this._animateSequence([
+      { html: '<div class="term-heading">Loop запущен</div>', delay: 200 },
+      { html: `<div class="term-stat"><span class="term-stat__key">Задача</span><span class="term-stat__val">${this._esc(task)}</span></div>`, delay: 150 },
+      { html: `<div class="term-stat"><span class="term-stat__key">Интервал</span><span class="term-stat__val term-stat__val--accent">${intervalDisplay}</span></div>`, delay: 100 },
+      { html: '<hr class="term-hr">', delay: 150 },
+      { html: '<div class="term-text--dim">Выполнение #1...</div>', delay: 300 },
+      { html: `<div class="term-text--success">\u2713 Выполнено. Следующий запуск через ${intervalDisplay}</div>`, delay: 400 },
+      { html: '<hr class="term-hr">', delay: 200 },
+      { html: '<div class="term-text--dim">Loop работает в фоне. Остановить: <span class="term-text--accent">/loop stop</span></div>', delay: 0 },
+    ]);
+  }
+
+  _parseInterval(str) {
+    const match = str.match(/^(\d+)([smh])?$/i);
+    if (!match) return 600000; // default 10m
+    const num = parseInt(match[1], 10);
+    const unit = (match[2] || 'm').toLowerCase();
+    const multipliers = { s: 1000, m: 60000, h: 3600000 };
+    return num * (multipliers[unit] || 60000);
+  }
+
+  _formatInterval(str) {
+    const match = str.match(/^(\d+)([smh])?$/i);
+    if (!match) return '10 минут';
+    const num = parseInt(match[1], 10);
+    const unit = (match[2] || 'm').toLowerCase();
+    const labels = { s: ['секунда', 'секунды', 'секунд'], m: ['минута', 'минуты', 'минут'], h: ['час', 'часа', 'часов'] };
+    const forms = labels[unit] || labels.m;
+    // Russian pluralization
+    const lastTwo = num % 100;
+    const lastOne = num % 10;
+    let form;
+    if (lastTwo >= 11 && lastTwo <= 19) form = forms[2];
+    else if (lastOne === 1) form = forms[0];
+    else if (lastOne >= 2 && lastOne <= 4) form = forms[1];
+    else form = forms[2];
+    return `${num} ${form}`;
   }
 
   // ── Utilities ─────────────────────────────────────────────
