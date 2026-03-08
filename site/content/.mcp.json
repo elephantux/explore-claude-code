@@ -1,81 +1,83 @@
 {
-  // .mcp.json — Project-scope MCP configuration
+  // .mcp.json — Конфигурация MCP на уровне проекта
   //
-  // MCP (Model Context Protocol) connects Claude to external tools,
-  // APIs, and data sources. Each "server" exposes a set of tools
-  // that Claude can discover and call during a session.
+  // MCP (Model Context Protocol) подключает Claude к внешним инструментам,
+  // API и источникам данных. Каждый «сервер» предоставляет набор инструментов,
+  // которые Claude может обнаруживать и вызывать во время сессии.
   //
-  // This file lives at your project root. Commit it to version
-  // control so every team member gets the same tool configuration.
+  // Этот файл располагается в корне вашего проекта. Закоммитьте его
+  // в систему контроля версий, чтобы каждый член команды получил
+  // одинаковую конфигурацию инструментов.
   //
-  // Three server types are supported:
-  //   "http"    — Remote HTTP server (recommended for remote tools)
-  //   "command" — Local stdio process (spawned per session)
-  //   "url"     — SSE endpoint (deprecated, use http instead)
+  // Поддерживаются три типа серверов:
+  //   "http"    — Удалённый HTTP-сервер (рекомендуется для удалённых инструментов)
+  //   "command" — Локальный stdio-процесс (запускается для каждой сессии)
+  //   "url"     — SSE-эндпоинт (устарело, используйте http вместо него)
   //
-  // Install servers from the CLI instead of editing this by hand:
+  // Устанавливайте серверы через CLI вместо ручного редактирования:
   //   claude mcp add my-server -s project -- npx some-mcp-package
   //
-  // Scopes control who sees each server:
-  //   -s local    — Just you, this machine (~/.claude.json)
-  //   -s project  — Everyone on the project (.mcp.json, committed)
-  //   -s user     — Just you, all your projects (~/.claude/settings.json)
+  // Области видимости (scope) определяют, кто видит каждый сервер:
+  //   -s local    — Только вы, эта машина (~/.claude.json)
+  //   -s project  — Все в проекте (.mcp.json, закоммичен)
+  //   -s user     — Только вы, все ваши проекты (~/.claude/settings.json)
   //
-  // Manage servers in a session with the /mcp slash command.
+  // Управляйте серверами в сессии с помощью слэш-команды /mcp.
 
   "mcpServers": {
 
-    // ── HTTP server (recommended for remote services) ──────────
-    // Connects to a remote HTTP endpoint. Supports OAuth if the
-    // server requires authentication. Claude handles the flow.
+    // ── HTTP-сервер (рекомендуется для удалённых сервисов) ──────────
+    // Подключается к удалённому HTTP-эндпоинту. Поддерживает OAuth,
+    // если сервер требует аутентификации. Claude обрабатывает процесс.
     "my-remote-service": {
       "type": "http",
       "url": "https://my-service.example.com/mcp"
     },
 
-    // ── stdio server (for local tools) ─────────────────────────
-    // Spawns a local process. Claude communicates via stdin/stdout.
-    // Most npm/pip MCP packages use this transport.
+    // ── stdio-сервер (для локальных инструментов) ─────────────────────────
+    // Запускает локальный процесс. Claude общается через stdin/stdout.
+    // Большинство npm/pip MCP-пакетов используют этот транспорт.
     "my-local-tool": {
       "command": "npx",
       "args": ["-y", "@example/mcp-server-tool"],
       "env": {
-        // Environment variables support expansion syntax:
-        //   ${env:VAR}            — reads from your shell environment
-        //   ${env:VAR:-default}   — falls back to "default" if unset
+        // Переменные окружения поддерживают синтаксис подстановки:
+        //   ${env:VAR}            — читает из вашего окружения shell
+        //   ${env:VAR:-default}   — использует "default", если не задано
         "API_KEY": "${env:MY_TOOL_API_KEY}",
         "DATABASE_URL": "${env:DATABASE_URL:-postgresql://localhost:5432/mydb}"
       },
-      // Optional: set the working directory for the spawned process
+      // Опционально: задать рабочую директорию для запускаемого процесса
       "cwd": "/path/to/working/directory"
     },
 
-    // ── Real-world examples ────────────────────────────────────
-    // Popular community servers you might add:
+    // ── Реальные примеры ────────────────────────────────────
+    // Популярные серверы сообщества, которые вы можете добавить:
     //
     //   claude mcp add github -s project -- npx -y @modelcontextprotocol/server-github
     //   claude mcp add postgres -s local -- npx -y @modelcontextprotocol/server-postgres
     //   claude mcp add sentry -s project -- npx -y @sentry/mcp-server-sentry
     //
-    // Browse available servers: https://github.com/modelcontextprotocol/servers
+    // Просмотреть доступные серверы: https://github.com/modelcontextprotocol/servers
 
-    // ── Tool Search ────────────────────────────────────────────
-    // When MCP servers expose many tools, Claude uses Tool Search
-    // to find the right ones instead of loading them all. This
-    // happens automatically for servers with 30+ tools. To adjust:
+    // ── Поиск инструментов ────────────────────────────────────────────
+    // Когда MCP-серверы предоставляют много инструментов, Claude использует
+    // Tool Search для поиска нужных вместо загрузки всех. Это происходит
+    // автоматически для серверов с 30+ инструментами. Для настройки:
     //
     //   "toolSearch": {
-    //     "enabled": "auto",        — "auto" (default), true, or false
-    //     "threshold": 30           — tool count that triggers search
+    //     "enabled": "auto",        — "auto" (по умолчанию), true или false
+    //     "threshold": 30           — количество инструментов, при котором включается поиск
     //   }
 
-    // ── MCP Resources ──────────────────────────────────────────
-    // Some servers expose data as resources (docs, schemas, etc.).
-    // Reference them in your prompt with @server-name:resource-id
-    // to pull that data into context.
+    // ── MCP-ресурсы ──────────────────────────────────────────
+    // Некоторые серверы предоставляют данные как ресурсы (документы, схемы и т.д.).
+    // Ссылайтесь на них в промпте через @server-name:resource-id
+    // чтобы подключить эти данные в контекст.
 
-    // ── MCP Prompts ────────────────────────────────────────────
-    // Servers can expose reusable prompt templates that appear as
-    // slash commands. Run /mcp in a session to see available prompts.
+    // ── MCP-промпты ────────────────────────────────────────────
+    // Серверы могут предоставлять переиспользуемые шаблоны промптов,
+    // которые появляются как слэш-команды. Запустите /mcp в сессии,
+    // чтобы увидеть доступные промпты.
   }
 }

@@ -1,60 +1,60 @@
-# Custom Slash Commands (Deprecated)
+# Пользовательские слэш-команды (устарело)
 
-Markdown files that create reusable `/slash-commands`. Commands have been [merged into skills](^Commands and skills are now the same system. A command file at .claude/commands/review.md and a skill at .claude/skills/review/SKILL.md both create /review and work identically), but existing command files still work and this directory is still supported.
+Markdown-файлы, создающие переиспользуемые `/слэш-команды`. Команды были [объединены с навыками](^Команды и навыки теперь — одна система. Файл команды в .claude/commands/review.md и навык в .claude/skills/review/SKILL.md оба создают /review и работают идентично), но существующие файлы команд всё ещё работают и эта директория поддерживается.
 
-## Quick Start
+## Быстрый старт
 
-1. Create a `.md` file in `.claude/commands/`
-2. Write a prompt inside it. Use `$ARGUMENTS` as a placeholder for user input
-3. The filename becomes the command name: `review-pr.md` creates `/review-pr`
-4. Type `/` in Claude Code to see and run your commands
+1. Создайте `.md` файл в `.claude/commands/`
+2. Напишите промпт внутри. Используйте `$ARGUMENTS` как placeholder для пользовательского ввода
+3. Имя файла становится именем команды: `review-pr.md` создаёт `/review-pr`
+4. Введите `/` в Claude Code, чтобы увидеть и запустить ваши команды
 
-## How It Works
+## Как это работает
 
-1. Claude scans `.claude/commands/` at startup and registers each `.md` file as a slash command
-2. When you invoke `/command-name`, Claude reads the file and replaces `$ARGUMENTS` with whatever you typed after the command
-3. The expanded prompt is sent to Claude as if you had typed it manually
+1. Claude сканирует `.claude/commands/` при запуске и регистрирует каждый `.md` файл как слэш-команду
+2. Когда вы вызываете `/command-name`, Claude читает файл и заменяет `$ARGUMENTS` на то, что вы ввели после команды
+3. Расширенный промпт отправляется Claude так, как если бы вы ввели его вручную
 
-## Commands vs Skills
+## Команды vs Навыки
 
-Commands are the simpler, original system. Skills are the newer, more powerful replacement.
+Команды — более простая, оригинальная система. Навыки — новая, более мощная замена.
 
-| | Commands | Skills |
+| | Команды | Навыки |
 |---|---|---|
-| File location | `.claude/commands/name.md` | `.claude/skills/name/SKILL.md` |
-| Invocation | `/name` only | `/name` or auto-loaded |
-| Arguments | `$ARGUMENTS` only | `$ARGUMENTS`, `$N`, env vars |
-| Frontmatter | Not supported | Full frontmatter (model, tools, invocation control) |
-| Supporting files | None | scripts/, references/, assets/ |
-| Dynamic context | Not supported | `!`backtick`` shell injection |
+| Расположение файла | `.claude/commands/name.md` | `.claude/skills/name/SKILL.md` |
+| Вызов | только `/name` | `/name` или автозагрузка |
+| Аргументы | только `$ARGUMENTS` | `$ARGUMENTS`, `$N`, переменные окружения |
+| Frontmatter | Не поддерживается | Полный frontmatter (модель, инструменты, контроль вызова) |
+| Вспомогательные файлы | Нет | scripts/, references/, assets/ |
+| Динамический контекст | Не поддерживается | `!`backtick`` shell-инъекция |
 
-If you are starting fresh, use skills instead. If you have existing commands, they will continue to work without changes.
+Если начинаете с нуля, используйте навыки. Если у вас есть существующие команды, они продолжат работать без изменений.
 
-## Where Commands Live
+## Где живут команды
 
-| Location | Path | Scope |
+| Расположение | Путь | Область |
 |---|---|---|
-| Project | `.claude/commands/` | Shared with your team (committed) |
-| Personal | `~/.claude/commands/` | All your projects (not committed) |
+| Проект | `.claude/commands/` | Общий для команды (закоммичен) |
+| Персональный | `~/.claude/commands/` | Все ваши проекты (не закоммичен) |
 
-## Migrating to Skills
+## Миграция на навыки
 
-To convert a command to a skill:
+Чтобы преобразовать команду в навык:
 
-1. Create `.claude/skills/command-name/SKILL.md`
-2. Add frontmatter with `name` and `description`
-3. Move your prompt into the body
-4. Delete the original command file
+1. Создайте `.claude/skills/command-name/SKILL.md`
+2. Добавьте frontmatter с `name` и `description`
+3. Перенесите ваш промпт в тело
+4. Удалите оригинальный файл команды
 
-The `/command-name` invocation stays the same. You gain frontmatter controls, supporting files, and auto-loading.
+Вызов `/command-name` остаётся тем же. Вы получаете контроль через frontmatter, вспомогательные файлы и автозагрузку.
 
-## Tips
+## Советы
 
-- Keep commands focused on one task
-- Include project-specific context (conventions, patterns) in the prompt
-- Use `$ARGUMENTS` to make commands flexible: `/review-pr focus on auth changes`
-- Commands and skills with the same name will conflict. Use one or the other
+- Держите команды сфокусированными на одной задаче
+- Включайте проектно-специфичный контекст (конвенции, паттерны) в промпт
+- Используйте `$ARGUMENTS` для гибкости: `/review-pr focus on auth changes`
+- Команды и навыки с одинаковым именем будут конфликтовать. Используйте одно или другое
 
-## Explore the Scaffolding
+## Изучите шаблон
 
-Open the `my-command/` folder below to see the structure of a command file with every section explained.
+Откройте папку `my-command/` ниже, чтобы увидеть структуру файла команды с объяснением каждой секции.

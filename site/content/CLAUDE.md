@@ -1,69 +1,69 @@
 # CLAUDE.md
 
-A markdown file that gives Claude persistent context about your project. Loaded into every session automatically, no manual prompting required.
+Markdown-файл, который даёт Claude постоянный контекст о вашем проекте. Загружается в каждую сессию автоматически, без ручного ввода промптов.
 
-## Quick Start
+## Быстрый старт
 
-1. Run `/init` in Claude Code. It analyses your codebase and generates a starter `CLAUDE.md`
-2. Review and refine what it creates. Add what Claude can't infer on its own
-3. Commit to version control so your team shares the same context
-4. Iterate over time. Add instructions as you discover friction points
+1. Запустите `/init` в Claude Code. Он проанализирует вашу кодовую базу и сгенерирует стартовый `CLAUDE.md`
+2. Проверьте и доработайте результат. Добавьте то, что Claude не может определить самостоятельно
+3. Закоммитьте в систему контроля версий, чтобы вся команда работала с одним контекстом
+4. Итерируйте со временем. Добавляйте инструкции по мере обнаружения проблемных мест
 
-## What to Put in It
+## Что в него включать
 
-| Section | Purpose | Example |
+| Раздел | Назначение | Пример |
 |---|---|---|
-| Project overview | Orient Claude in your codebase | Tech stack, architecture, key directories |
-| Build & test commands | Let Claude run your workflows | `npm test`, `cargo build`, `make deploy` |
-| Code conventions | Enforce your team's style | Naming, imports, error handling patterns |
-| Common workflows | Prevent rework | Branch naming, PR process, deploy steps |
-| Tool & MCP notes | Connect Claude to your environment | Custom scripts, [MCP](^Model Context Protocol: a standard that lets Claude connect to external tools and services) server usage notes |
-| Gotchas & warnings | Avoid known pitfalls | Files not to edit, quirks, env requirements |
+| Обзор проекта | Сориентировать Claude в кодовой базе | Технологический стек, архитектура, ключевые директории |
+| Команды сборки и тестирования | Позволить Claude запускать ваши процессы | `npm test`, `cargo build`, `make deploy` |
+| Конвенции кода | Обеспечить соблюдение стиля вашей команды | Именование, импорты, паттерны обработки ошибок |
+| Типовые рабочие процессы | Предотвратить повторную работу | Именование веток, процесс PR, шаги деплоя |
+| Заметки об инструментах и MCP | Связать Claude с вашим окружением | Пользовательские скрипты, заметки об использовании [MCP](^Model Context Protocol: стандарт, позволяющий Claude подключаться к внешним инструментам и сервисам) серверов |
+| Подводные камни и предупреждения | Избежать известных проблем | Файлы, которые не стоит редактировать, особенности, требования к окружению |
 
-## Where It Can Live
+## Где он может располагаться
 
-| Location | Scope | Use For |
+| Расположение | Область | Для чего использовать |
 |---|---|---|
-| `./CLAUDE.md` | Project (shared) | Team standards, architecture, build commands |
-| `./.claude/CLAUDE.md` | Project (shared) | Same as above, alternate location |
-| `~/.claude/CLAUDE.md` | Personal (all projects) | Your preferences across every project |
-| `./CLAUDE.local.md` | Personal (this project) | Your sandbox URLs, preferred test data. [Gitignored](^Automatically added to .gitignore so it stays local and is never committed to version control) |
-| [Managed policy path](^A system-level path managed by IT/DevOps. macOS: /Library/Application Support/ClaudeCode/CLAUDE.md, Linux: /etc/claude-code/CLAUDE.md, Windows: C:\Program Files\ClaudeCode\CLAUDE.md) | Organisation-wide | Company security policies, compliance rules |
+| `./CLAUDE.md` | Проект (общий) | Стандарты команды, архитектура, команды сборки |
+| `./.claude/CLAUDE.md` | Проект (общий) | То же самое, альтернативное расположение |
+| `~/.claude/CLAUDE.md` | Персональный (все проекты) | Ваши предпочтения для всех проектов |
+| `./CLAUDE.local.md` | Персональный (этот проект) | Ваши URL песочницы, предпочтительные тестовые данные. [Добавлен в gitignore](^Автоматически добавляется в .gitignore, чтобы оставаться локальным и никогда не коммититься в систему контроля версий) |
+| [Путь управляемой политики](^Системный путь, управляемый IT/DevOps. macOS: /Library/Application Support/ClaudeCode/CLAUDE.md, Linux: /etc/claude-code/CLAUDE.md, Windows: C:\Program Files\ClaudeCode\CLAUDE.md) | Для всей организации | Политики безопасности компании, правила соответствия |
 
-More specific locations take precedence over broader ones. Claude also discovers `CLAUDE.md` files in subdirectories and loads them on demand when working in those directories.
+Более специфичные расположения имеют приоритет над более общими. Claude также обнаруживает файлы `CLAUDE.md` в поддиректориях и загружает их по требованию при работе в этих директориях.
 
-## Importing Files
+## Импорт файлов
 
-Use `@path/to/file` syntax to pull additional files into context:
+Используйте синтаксис `@путь/к/файлу` для подключения дополнительных файлов в контекст:
 
 ```markdown
-See @README.md for project overview.
-Git workflow: @docs/git-instructions.md
+Смотрите @README.md для обзора проекта.
+Git-процесс: @docs/git-instructions.md
 ```
 
-- Relative paths resolve from the file containing the import
-- Imports can chain up to 5 levels deep
-- First use in a project triggers an approval dialog
-- Great for pulling in READMEs, package.json, or workflow guides without duplicating content
+- Относительные пути разрешаются от файла, содержащего импорт
+- Импорты могут образовывать цепочки глубиной до 5 уровней
+- Первое использование в проекте вызывает диалог подтверждения
+- Отлично подходит для подключения README, package.json или руководств по процессам без дублирования контента
 
-## Writing Effective Instructions
+## Написание эффективных инструкций
 
-- **Be specific**: [Use 2-space indentation](^A concrete, verifiable instruction Claude can follow exactly) not [Format code properly](^Too vague for Claude to act on consistently. What does 'properly' mean?)
-- **Be concise**: Target under 200 lines. Longer files [dilute adherence](^The more instructions Claude has to track, the less reliably it follows each one)
-- **Use structure**: Markdown headers and bullets. Claude scans structure like a reader does
-- **Avoid conflicts**: If two instructions contradict, Claude picks one arbitrarily. Review periodically
-- **Split when large**: Use [@ imports](^The @path/to/file syntax described above that pulls other files into CLAUDE.md context) or `.claude/rules/` files to break up long instructions
+- **Будьте конкретны**: [Используйте отступ в 2 пробела](^Конкретная, проверяемая инструкция, которую Claude может выполнить точно), а не [Форматируйте код правильно](^Слишком размыто для последовательного выполнения Claude. Что значит «правильно»?)
+- **Будьте лаконичны**: Стремитесь к объёму менее 200 строк. Более длинные файлы [размывают следование](^Чем больше инструкций должен отслеживать Claude, тем менее надёжно он следует каждой из них)
+- **Используйте структуру**: Заголовки и маркеры Markdown. Claude сканирует структуру так же, как это делает читатель
+- **Избегайте конфликтов**: Если две инструкции противоречат друг другу, Claude выбирает одну произвольно. Периодически проверяйте
+- **Разделяйте большие файлы**: Используйте [@ импорты](^Синтаксис @путь/к/файлу, описанный выше, который подключает другие файлы в контекст CLAUDE.md) или файлы `.claude/rules/` для разбиения длинных инструкций
 
-## Tips
+## Советы
 
-- CLAUDE.md is [context, not enforcement](^Claude reads it and tries to follow it, but there is no strict guarantee. Specific, unambiguous instructions get the best results). Specific instructions are followed more reliably than vague ones
-- `/init` works on existing projects too. It suggests improvements rather than overwriting
-- Use `/clear` between unrelated tasks to reset accumulated context while keeping CLAUDE.md loaded
-- CLAUDE.md [survives /compact](^When you run /compact, Claude re-reads CLAUDE.md from disk and re-injects it fresh. Instructions given only in conversation will be lost, but CLAUDE.md persists). It is re-read from disk and re-injected fresh
-- Never include secrets, API keys, or credentials. Treat it as public documentation
-- Start simple. Expand based on real friction, not hypothetical needs
+- CLAUDE.md — это [контекст, а не принуждение](^Claude читает его и пытается следовать, но строгой гарантии нет. Конкретные, однозначные инструкции получают лучшие результаты). Конкретные инструкции выполняются более надёжно, чем расплывчатые
+- `/init` работает и с существующими проектами. Он предлагает улучшения, а не перезаписывает
+- Используйте `/clear` между несвязанными задачами для сброса накопленного контекста, сохраняя CLAUDE.md загруженным
+- CLAUDE.md [переживает /compact](^При запуске /compact Claude перечитывает CLAUDE.md с диска и заново внедряет его. Инструкции, данные только в разговоре, будут потеряны, но CLAUDE.md сохраняется). Он перечитывается с диска и заново внедряется
+- Никогда не включайте секреты, API-ключи или учётные данные. Относитесь к нему как к публичной документации
+- Начинайте просто. Расширяйте на основе реальных проблем, а не гипотетических потребностей
 
-## Further Reading
+## Дополнительное чтение
 
-- [Official docs: How Claude remembers your project](https://code.claude.com/docs/en/memory#claude-md-files)
-- [Blog: Using CLAUDE.md files](https://claude.com/blog/using-claude-md-files)
+- [Официальная документация: Как Claude запоминает ваш проект](https://code.claude.com/docs/en/memory#claude-md-files)
+- [Блог: Использование файлов CLAUDE.md](https://claude.com/blog/using-claude-md-files)

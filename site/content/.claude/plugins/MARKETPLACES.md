@@ -1,59 +1,59 @@
-# Plugin Marketplaces
+# Маркетплейсы плагинов
 
-A marketplace is a catalogue that lists plugins and tells Claude Code where to fetch them. It provides centralised discovery, version tracking, and automatic updates. You can create marketplaces for your team, your community, or the public.
+Маркетплейс — это каталог, который перечисляет плагины и указывает Claude Code, откуда их загружать. Он обеспечивает централизованное обнаружение, отслеживание версий и автоматические обновления. Вы можете создавать маркетплейсы для своей команды, сообщества или публики.
 
-## Quick Start
+## Быстрый старт
 
-1. Create a directory with `.claude-plugin/marketplace.json`
-2. List your plugins with names, sources, and descriptions
-3. Push to GitHub (or any git host)
-4. Users add it: `/plugin marketplace add owner/repo`
-5. Users install plugins: `/plugin install my-plugin@your-marketplace`
+1. Создайте директорию с `.claude-plugin/marketplace.json`
+2. Перечислите ваши плагины с именами, источниками и описаниями
+3. Запушьте на GitHub (или любой git-хостинг)
+4. Пользователи добавляют его: `/plugin marketplace add owner/repo`
+5. Пользователи устанавливают плагины: `/plugin install my-plugin@your-marketplace`
 
-## How It Works
+## Как это работает
 
-1. **You create plugins** with skills, agents, hooks, MCP servers, or LSP servers
-2. **You create a `marketplace.json`** that lists those plugins and where to find them
-3. **You host it** on GitHub, GitLab, or any git host
-4. **Users add your marketplace** and install individual plugins
-5. **Users get updates** by running `/plugin marketplace update`
+1. **Вы создаёте плагины** с навыками, агентами, хуками, MCP-серверами или LSP-серверами
+2. **Вы создаёте `marketplace.json`**, который перечисляет эти плагины и где их найти
+3. **Вы размещаете его** на GitHub, GitLab или любом git-хостинге
+4. **Пользователи добавляют ваш маркетплейс** и устанавливают отдельные плагины
+5. **Пользователи получают обновления** запуская `/plugin marketplace update`
 
-## Marketplace Schema
+## Схема маркетплейса
 
-The `marketplace.json` file lives at `.claude-plugin/marketplace.json` in your repository root.
+Файл `marketplace.json` находится в `.claude-plugin/marketplace.json` в корне вашего репозитория.
 
-### Required Fields
+### Обязательные поля
 
-| Field | Type | Purpose |
+| Поле | Тип | Назначение |
 |---|---|---|
-| `name` | string | Marketplace identifier (kebab-case). Users see this when installing: `/plugin install tool@your-marketplace` |
-| `owner` | object | Maintainer info: `name` (required), `email` (optional) |
-| `plugins` | array | List of available plugins |
+| `name` | string | Идентификатор маркетплейса (kebab-case). Пользователи видят его при установке: `/plugin install tool@your-marketplace` |
+| `owner` | object | Информация о мейнтейнере: `name` (обязательно), `email` (опционально) |
+| `plugins` | array | Список доступных плагинов |
 
-### Optional Metadata
+### Опциональные метаданные
 
-| Field | Purpose |
+| Поле | Назначение |
 |---|---|
-| `metadata.description` | Brief marketplace description |
-| `metadata.version` | Marketplace version |
-| `metadata.pluginRoot` | Base directory prepended to relative plugin source paths |
+| `metadata.description` | Краткое описание маркетплейса |
+| `metadata.version` | Версия маркетплейса |
+| `metadata.pluginRoot` | Базовая директория, добавляемая к относительным путям источников плагинов |
 
-## Plugin Sources
+## Источники плагинов
 
-Each plugin entry needs a `name` and `source`. The source tells Claude Code where to fetch the plugin:
+Каждая запись плагина нуждается в `name` и `source`. Источник указывает Claude Code, откуда загружать плагин:
 
-| Source | Format | Notes |
+| Источник | Формат | Примечания |
 |---|---|---|
-| Relative path | `"./plugins/my-plugin"` | Within the marketplace repo. Must start with `./` |
-| GitHub | `{ "source": "github", "repo": "owner/repo" }` | Supports `ref` (branch/tag) and `sha` (commit) pinning |
-| Git URL | `{ "source": "url", "url": "https://...git" }` | Any git host. URL must end `.git` |
-| Git subdirectory | `{ "source": "git-subdir", "url": "...", "path": "..." }` | Sparse clone of a monorepo subdirectory |
-| npm | `{ "source": "npm", "package": "@org/plugin" }` | Supports `version` ranges and custom `registry` |
-| pip | `{ "source": "pip", "package": "plugin" }` | Installed via pip |
+| Относительный путь | `"./plugins/my-plugin"` | Внутри репозитория маркетплейса. Должен начинаться с `./` |
+| GitHub | `{ "source": "github", "repo": "owner/repo" }` | Поддерживает `ref` (ветка/тег) и `sha` (коммит) pinning |
+| Git URL | `{ "source": "url", "url": "https://...git" }` | Любой git-хостинг. URL должен заканчиваться на `.git` |
+| Git поддиректория | `{ "source": "git-subdir", "url": "...", "path": "..." }` | Sparse clone поддиректории монорепозитория |
+| npm | `{ "source": "npm", "package": "@org/plugin" }` | Поддерживает диапазоны `version` и пользовательский `registry` |
+| pip | `{ "source": "pip", "package": "plugin" }` | Устанавливается через pip |
 
-### Pinning Versions
+### Закрепление версий
 
-GitHub and git sources support `ref` (branch or tag) and `sha` (exact commit):
+Источники GitHub и git поддерживают `ref` (ветка или тег) и `sha` (точный коммит):
 
 ```json
 {
@@ -67,29 +67,29 @@ GitHub and git sources support `ref` (branch or tag) and `sha` (exact commit):
 }
 ```
 
-## Hosting
+## Хостинг
 
-### GitHub (Recommended)
+### GitHub (рекомендуется)
 
-Create a repo, add `.claude-plugin/marketplace.json`, and share. Users add with:
+Создайте репозиторий, добавьте `.claude-plugin/marketplace.json` и поделитесь. Пользователи добавляют через:
 
 ```
 /plugin marketplace add owner/repo
 ```
 
-### Private Repositories
+### Приватные репозитории
 
-Claude Code uses your existing git credentials. If `git clone` works in your terminal, it works in Claude Code. For background auto-updates, set a token in your environment:
+Claude Code использует ваши существующие git credentials. Если `git clone` работает в вашем терминале, он работает в Claude Code. Для фоновых автообновлений установите токен в окружении:
 
-| Provider | Environment variable |
+| Провайдер | Переменная окружения |
 |---|---|
-| GitHub | `GITHUB_TOKEN` or `GH_TOKEN` |
-| GitLab | `GITLAB_TOKEN` or `GL_TOKEN` |
+| GitHub | `GITHUB_TOKEN` или `GH_TOKEN` |
+| GitLab | `GITLAB_TOKEN` или `GL_TOKEN` |
 | Bitbucket | `BITBUCKET_TOKEN` |
 
-## Team Distribution
+## Распространение в команде
 
-Configure your repo so team members are automatically prompted to install your marketplace. Add to `.claude/settings.json`:
+Настройте репозиторий так, чтобы членам команды автоматически предлагалось установить ваш маркетплейс. Добавьте в `.claude/settings.json`:
 
 ```json
 {
@@ -107,42 +107,42 @@ Configure your repo so team members are automatically prompted to install your m
 }
 ```
 
-### Managed Restrictions
+### Управляемые ограничения
 
-Administrators can restrict which marketplaces users are allowed to add using `strictKnownMarketplaces` in [managed settings](^Organisation-level settings controlled by IT/DevOps that individual users cannot override):
+Администраторы могут ограничить, какие маркетплейсы пользователи могут добавлять, используя `strictKnownMarketplaces` в [управляемых настройках](^Настройки уровня организации, контролируемые IT/DevOps, которые отдельные пользователи не могут переопределить):
 
-| Value | Behaviour |
+| Значение | Поведение |
 |---|---|
-| Undefined (default) | No restrictions. Users can add any marketplace |
-| Empty array `[]` | Complete lockdown. No new marketplaces allowed |
-| List of sources | Users can only add marketplaces matching the allowlist |
+| Не определено (по умолчанию) | Нет ограничений. Пользователи могут добавлять любой маркетплейс |
+| Пустой массив `[]` | Полная блокировка. Новые маркетплейсы не разрешены |
+| Список источников | Пользователи могут добавлять только маркетплейсы, соответствующие белому списку |
 
-## Strict Mode
+## Строгий режим
 
-The `strict` field on plugin entries controls who defines the plugin's components:
+Поле `strict` на записях плагинов контролирует, кто определяет компоненты плагина:
 
-| Value | Behaviour |
+| Значение | Поведение |
 |---|---|
-| `true` (default) | `plugin.json` is the authority. Marketplace entry can supplement with additional components |
-| `false` | Marketplace entry is the entire definition. If the plugin also has a `plugin.json` with components, it fails to load |
+| `true` (по умолчанию) | `plugin.json` — авторитет. Запись маркетплейса может дополнять дополнительными компонентами |
+| `false` | Запись маркетплейса — полное определение. Если плагин также имеет `plugin.json` с компонентами, он не загружается |
 
-Use `strict: false` when the marketplace operator wants full control over which components are exposed.
+Используйте `strict: false`, когда оператор маркетплейса хочет полного контроля над тем, какие компоненты экспонируются.
 
-## Release Channels
+## Каналы релизов
 
-Set up "stable" and "latest" channels by creating two marketplaces pointing to different refs of the same repo. Assign them to different user groups through managed settings.
+Настройте каналы "stable" и "latest", создав два маркетплейса, указывающих на разные ref одного репозитория. Назначьте их разным группам пользователей через управляемые настройки.
 
-The plugin's `plugin.json` must declare a different `version` at each pinned ref. If two refs have the same version, Claude Code skips the update.
+`plugin.json` плагина должен объявлять разную `version` на каждом закреплённом ref. Если два ref имеют одинаковую версию, Claude Code пропускает обновление.
 
-## Validation
+## Валидация
 
-Test your marketplace before sharing:
+Протестируйте маркетплейс перед распространением:
 
 ```bash
 claude plugin validate .
 ```
 
-Or from within Claude Code:
+Или изнутри Claude Code:
 
 ```
 /plugin validate .
@@ -150,17 +150,17 @@ Or from within Claude Code:
 /plugin install test-plugin@my-local-marketplace
 ```
 
-## Reserved Names
+## Зарезервированные имена
 
-These marketplace names are reserved for official Anthropic use: `claude-code-marketplace`, `claude-code-plugins`, `claude-plugins-official`, `anthropic-marketplace`, `anthropic-plugins`, `agent-skills`, `life-sciences`. Names that impersonate official marketplaces are also blocked.
+Эти имена маркетплейсов зарезервированы для официального использования Anthropic: `claude-code-marketplace`, `claude-code-plugins`, `claude-plugins-official`, `anthropic-marketplace`, `anthropic-plugins`, `agent-skills`, `life-sciences`. Имена, имитирующие официальные маркетплейсы, также блокируются.
 
-## Tips
+## Советы
 
-- Relative paths only work when users add your marketplace via git (not via direct URL to `marketplace.json`)
-- Plugins are copied to a cache when installed. Use symlinks if plugins need to share files
-- Set `CLAUDE_CODE_PLUGIN_GIT_TIMEOUT_MS` to increase the 120-second git timeout for large repos
-- Use `metadata.pluginRoot` to simplify source paths: set it to `"./plugins"` and write `"source": "formatter"` instead of `"source": "./plugins/formatter"`
+- Относительные пути работают только когда пользователи добавляют ваш маркетплейс через git (не через прямой URL к `marketplace.json`)
+- Плагины копируются в кэш при установке. Используйте симлинки, если плагинам нужно делить файлы
+- Установите `CLAUDE_CODE_PLUGIN_GIT_TIMEOUT_MS` для увеличения 120-секундного таймаута git для больших репозиториев
+- Используйте `metadata.pluginRoot` для упрощения путей источников: установите его в `"./plugins"` и пишите `"source": "formatter"` вместо `"source": "./plugins/formatter"`
 
-## Further Reading
-- [Marketplaces docs](https://code.claude.com/docs/en/plugin-marketplaces)
-- [Discover plugins](https://code.claude.com/docs/en/discover-plugins)
+## Дополнительное чтение
+- [Документация по маркетплейсам](https://code.claude.com/docs/en/plugin-marketplaces)
+- [Поиск плагинов](https://code.claude.com/docs/en/discover-plugins)

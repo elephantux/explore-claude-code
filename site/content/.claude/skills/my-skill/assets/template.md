@@ -1,25 +1,25 @@
-# assets/ - Static Resources
+# assets/ — Статические ресурсы
 
-This directory holds static resources that the skill can reference. Things Claude reads or fills in but does not execute.
+Эта директория содержит статические ресурсы, на которые может ссылаться навык. То, что Claude читает или заполняет, но не выполняет.
 
-## What Goes Here
+## Что сюда включать
 
-- **Templates**: Document templates, config file templates, boilerplate structures Claude fills in for each use
-- **Schemas**: JSON schemas, database schemas, API response shapes
-- **Data files**: Lookup tables, mapping files, reference data
-- **Images**: Diagrams, example screenshots (Claude can view images)
-- **Example outputs**: Sample files showing the expected format
+- **Шаблоны**: Шаблоны документов, шаблоны конфигурационных файлов, заготовочные структуры, которые Claude заполняет при каждом использовании
+- **Схемы**: JSON-схемы, схемы баз данных, формы ответов API
+- **Файлы данных**: Справочные таблицы, файлы отображений, справочные данные
+- **Изображения**: Диаграммы, примеры скриншотов (Claude может просматривать изображения)
+- **Примеры выводов**: Образцы файлов, показывающие ожидаемый формат
 
-## How It Works
+## Как это работает
 
-SKILL.md references assets when needed:
+SKILL.md ссылается на ассеты при необходимости:
 
-"Use the template at [assets/template.md](assets/template.md) as the starting point."
+"Используй шаблон в [assets/template.md](assets/template.md) как отправную точку."
 
-Claude reads the asset, fills in the dynamic parts, and produces the output. Assets are static. They do not change between invocations.
+Claude читает ассет, заполняет динамические части и создаёт вывод. Ассеты статичны. Они не меняются между вызовами.
 
-## Example Use Cases
+## Примеры использования
 
-- A PR template that Claude fills in with the actual changes
-- A config schema that Claude validates against
-- A component boilerplate that Claude customises per request
+- Шаблон PR, который Claude заполняет реальными изменениями
+- Схема конфигурации, по которой Claude валидирует
+- Заготовка компонента, которую Claude кастомизирует под запрос

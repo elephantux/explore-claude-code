@@ -2,15 +2,15 @@
   "project": "my-project",
   "badges": {
     "memory": {
-      "label": "memory",
+      "label": "память",
       "color": "#b07a6e"
     },
     "commands": {
-      "label": "commands",
+      "label": "команды",
       "color": "#8e82ad"
     },
     "config": {
-      "label": "config",
+      "label": "конфиг",
       "color": "#7a7670"
     },
     "mcp": {
@@ -18,75 +18,75 @@
       "color": "#6e9468"
     },
     "skill": {
-      "label": "skill",
+      "label": "навык",
       "color": "#5e918a"
     },
     "agents": {
-      "label": "agents",
+      "label": "агенты",
       "color": "#b8965e"
     },
     "plugins": {
-      "label": "plugins",
+      "label": "плагины",
       "color": "#a89a48"
     },
     "marketplace": {
-      "label": "marketplace",
+      "label": "маркетплейс",
       "color": "#7a8b5e"
     },
     "hooks": {
-      "label": "hooks",
+      "label": "хуки",
       "color": "#ad6e5e"
     },
     "code": {
-      "label": "code",
+      "label": "код",
       "color": "#5e82a0"
     }
   },
   "features": {
     "claude-md": {
       "title": "CLAUDE.md",
-      "description": "How Claude remembers context across sessions. Your project's persistent memory.",
+      "description": "Как Claude запоминает контекст между сессиями. Постоянная память вашего проекта.",
       "order": 1
     },
     "settings": {
-      "title": "Settings & Permissions",
-      "description": "Configure Claude's behaviour, tool access, and safety guardrails.",
+      "title": "Настройки и разрешения",
+      "description": "Настройка поведения Claude, доступа к инструментам и правил безопасности.",
       "order": 2
     },
     "commands": {
-      "title": "Custom Slash Commands",
-      "description": "Saved workflows you can invoke with a keystroke.",
+      "title": "Пользовательские слэш-команды",
+      "description": "Сохранённые рабочие процессы, которые можно вызвать одним нажатием.",
       "order": 3,
       "deprecated": true
     },
     "skills": {
-      "title": "Skills",
-      "description": "Teach Claude specialised knowledge it loads autonomously when needed.",
+      "title": "Навыки",
+      "description": "Обучите Claude специализированным знаниям, которые он загружает автоматически по мере необходимости.",
       "order": 4
     },
     "mcp": {
-      "title": "MCP Servers",
-      "description": "Connect Claude to external tools, APIs, and services via a standard protocol.",
+      "title": "MCP-серверы",
+      "description": "Подключение Claude к внешним инструментам, API и сервисам через стандартный протокол.",
       "order": 5
     },
     "hooks": {
-      "title": "Hooks",
-      "description": "Run custom scripts automatically before or after Claude's tool calls.",
+      "title": "Хуки",
+      "description": "Запуск пользовательских скриптов автоматически до или после вызовов инструментов Claude.",
       "order": 6
     },
     "agents": {
-      "title": "Agents",
-      "description": "Create specialised subagents and coordinate agent teams for parallel work.",
+      "title": "Агенты",
+      "description": "Создание специализированных субагентов и координация команд агентов для параллельной работы.",
       "order": 7
     },
     "plugins": {
-      "title": "Plugins",
-      "description": "Package skills, agents, hooks, and MCP servers into shareable extensions.",
+      "title": "Плагины",
+      "description": "Упаковка навыков, агентов, хуков и MCP-серверов в расширения для распространения.",
       "order": 8
     },
     "marketplaces": {
-      "title": "Marketplaces",
-      "description": "Distribute and discover plugins through curated catalogues.",
+      "title": "Маркетплейсы",
+      "description": "Распространение и поиск плагинов через курируемые каталоги.",
       "order": 9
     }
   },
@@ -102,8 +102,8 @@
           "type": "file",
           "feature": "settings",
           "badge": "config",
-          "label": "Settings & Permissions",
-          "description": "Controls what Claude can and can't do - tool permissions, safety rules, and behaviour.",
+          "label": "Настройки и разрешения",
+          "description": "Контролирует, что Claude может и не может делать — разрешения инструментов, правила безопасности и поведение.",
           "contentFile": ".claude/settings.json"
         },
         {
@@ -118,8 +118,8 @@
               "type": "file",
               "feature": "commands",
               "badge": "commands",
-              "label": "Commands (Deprecated)",
-              "description": "Learn about the original slash command system and how it has been merged into skills.",
+              "label": "Команды (устарело)",
+              "description": "Узнайте об оригинальной системе слэш-команд и о том, как она была объединена с навыками.",
               "contentFile": ".claude/commands/COMMANDS.md"
             },
             {
@@ -133,8 +133,8 @@
                   "type": "file",
                   "feature": "commands",
                   "badge": "commands",
-                  "label": "Command File Scaffolding",
-                  "description": "A starter command file showing the prompt template format and how $ARGUMENTS works.",
+                  "label": "Шаблон файла команды",
+                  "description": "Стартовый файл команды, показывающий формат шаблона промпта и как работает $ARGUMENTS.",
                   "contentFile": ".claude/commands/my-command/my-command.md"
                 }
               ]
@@ -153,8 +153,8 @@
               "type": "file",
               "feature": "skills",
               "badge": "skill",
-              "label": "What Are Skills?",
-              "description": "Learn what skills are, how to create them, and how Claude discovers and loads them automatically.",
+              "label": "Что такое навыки?",
+              "description": "Узнайте, что такое навыки, как их создавать и как Claude автоматически обнаруживает и загружает их.",
               "contentFile": ".claude/skills/SKILLS.md"
             },
             {
@@ -168,8 +168,8 @@
                   "type": "file",
                   "feature": "skills",
                   "badge": "skill",
-                  "label": "SKILL.md - The Skill Definition",
-                  "description": "A starter SKILL.md with every frontmatter field, body section, and variable annotated.",
+                  "label": "SKILL.md — Определение навыка",
+                  "description": "Стартовый SKILL.md с аннотациями всех полей frontmatter, секций тела и переменных.",
                   "contentFile": ".claude/skills/my-skill/SKILL.md"
                 },
                 {
@@ -183,8 +183,8 @@
                       "type": "file",
                       "feature": "skills",
                       "badge": "skill",
-                      "label": "scripts/ - Executable Code",
-                      "description": "The scripts/ directory holds executable code that Claude runs when following skill instructions.",
+                      "label": "scripts/ — Исполняемый код",
+                      "description": "Директория scripts/ содержит исполняемый код, который Claude запускает при выполнении инструкций навыка.",
                       "contentFile": ".claude/skills/my-skill/scripts/helper.sh"
                     }
                   ]
@@ -200,8 +200,8 @@
                       "type": "file",
                       "feature": "skills",
                       "badge": "skill",
-                      "label": "references/ - Detailed Documentation",
-                      "description": "The references/ directory holds detailed docs that Claude loads on demand.",
+                      "label": "references/ — Подробная документация",
+                      "description": "Директория references/ содержит подробную документацию, которую Claude загружает по требованию.",
                       "contentFile": ".claude/skills/my-skill/references/REFERENCE.md"
                     }
                   ]
@@ -217,8 +217,8 @@
                       "type": "file",
                       "feature": "skills",
                       "badge": "skill",
-                      "label": "assets/ - Static Resources",
-                      "description": "The assets/ directory holds templates, schemas, data files, and other static resources.",
+                      "label": "assets/ — Статические ресурсы",
+                      "description": "Директория assets/ содержит шаблоны, схемы, файлы данных и другие статические ресурсы.",
                       "contentFile": ".claude/skills/my-skill/assets/template.md"
                     }
                   ]
@@ -239,8 +239,8 @@
               "type": "file",
               "feature": "agents",
               "badge": "agents",
-              "label": "Agents Overview",
-              "description": "Learn about subagents, agent teams, and how to create custom agents for specialised tasks.",
+              "label": "Обзор агентов",
+              "description": "Узнайте о субагентах, командах агентов и о том, как создавать пользовательских агентов для специализированных задач.",
               "contentFile": ".claude/agents/AGENTS.md"
             },
             {
@@ -254,8 +254,8 @@
                   "type": "file",
                   "feature": "agents",
                   "badge": "agents",
-                  "label": "Agent File Scaffolding",
-                  "description": "A starter agent file showing YAML frontmatter configuration and system prompt structure.",
+                  "label": "Шаблон файла агента",
+                  "description": "Стартовый файл агента, показывающий YAML frontmatter конфигурацию и структуру системного промпта.",
                   "contentFile": ".claude/agents/my-agent/my-agent.md"
                 }
               ]
@@ -274,8 +274,8 @@
               "type": "file",
               "feature": "hooks",
               "badge": "hooks",
-              "label": "Hooks Overview",
-              "description": "Learn how hooks intercept Claude's actions to run validation, formatting, and safety checks.",
+              "label": "Обзор хуков",
+              "description": "Узнайте, как хуки перехватывают действия Claude для запуска валидации, форматирования и проверок безопасности.",
               "contentFile": ".claude/hooks/HOOKS.md"
             },
             {
@@ -289,8 +289,8 @@
                   "type": "file",
                   "feature": "hooks",
                   "badge": "hooks",
-                  "label": "Hook Script Scaffolding",
-                  "description": "A starter hook script showing how to read JSON input, check conditions, and return decisions.",
+                  "label": "Шаблон скрипта хука",
+                  "description": "Стартовый скрипт хука, показывающий как читать JSON-ввод, проверять условия и возвращать решения.",
                   "contentFile": ".claude/hooks/my-hook/my-hook.sh"
                 }
               ]
@@ -309,8 +309,8 @@
               "type": "file",
               "feature": "plugins",
               "badge": "plugins",
-              "label": "What Are Plugins?",
-              "description": "Learn how plugins package skills, agents, hooks, and MCP servers into shareable extensions.",
+              "label": "Что такое плагины?",
+              "description": "Узнайте, как плагины упаковывают навыки, агентов, хуки и MCP-серверы в расширения для распространения.",
               "contentFile": ".claude/plugins/PLUGINS.md"
             },
             {
@@ -329,8 +329,8 @@
                       "type": "file",
                       "feature": "plugins",
                       "badge": "plugins",
-                      "label": "Plugin Manifest",
-                      "description": "The plugin.json manifest defines your plugin's identity, version, and metadata.",
+                      "label": "Манифест плагина",
+                      "description": "Манифест plugin.json определяет идентичность, версию и метаданные вашего плагина.",
                       "contentFile": ".claude/plugins/my-plugin/.claude-plugin/plugin.json"
                     }
                   ]
@@ -343,8 +343,8 @@
               "type": "file",
               "feature": "marketplaces",
               "badge": "marketplace",
-              "label": "Plugin Marketplaces",
-              "description": "Learn how to create, host, and distribute plugin catalogues for teams and communities.",
+              "label": "Маркетплейсы плагинов",
+              "description": "Узнайте, как создавать, размещать и распространять каталоги плагинов для команд и сообществ.",
               "contentFile": ".claude/plugins/MARKETPLACES.md"
             },
             {
@@ -363,8 +363,8 @@
                       "type": "file",
                       "feature": "marketplaces",
                       "badge": "marketplace",
-                      "label": "Marketplace Catalogue",
-                      "description": "The marketplace.json file lists plugins and where to fetch them from.",
+                      "label": "Каталог маркетплейса",
+                      "description": "Файл marketplace.json содержит список плагинов и откуда их загружать.",
                       "contentFile": ".claude/plugins/my-marketplace/.claude-plugin/marketplace.json"
                     }
                   ]
@@ -387,8 +387,8 @@
           "type": "file",
           "feature": null,
           "badge": "code",
-          "label": "Entry Point",
-          "description": "The application entry point - a demo source file to give the project context.",
+          "label": "Точка входа",
+          "description": "Точка входа приложения — демонстрационный исходный файл для придания проекту контекста.",
           "contentFile": "src/index.ts"
         }
       ]
@@ -399,8 +399,8 @@
       "type": "file",
       "feature": "claude-md",
       "badge": "memory",
-      "label": "Project Memory",
-      "description": "The file Claude reads at the start of every session. Your project's persistent memory.",
+      "label": "Память проекта",
+      "description": "Файл, который Claude читает в начале каждой сессии. Постоянная память вашего проекта.",
       "contentFile": "CLAUDE.md"
     },
     {
@@ -409,8 +409,8 @@
       "type": "file",
       "feature": "mcp",
       "badge": "mcp",
-      "label": "MCP Configuration",
-      "description": "Connect Claude to external tools, APIs, and services via the Model Context Protocol.",
+      "label": "Конфигурация MCP",
+      "description": "Подключение Claude к внешним инструментам, API и сервисам через Model Context Protocol.",
       "contentFile": ".mcp.json"
     }
   ]

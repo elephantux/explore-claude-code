@@ -1,60 +1,60 @@
 {
-  // .claude-plugin/plugin.json — Plugin Manifest
+  // .claude-plugin/plugin.json — Манифест плагина
   //
-  // This file defines your plugin's identity. Claude Code uses it
-  // to display your plugin in the plugin manager, namespace your
-  // skills, and track versions for updates.
+  // Этот файл определяет идентичность вашего плагина. Claude Code использует его
+  // для отображения плагина в менеджере плагинов, создания пространства имён
+  // для навыков и отслеживания версий для обновлений.
   //
-  // This is the ONLY file that goes inside .claude-plugin/.
-  // All component directories (skills/, agents/, hooks/, etc.)
-  // live at the plugin root, NOT inside this directory.
+  // Это ЕДИНСТВЕННЫЙ файл, который находится внутри .claude-plugin/.
+  // Все директории компонентов (skills/, agents/, hooks/ и т.д.)
+  // живут в корне плагина, НЕ внутри этой директории.
 
-  // ── Required fields ────────────────────────────────────────────
+  // ── Обязательные поля ────────────────────────────────────────────
 
-  // Unique identifier. Also becomes the skill namespace prefix.
-  // A skill called "review" in this plugin → /my-plugin:review
+  // Уникальный идентификатор. Также становится префиксом пространства имён навыков.
+  // Навык "review" в этом плагине → /my-plugin:review
   "name": "my-plugin",
 
-  // Shown in the plugin manager when browsing or installing.
-  "description": "A starter plugin showing the manifest format and available fields",
+  // Показывается в менеджере плагинов при просмотре или установке.
+  "description": "Стартовый плагин, показывающий формат манифеста и доступные поля",
 
-  // Semantic versioning: major.minor.patch
-  // Bump major for breaking changes, minor for features, patch for fixes.
-  // Claude Code uses this to detect updates.
+  // Семантическое версионирование: major.minor.patch
+  // Увеличивайте major для ломающих изменений, minor для новых возможностей, patch для исправлений.
+  // Claude Code использует это для обнаружения обновлений.
   "version": "1.0.0",
 
-  // ── Optional metadata ──────────────────────────────────────────
+  // ── Опциональные метаданные ──────────────────────────────────────
 
-  // Attribution. Shown in plugin details.
+  // Атрибуция. Показывается в деталях плагина.
   "author": {
-    "name": "Your Name",
+    "name": "Ваше Имя",
     "email": "you@example.com"
   },
 
-  // Documentation URL for your plugin
+  // URL документации для вашего плагина
   "homepage": "https://github.com/your-org/my-plugin#readme",
 
-  // Source code repository
+  // Репозиторий с исходным кодом
   "repository": "https://github.com/your-org/my-plugin",
 
-  // SPDX license identifier (MIT, Apache-2.0, etc.)
+  // SPDX идентификатор лицензии (MIT, Apache-2.0 и т.д.)
   "license": "MIT",
 
-  // Tags for discovery and categorisation in marketplaces
+  // Теги для обнаружения и категоризации в маркетплейсах
   "keywords": ["starter", "example", "scaffold"]
 
-  // ── Component overrides (advanced) ─────────────────────────────
+  // ── Переопределения компонентов (продвинутое) ─────────────────────────────
   //
-  // By default, Claude Code discovers components by scanning
-  // standard directories at the plugin root:
+  // По умолчанию Claude Code обнаруживает компоненты, сканируя
+  // стандартные директории в корне плагина:
   //   skills/    → Agent Skills
-  //   commands/  → Slash commands
-  //   agents/    → Custom agents
-  //   hooks/     → hooks.json event handlers
-  //   .mcp.json  → MCP server configs
-  //   .lsp.json  → LSP server configs
+  //   commands/  → Слэш-команды
+  //   agents/    → Пользовательские агенты
+  //   hooks/     → hooks.json обработчики событий
+  //   .mcp.json  → Конфиги MCP-серверов
+  //   .lsp.json  → Конфиги LSP-серверов
   //
-  // You can override these with explicit paths:
+  // Вы можете переопределить это явными путями:
   //
   //   "commands": ["./commands/core/", "./commands/extra/review.md"],
   //   "agents": ["./agents/security-reviewer.md"],
@@ -62,5 +62,5 @@
   //   "mcpServers": { "my-db": { "command": "..." } },
   //   "lspServers": { "go": { "command": "gopls" } }
   //
-  // Most plugins don't need these — the defaults work.
+  // Большинству плагинов это не нужно — настройки по умолчанию работают.
 }

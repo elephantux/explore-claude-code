@@ -1,59 +1,59 @@
 ---
 name: my-agent
-description: "Describe when Claude should delegate to this agent. Be specific. Include 'use proactively' if you want Claude to use it without being asked."
+description: "Опишите, когда Claude должен делегировать этому агенту. Будьте конкретны. Включите 'use proactively', если хотите, чтобы Claude использовал его без запроса."
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---
 
-You are a [role description]. When invoked, [what you do].
+Ты — [описание роли]. При вызове ты [что делаешь].
 
-Your focus areas:
-- [Primary responsibility]
-- [Secondary responsibility]
-- [What you should never do]
+Твои области фокуса:
+- [Основная ответственность]
+- [Вторичная ответственность]
+- [Что ты никогда не должен делать]
 
-Process:
-1. [First step]
-2. [Second step]
-3. [Final step]
+Процесс:
+1. [Первый шаг]
+2. [Второй шаг]
+3. [Финальный шаг]
 
-Output format:
-- [How to structure your response]
+Формат вывода:
+- [Как структурировать ответ]
 
 ---
 
-This is a starter agent file. The filename `my-agent.md` registers this as a subagent named `my-agent`.
+Это стартовый файл агента. Имя файла `my-agent.md` регистрирует его как субагента с именем `my-agent`.
 
-Everything above the second `---` is the agent's system prompt. This is all the agent sees (plus basic environment details like working directory). It does not receive the full Claude Code system prompt.
+Всё выше второго `---` — это системный промпт агента. Это всё, что агент видит (плюс базовые детали окружения вроде рабочей директории). Он не получает полный системный промпт Claude Code.
 
-## Anatomy of This File
+## Анатомия этого файла
 
-The **frontmatter** (between the first pair of `---`) configures the agent:
+**Frontmatter** (между первой парой `---`) настраивает агента:
 
-- `name`: unique identifier, lowercase with hyphens. This is how you refer to the agent
-- `description`: Claude reads this to decide when to delegate. Be specific about what tasks this agent handles
-- `tools`: which tools the agent can use. Omit to inherit all tools from the main conversation. Common sets:
-  - Read-only: `Read, Grep, Glob`
-  - Can modify files: `Read, Grep, Glob, Edit, Write, Bash`
-  - Can spawn agents: `Agent(worker, researcher), Read, Bash`
-- `model`: which model to use. `sonnet` balances speed and capability, `haiku` is fast and cheap, `opus` is most capable, `inherit` uses whatever the main conversation uses
+- `name`: уникальный идентификатор, нижний регистр с дефисами. Так вы ссылаетесь на агента
+- `description`: Claude читает это, чтобы решить, когда делегировать. Будьте конкретны о том, какие задачи обрабатывает этот агент
+- `tools`: какие инструменты может использовать агент. Опустите для наследования всех инструментов из основного разговора. Типичные наборы:
+  - Только чтение: `Read, Grep, Glob`
+  - Может модифицировать файлы: `Read, Grep, Glob, Edit, Write, Bash`
+  - Может запускать агентов: `Agent(worker, researcher), Read, Bash`
+- `model`: какую модель использовать. `sonnet` балансирует скорость и возможности, `haiku` быстрый и дешёвый, `opus` самый способный, `inherit` использует то же, что основной разговор
 
-The **body** (after frontmatter) is the system prompt. Write it as direct instructions to the agent: "You are a...", "When invoked...", "Focus on...".
+**Тело** (после frontmatter) — это системный промпт. Пишите его как прямые инструкции агенту: "Ты —...", "При вызове...", "Сфокусируйся на...".
 
-## Optional Frontmatter Fields
+## Опциональные поля frontmatter
 
 ```yaml
 permissionMode: default      # default | acceptEdits | dontAsk | bypassPermissions | plan
-maxTurns: 25                 # stop after this many agentic turns
-background: false            # true to always run in the background
-isolation: worktree          # run in a temporary git worktree
-memory: user                 # user | project | local (enables persistent memory)
-skills:                      # skills to inject into context at startup
+maxTurns: 25                 # остановиться после стольких агентных ходов
+background: false            # true для постоянной работы в фоне
+isolation: worktree          # работать во временном git worktree
+memory: user                 # user | project | local (включает постоянную память)
+skills:                      # навыки для инъекции в контекст при запуске
   - api-conventions
   - error-handling
-mcpServers:                  # MCP servers available to this agent
+mcpServers:                  # MCP-серверы, доступные этому агенту
   - slack
-hooks:                       # lifecycle hooks scoped to this agent
+hooks:                       # хуки жизненного цикла, ограниченные этим агентом
   PreToolUse:
     - matcher: "Bash"
       hooks:
@@ -61,21 +61,21 @@ hooks:                       # lifecycle hooks scoped to this agent
           command: "./scripts/validate.sh"
 ```
 
-## What Makes a Good Agent
+## Что делает хорошего агента
 
-- A narrow, well-defined responsibility (not "do everything")
-- A detailed `description` so Claude delegates the right tasks
-- Only the tools it actually needs (least privilege)
-- Clear output format instructions so results are consistent
-- Process steps that guide the agent through its task
+- Узкая, чётко определённая ответственность (не "делай всё")
+- Детальное `description`, чтобы Claude делегировал правильные задачи
+- Только нужные инструменты (принцип наименьших привилегий)
+- Чёткие инструкции по формату вывода для согласованности результатов
+- Шаги процесса, направляющие агента через задачу
 
-## Subagents vs Skills
+## Субагенты vs Навыки
 
-Both create `/slash-command` style interfaces, but they solve different problems:
+Оба создают интерфейсы в стиле `/слэш-команды`, но решают разные задачи:
 
-| | Skills | Subagents |
+| | Навыки | Субагенты |
 |---|--------|-----------|
-| Context | Runs in your main conversation | Runs in its own isolated context |
-| Best for | Reference material, reusable workflows | Tasks that produce verbose output |
-| Tool control | No tool restrictions | Fine-grained tool allowlists |
-| Can chain | No | No (but the main conversation can chain them) |
+| Контекст | Работает в вашем основном разговоре | Работает в своём изолированном контексте |
+| Лучше для | Справочный материал, переиспользуемые процессы | Задачи с многословным выводом |
+| Контроль инструментов | Нет ограничений инструментов | Тонкая настройка белых списков |
+| Может выстраивать цепочки | Нет | Нет (но основной разговор может выстраивать их) |

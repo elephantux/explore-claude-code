@@ -1,89 +1,89 @@
-# Plugins
+# Плагины
 
-Plugins package skills, agents, hooks, and MCP servers into shareable extensions. A plugin is a directory with a `.claude-plugin/plugin.json` manifest and one or more components at the root level.
+Плагины упаковывают навыки, агентов, хуки и MCP-серверы в расширения для распространения. Плагин — это директория с манифестом `.claude-plugin/plugin.json` и одним или несколькими компонентами на корневом уровне.
 
-## Quick Start
+## Быстрый старт
 
-1. Create a directory for your plugin: `mkdir my-plugin`
-2. Add a manifest: `my-plugin/.claude-plugin/plugin.json`
-3. Add components (skills, agents, hooks, MCP servers) at the plugin root
-4. Test locally: `claude --plugin-dir ./my-plugin`
+1. Создайте директорию для плагина: `mkdir my-plugin`
+2. Добавьте манифест: `my-plugin/.claude-plugin/plugin.json`
+3. Добавьте компоненты (навыки, агенты, хуки, MCP-серверы) в корень плагина
+4. Протестируйте локально: `claude --plugin-dir ./my-plugin`
 
-## When to Use Plugins
+## Когда использовать плагины
 
-| Approach | Skill names | Best for |
+| Подход | Имена навыков | Лучше для |
 |---|---|---|
-| **Standalone** (`.claude/` directory) | `/hello` | Personal workflows, project-specific customisations, quick experiments |
-| **Plugins** (`.claude-plugin/plugin.json`) | `/plugin-name:hello` | Sharing with teammates, community distribution, versioned releases |
+| **Отдельный** (директория `.claude/`) | `/hello` | Личные рабочие процессы, проектно-специфичные настройки, быстрые эксперименты |
+| **Плагины** (`.claude-plugin/plugin.json`) | `/plugin-name:hello` | Распространение в команде, публикация в сообществе, версионированные релизы |
 
-Start with standalone configuration for quick iteration, then convert to a plugin when you're ready to share.
+Начинайте с отдельной конфигурации для быстрой итерации, затем преобразуйте в плагин, когда будете готовы делиться.
 
-## Plugin Structure
+## Структура плагина
 
 ```
 my-plugin/
   .claude-plugin/
-    plugin.json          # Manifest (required)
-  skills/                # Agent Skills with SKILL.md files
-  commands/              # Skills as Markdown files
-  agents/                # Custom agent definitions
-  hooks/                 # Event handlers in hooks.json
-  .mcp.json              # MCP server configurations
-  .lsp.json              # LSP server configurations
-  settings.json          # Default settings when plugin is enabled
+    plugin.json          # Манифест (обязателен)
+  skills/                # Agent Skills с файлами SKILL.md
+  commands/              # Навыки как Markdown-файлы
+  agents/                # Пользовательские определения агентов
+  hooks/                 # Обработчики событий в hooks.json
+  .mcp.json              # Конфигурации MCP-серверов
+  .lsp.json              # Конфигурации LSP-серверов
+  settings.json          # Настройки по умолчанию при включении плагина
 ```
 
-Only `plugin.json` goes inside `.claude-plugin/`. All other directories live at the plugin root.
+Только `plugin.json` находится внутри `.claude-plugin/`. Все остальные директории живут в корне плагина.
 
-## Plugin Manifest
+## Манифест плагина
 
-The `plugin.json` file defines your plugin's identity:
+Файл `plugin.json` определяет идентичность вашего плагина:
 
 ```json
 {
   "name": "my-plugin",
-  "description": "What this plugin does",
+  "description": "Что делает этот плагин",
   "version": "1.0.0",
   "author": {
-    "name": "Your Name"
+    "name": "Ваше Имя"
   }
 }
 ```
 
-| Field | Purpose |
+| Поле | Назначение |
 |---|---|
-| `name` | Unique identifier and skill namespace. Skills are prefixed with this (e.g. `/my-plugin:hello`) |
-| `description` | Shown in the plugin manager when browsing or installing |
-| `version` | Track releases using [semantic versioning](^Major.minor.patch format like 1.2.3. Major = breaking changes, minor = new features, patch = bug fixes) |
-| `author` | Optional. Helpful for attribution |
+| `name` | Уникальный идентификатор и пространство имён навыков. Навыки получают этот префикс (например, `/my-plugin:hello`) |
+| `description` | Показывается в менеджере плагинов при просмотре или установке |
+| `version` | Отслеживание релизов с использованием [семантического версионирования](^Формат major.minor.patch вроде 1.2.3. Major = ломающие изменения, minor = новые возможности, patch = исправления багов) |
+| `author` | Опционально. Полезно для атрибуции |
 
-Additional optional fields: `homepage`, `repository`, `license`, `keywords`.
+Дополнительные опциональные поля: `homepage`, `repository`, `license`, `keywords`.
 
-## Namespacing
+## Пространства имён
 
-Plugin skills are always namespaced to prevent conflicts. A skill called `review` in a plugin called `code-tools` becomes `/code-tools:review`. To change the namespace prefix, update the `name` field in `plugin.json`.
+Навыки плагинов всегда получают пространство имён для предотвращения конфликтов. Навык `review` в плагине `code-tools` становится `/code-tools:review`. Чтобы изменить префикс пространства имён, обновите поле `name` в `plugin.json`.
 
-## Adding Components
+## Добавление компонентов
 
-### Skills
+### Навыки
 
-Add a `skills/` directory with skill folders containing `SKILL.md` files. Each skill needs frontmatter with `name` and `description`:
+Добавьте директорию `skills/` с папками навыков, содержащими файлы `SKILL.md`. Каждый навык нуждается во frontmatter с `name` и `description`:
 
 ```yaml
 ---
 name: code-review
-description: Reviews code for best practices and potential issues
+description: Ревью кода на соответствие лучшим практикам и потенциальные проблемы
 ---
 
-When reviewing code, check for:
-1. Code organisation and structure
-2. Error handling
-3. Security concerns
+При ревью кода проверяйте:
+1. Организацию и структуру кода
+2. Обработку ошибок
+3. Вопросы безопасности
 ```
 
-### LSP Servers
+### LSP-серверы
 
-Add an `.lsp.json` file to give Claude real-time code intelligence for languages not already covered by official plugins:
+Добавьте файл `.lsp.json`, чтобы дать Claude интеллект кода в реальном времени для языков, которые ещё не покрыты официальными плагинами:
 
 ```json
 {
@@ -95,9 +95,9 @@ Add an `.lsp.json` file to give Claude real-time code intelligence for languages
 }
 ```
 
-### Default Settings
+### Настройки по умолчанию
 
-Include a `settings.json` to apply configuration when the plugin is enabled. Currently supports the `agent` key to activate a custom agent as the main thread:
+Включите `settings.json` для применения конфигурации при включении плагина. Сейчас поддерживается ключ `agent` для активации пользовательского агента как основного потока:
 
 ```json
 {
@@ -105,55 +105,55 @@ Include a `settings.json` to apply configuration when the plugin is enabled. Cur
 }
 ```
 
-## Testing Locally
+## Локальное тестирование
 
-Use the `--plugin-dir` flag during development:
+Используйте флаг `--plugin-dir` во время разработки:
 
 ```bash
 claude --plugin-dir ./my-plugin
 ```
 
-Load multiple plugins at once:
+Загрузите несколько плагинов сразу:
 
 ```bash
 claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 ```
 
-Test each component: run skills with `/plugin-name:skill-name`, check agents with `/agents`, verify hooks trigger correctly.
+Тестируйте каждый компонент: запускайте навыки через `/plugin-name:skill-name`, проверяйте агентов через `/agents`, убедитесь, что хуки срабатывают корректно.
 
-## Converting from Standalone
+## Преобразование из отдельной конфигурации
 
-If you already have skills or hooks in `.claude/`, convert them to a plugin:
+Если у вас уже есть навыки или хуки в `.claude/`, преобразуйте их в плагин:
 
-1. Create the plugin directory with `.claude-plugin/plugin.json`
-2. Copy your existing `commands/`, `agents/`, `skills/` directories
-3. Move hooks from `settings.json` into `hooks/hooks.json`
-4. Test with `--plugin-dir`
+1. Создайте директорию плагина с `.claude-plugin/plugin.json`
+2. Скопируйте существующие директории `commands/`, `agents/`, `skills/`
+3. Переместите хуки из `settings.json` в `hooks/hooks.json`
+4. Протестируйте с `--plugin-dir`
 
-| Standalone (`.claude/`) | Plugin |
+| Отдельный (`.claude/`) | Плагин |
 |---|---|
-| Only available in one project | Shareable via marketplaces |
-| Files in `.claude/commands/` | Files in `plugin-name/commands/` |
-| Hooks in `settings.json` | Hooks in `hooks/hooks.json` |
-| Must manually copy to share | Install with `/plugin install` |
+| Доступен только в одном проекте | Распространяется через маркетплейсы |
+| Файлы в `.claude/commands/` | Файлы в `plugin-name/commands/` |
+| Хуки в `settings.json` | Хуки в `hooks/hooks.json` |
+| Нужно копировать вручную для распространения | Установка через `/plugin install` |
 
-## Sharing Plugins
+## Распространение плагинов
 
-When your plugin is ready:
+Когда ваш плагин готов:
 
-1. Add a `README.md` with installation and usage instructions
-2. Version your plugin with semantic versioning
-3. Distribute through a [marketplace](^A catalogue that lists plugins and where to fetch them. See MARKETPLACES.md) or share the repository directly
-4. Submit to the official Anthropic marketplace via [claude.ai/settings/plugins/submit](https://claude.ai/settings/plugins/submit)
+1. Добавьте `README.md` с инструкциями по установке и использованию
+2. Версионируйте плагин с семантическим версионированием
+3. Распространяйте через [маркетплейс](^Каталог, который перечисляет плагины и откуда их загружать. Смотрите MARKETPLACES.md) или делитесь репозиторием напрямую
+4. Отправьте в официальный маркетплейс Anthropic через [claude.ai/settings/plugins/submit](https://claude.ai/settings/plugins/submit)
 
-## Tips
+## Советы
 
-- Use `claude plugin validate .` or `/plugin validate .` to check your plugin for issues
-- Use `${CLAUDE_PLUGIN_ROOT}` in hook commands and MCP configs to reference files within the plugin's install directory
-- Plugins are copied to a cache when installed. Files outside the plugin directory won't be available - use symlinks if needed
-- Restart Claude Code after making changes to pick up updates
-- Keep skills under 500 lines. Move detailed material to `references/` or `assets/` subdirectories
+- Используйте `claude plugin validate .` или `/plugin validate .` для проверки плагина на проблемы
+- Используйте `${CLAUDE_PLUGIN_ROOT}` в командах хуков и конфигах MCP для ссылки на файлы внутри директории установки плагина
+- Плагины копируются в кэш при установке. Файлы вне директории плагина не будут доступны — используйте симлинки при необходимости
+- Перезапустите Claude Code после изменений для подхвата обновлений
+- Держите навыки до 500 строк. Переносите детальный материал в поддиректории `references/` или `assets/`
 
-## Further reading
-- [Plugins docs](https://code.claude.com/docs/en/plugins) 
-- [Plugins reference](https://code.claude.com/docs/en/plugins-reference)
+## Дополнительное чтение
+- [Документация по плагинам](https://code.claude.com/docs/en/plugins)
+- [Справочник по плагинам](https://code.claude.com/docs/en/plugins-reference)

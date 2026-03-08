@@ -1,24 +1,24 @@
-# references/ - Detailed Documentation
+# references/ — Подробная документация
 
-This directory contains additional documentation that Claude reads only when it needs deeper context. This is part of the [progressive disclosure](^Load a little upfront, load more only when needed. SKILL.md stays focused, and detailed material lives here) model.
+Эта директория содержит дополнительную документацию, которую Claude читает только когда ему нужен более глубокий контекст. Это часть модели [прогрессивного раскрытия](^Загружай немного сначала, загружай больше только когда нужно. SKILL.md остаётся сфокусированным, а детальный материал живёт здесь).
 
-## What Goes Here
+## Что сюда включать
 
-- Detailed technical reference (API specs, protocol docs)
-- Domain-specific knowledge (finance rules, legal requirements)
-- Extended examples and edge case documentation
-- Form templates or structured data formats
+- Подробная техническая документация (спецификации API, документы протоколов)
+- Доменно-специфичные знания (финансовые правила, юридические требования)
+- Расширенные примеры и документация граничных случаев
+- Шаблоны форм или структурированные форматы данных
 
-## How It Works
+## Как это работает
 
-1. SKILL.md references this file: "See [references/REFERENCE.md](references/REFERENCE.md) for details"
-2. Claude reads SKILL.md first (the main instructions)
-3. When Claude needs more detail, it follows the link and reads this file
-4. This keeps context usage efficient. Not everything loads at once
+1. SKILL.md ссылается на этот файл: "Смотрите [references/REFERENCE.md](references/REFERENCE.md) для деталей"
+2. Claude сначала читает SKILL.md (основные инструкции)
+3. Когда Claude нужно больше деталей, он переходит по ссылке и читает этот файл
+4. Это сохраняет использование контекста эффективным. Не всё загружается сразу
 
-## Best Practices
+## Лучшие практики
 
-- Keep individual reference files focused on one topic
-- Smaller files mean less context usage when loaded
-- Use descriptive filenames: `api-spec.md`, `error-codes.md`, `migration-guide.md`
-- Keep file references one level deep from SKILL.md. Avoid deeply nested chains
+- Держите отдельные справочные файлы сфокусированными на одной теме
+- Меньшие файлы означают меньшее использование контекста при загрузке
+- Используйте описательные имена файлов: `api-spec.md`, `error-codes.md`, `migration-guide.md`
+- Держите ссылки на файлы на глубине одного уровня от SKILL.md. Избегайте глубоко вложенных цепочек

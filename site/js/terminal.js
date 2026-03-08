@@ -1,6 +1,6 @@
 /**
- * Terminal - Interactive Claude Code terminal emulator.
- * Supports slash commands with animated responses.
+ * Terminal - Интерактивный эмулятор терминала Claude Code.
+ * Поддерживает слэш-команды с анимированными ответами.
  */
 
 class Terminal {
@@ -146,47 +146,47 @@ class Terminal {
         </div>
 
         <div class="term-banner-tagline">
-          Learn by doing. Every file is a lesson.<br>
-          Every folder is a chapter.
+          Учись на практике. Каждый файл — урок.<br>
+          Каждая папка — глава.
         </div>
 
         <div class="term-banner-divider"></div>
 
         <div class="term-banner-section">
-          <div class="term-banner-section__title">Quick Start</div>
+          <div class="term-banner-section__title">Быстрый старт</div>
           <div class="term-banner-cmd-row">
             <span class="term-text--accent">/help</span>
-            <span class="term-text--dim">- list all commands</span>
+            <span class="term-text--dim">- список всех команд</span>
           </div>
           <div class="term-banner-cmd-row">
             <span class="term-text--accent">/init</span>
-            <span class="term-text--dim">- watch CLAUDE.md get created</span>
+            <span class="term-text--dim">- смотри, как создаётся CLAUDE.md</span>
           </div>
           <div class="term-banner-cmd-row">
             <span class="term-text--accent">/doctor</span>
-            <span class="term-text--dim">- run a health check</span>
+            <span class="term-text--dim">- запустить диагностику</span>
           </div>
           <div class="term-banner-cmd-row">
             <span class="term-text--accent">/diff</span>
-            <span class="term-text--dim">- see a live diff demo</span>
+            <span class="term-text--dim">- демо живого diff</span>
           </div>
         </div>
 
         <div class="term-banner-divider"></div>
 
         <div class="term-banner-section">
-          <div class="term-banner-section__title">How to Explore</div>
+          <div class="term-banner-section__title">Как исследовать</div>
           <div class="term-banner-step">
             <span class="term-banner-step__num">1</span>
-            <span>Browse the file tree on the left</span>
+            <span>Просматривай дерево файлов слева</span>
           </div>
           <div class="term-banner-step">
             <span class="term-banner-step__num">2</span>
-            <span>Click any file to learn what it does</span>
+            <span>Кликни на любой файл, чтобы узнать, что он делает</span>
           </div>
           <div class="term-banner-step">
             <span class="term-banner-step__num">3</span>
-            <span>Try commands here to see them in action</span>
+            <span>Пробуй команды здесь, чтобы увидеть их в действии</span>
           </div>
         </div>
 
@@ -194,15 +194,15 @@ class Terminal {
 
         <div class="term-banner-info">
           <div class="term-banner-row">
-            <span class="term-banner-key">version</span>
+            <span class="term-banner-key">версия</span>
             <span class="term-banner-val">1.0.42</span>
           </div>
           <div class="term-banner-row">
-            <span class="term-banner-key">model</span>
+            <span class="term-banner-key">модель</span>
             <span class="term-banner-val term-text--accent">claude-opus-4-6</span>
           </div>
           <div class="term-banner-row">
-            <span class="term-banner-key">project</span>
+            <span class="term-banner-key">проект</span>
             <span class="term-banner-val">my-project</span>
           </div>
         </div>
@@ -247,8 +247,8 @@ class Terminal {
     } else {
       this._appendHtml(`
         <div class="term-block">
-          <div class="term-text--error">Unknown command: ${this._esc(rawCmd)}</div>
-          <div class="term-text--dim">Type <span class="term-text--accent">/help</span> to see available commands.</div>
+          <div class="term-text--error">Неизвестная команда: ${this._esc(rawCmd)}</div>
+          <div class="term-text--dim">Введите <span class="term-text--accent">/help</span> чтобы увидеть доступные команды.</div>
         </div>
       `);
     }
@@ -266,17 +266,17 @@ class Terminal {
 
   _cmdHelp() {
     const cmds = [
-      ['/help', 'Show this command reference'],
-      ['/init', 'Initialize a CLAUDE.md project file'],
-      ['/doctor', 'Check installation health'],
-      ['/cost', 'Show session token usage & cost'],
-      ['/compact', 'Compress conversation context'],
-      ['/model', 'View available models'],
-      ['/diff', 'Show uncommitted changes'],
-      ['/status', 'Version, model, and account info'],
-      ['/config', 'Open settings explorer'],
-      ['/memory', 'View auto-memory entries'],
-      ['/clear', 'Clear terminal output'],
+      ['/help', 'Показать справку по командам'],
+      ['/init', 'Инициализировать файл CLAUDE.md проекта'],
+      ['/doctor', 'Проверить состояние установки'],
+      ['/cost', 'Показать использование токенов и стоимость сессии'],
+      ['/compact', 'Сжать контекст разговора'],
+      ['/model', 'Посмотреть доступные модели'],
+      ['/diff', 'Показать незакоммиченные изменения'],
+      ['/status', 'Версия, модель и информация об аккаунте'],
+      ['/config', 'Открыть обозреватель настроек'],
+      ['/memory', 'Посмотреть записи авто-памяти'],
+      ['/clear', 'Очистить вывод терминала'],
     ];
 
     let rows = '';
@@ -286,50 +286,50 @@ class Terminal {
 
     this._appendHtml(`
       <div class="term-block">
-        <div class="term-heading">Available Commands</div>
+        <div class="term-heading">Доступные команды</div>
         <div class="term-table">${rows}</div>
         <hr class="term-hr">
-        <div class="term-text--dim">Tip: Use arrow keys to navigate command history.</div>
+        <div class="term-text--dim">Совет: Используйте стрелки для навигации по истории команд.</div>
       </div>
     `);
   }
 
   _cmdInit() {
     this._animateSequence([
-      { html: '<div class="term-text--dim">Scanning project structure...</div>', delay: 400 },
-      { html: '<div class="term-text">Found: package.json, tsconfig.json, src/</div>', delay: 600 },
-      { html: '<div class="term-text--dim">Generating project context...</div>', delay: 500 },
+      { html: '<div class="term-text--dim">Сканирование структуры проекта...</div>', delay: 400 },
+      { html: '<div class="term-text">Найдено: package.json, tsconfig.json, src/</div>', delay: 600 },
+      { html: '<div class="term-text--dim">Генерация контекста проекта...</div>', delay: 500 },
       { html: '<hr class="term-hr">', delay: 200 },
-      { html: `<div class="term-heading">Created CLAUDE.md</div>`, delay: 300 },
-      { html: `<div class="term-text--dim">  # Project: my-project</div>`, delay: 100 },
+      { html: `<div class="term-heading">Создан CLAUDE.md</div>`, delay: 300 },
+      { html: `<div class="term-text--dim">  # Проект: my-project</div>`, delay: 100 },
       { html: `<div class="term-text--dim">  </div>`, delay: 50 },
-      { html: `<div class="term-text--dim">  ## Tech Stack</div>`, delay: 100 },
+      { html: `<div class="term-text--dim">  ## Технологический стек</div>`, delay: 100 },
       { html: `<div class="term-text--dim">  - TypeScript + React</div>`, delay: 80 },
-      { html: `<div class="term-text--dim">  - Vite for bundling</div>`, delay: 80 },
+      { html: `<div class="term-text--dim">  - Vite для сборки</div>`, delay: 80 },
       { html: `<div class="term-text--dim">  - Tailwind CSS</div>`, delay: 80 },
       { html: `<div class="term-text--dim">  </div>`, delay: 50 },
-      { html: `<div class="term-text--dim">  ## Conventions</div>`, delay: 100 },
-      { html: `<div class="term-text--dim">  - Use functional components</div>`, delay: 80 },
-      { html: `<div class="term-text--dim">  - Prefer named exports</div>`, delay: 80 },
-      { html: `<div class="term-text--dim">  - Tests in __tests__/ directories</div>`, delay: 80 },
+      { html: `<div class="term-text--dim">  ## Конвенции</div>`, delay: 100 },
+      { html: `<div class="term-text--dim">  - Использовать функциональные компоненты</div>`, delay: 80 },
+      { html: `<div class="term-text--dim">  - Предпочитать именованные экспорты</div>`, delay: 80 },
+      { html: `<div class="term-text--dim">  - Тесты в директориях __tests__/</div>`, delay: 80 },
       { html: '<hr class="term-hr">', delay: 200 },
-      { html: '<div class="term-text--success">CLAUDE.md created successfully. Claude will use this as project context.</div>', delay: 0 },
+      { html: '<div class="term-text--success">CLAUDE.md успешно создан. Claude будет использовать его как контекст проекта.</div>', delay: 0 },
     ]);
   }
 
   _cmdDoctor() {
     const checks = [
-      ['Authentication', 'authenticated as user@example.com', true, 500],
-      ['Model access', 'claude-opus-4-6 available', true, 400],
-      ['Git repository', 'clean working tree', true, 350],
+      ['Аутентификация', 'авторизован как user@example.com', true, 500],
+      ['Доступ к модели', 'claude-opus-4-6 доступна', true, 400],
+      ['Git репозиторий', 'чистое рабочее дерево', true, 350],
       ['Node.js', 'v22.1.0', true, 300],
-      ['MCP servers', '2 connected (filesystem, github)', true, 450],
-      ['Permissions', 'settings.json loaded', true, 300],
-      ['CLAUDE.md', 'found at project root', true, 350],
+      ['MCP серверы', '2 подключено (filesystem, github)', true, 450],
+      ['Разрешения', 'settings.json загружен', true, 300],
+      ['CLAUDE.md', 'найден в корне проекта', true, 350],
     ];
 
     this._animateSequence([
-      { html: '<div class="term-heading">Running diagnostics...</div>', delay: 400 },
+      { html: '<div class="term-heading">Запуск диагностики...</div>', delay: 400 },
       ...checks.map(([label, detail, pass, delay]) => ({
         html: `<div class="term-check">
           <span class="term-check__icon term-check__icon--${pass ? 'pass' : 'fail'}">${pass ? '\u2713' : '\u2717'}</span>
@@ -339,22 +339,22 @@ class Terminal {
         delay,
       })),
       { html: '<hr class="term-hr">', delay: 200 },
-      { html: '<div class="term-text--success">All checks passed. Claude Code is ready.</div>', delay: 0 },
+      { html: '<div class="term-text--success">Все проверки пройдены. Claude Code готов к работе.</div>', delay: 0 },
     ]);
   }
 
   _cmdCost() {
     this._appendHtml(`
       <div class="term-block">
-        <div class="term-heading">Session Usage</div>
-        <div class="term-stat"><span class="term-stat__key">Input tokens</span><span class="term-stat__val">42,817</span></div>
-        <div class="term-stat"><span class="term-stat__key">Output tokens</span><span class="term-stat__val">18,243</span></div>
-        <div class="term-stat"><span class="term-stat__key">Cache read</span><span class="term-stat__val">156,092</span></div>
-        <div class="term-stat"><span class="term-stat__key">Cache write</span><span class="term-stat__val">28,451</span></div>
+        <div class="term-heading">Использование сессии</div>
+        <div class="term-stat"><span class="term-stat__key">Входные токены</span><span class="term-stat__val">42,817</span></div>
+        <div class="term-stat"><span class="term-stat__key">Выходные токены</span><span class="term-stat__val">18,243</span></div>
+        <div class="term-stat"><span class="term-stat__key">Чтение из кэша</span><span class="term-stat__val">156,092</span></div>
+        <div class="term-stat"><span class="term-stat__key">Запись в кэш</span><span class="term-stat__val">28,451</span></div>
         <hr class="term-hr">
-        <div class="term-stat"><span class="term-stat__key">Total cost</span><span class="term-stat__val term-stat__val--accent">$0.847</span></div>
-        <div class="term-stat"><span class="term-stat__key">Messages</span><span class="term-stat__val">23</span></div>
-        <div class="term-stat"><span class="term-stat__key">Duration</span><span class="term-stat__val">14m 32s</span></div>
+        <div class="term-stat"><span class="term-stat__key">Общая стоимость</span><span class="term-stat__val term-stat__val--accent">$0.847</span></div>
+        <div class="term-stat"><span class="term-stat__key">Сообщений</span><span class="term-stat__val">23</span></div>
+        <div class="term-stat"><span class="term-stat__key">Длительность</span><span class="term-stat__val">14м 32с</span></div>
       </div>
     `);
   }
@@ -363,7 +363,7 @@ class Terminal {
     const block = document.createElement('div');
     block.className = 'term-block';
     block.innerHTML = `
-      <div class="term-text--dim">Compressing conversation context...</div>
+      <div class="term-text--dim">Сжатие контекста разговора...</div>
       <div class="term-progress">
         <div class="term-progress__bar"><div class="term-progress__fill" id="compact-fill"></div></div>
         <span class="term-progress__label" id="compact-pct">0%</span>
@@ -387,10 +387,10 @@ class Terminal {
         setTimeout(() => {
           block.innerHTML += `
             <hr class="term-hr">
-            <div class="term-stat"><span class="term-stat__key">Before</span><span class="term-stat__val">187,204 tokens</span></div>
-            <div class="term-stat"><span class="term-stat__key">After</span><span class="term-stat__val term-stat__val--accent">24,817 tokens</span></div>
-            <div class="term-stat"><span class="term-stat__key">Reduction</span><span class="term-stat__val term-stat__val--accent">86.7%</span></div>
-            <div class="term-text--success" style="margin-top:6px">Context compacted. Conversation summary preserved.</div>
+            <div class="term-stat"><span class="term-stat__key">До</span><span class="term-stat__val">187,204 токенов</span></div>
+            <div class="term-stat"><span class="term-stat__key">После</span><span class="term-stat__val term-stat__val--accent">24,817 токенов</span></div>
+            <div class="term-stat"><span class="term-stat__key">Сокращение</span><span class="term-stat__val term-stat__val--accent">86.7%</span></div>
+            <div class="term-text--success" style="margin-top:6px">Контекст сжат. Сводка разговора сохранена.</div>
           `;
           this.isAnimating = false;
           this._scrollToBottom();
@@ -408,9 +408,9 @@ class Terminal {
 
   _cmdModel() {
     const models = [
-      ['claude-opus-4-6', 'Most capable, deep reasoning', true],
-      ['claude-sonnet-4-6', 'Fast, balanced performance', false],
-      ['claude-haiku-4-5', 'Fastest, lightweight tasks', false],
+      ['claude-opus-4-6', 'Самая мощная, глубокое рассуждение', true],
+      ['claude-sonnet-4-6', 'Быстрая, сбалансированная производительность', false],
+      ['claude-haiku-4-5', 'Самая быстрая, лёгкие задачи', false],
     ];
 
     let rows = '';
@@ -424,17 +424,17 @@ class Terminal {
 
     this._appendHtml(`
       <div class="term-block">
-        <div class="term-heading">Available Models</div>
+        <div class="term-heading">Доступные модели</div>
         ${rows}
         <hr class="term-hr">
-        <div class="term-text--dim">Active model shown with <span class="term-text--accent">\u25CF</span>. Use <span class="term-text--accent">/model &lt;name&gt;</span> to switch.</div>
+        <div class="term-text--dim">Активная модель показана значком <span class="term-text--accent">\u25CF</span>. Используйте <span class="term-text--accent">/model &lt;name&gt;</span> для переключения.</div>
       </div>
     `);
   }
 
   _cmdDiff() {
     this._animateSequence([
-      { html: '<div class="term-text--dim">Checking uncommitted changes...</div>', delay: 400 },
+      { html: '<div class="term-text--dim">Проверка незакоммиченных изменений...</div>', delay: 400 },
       { html: '<div class="term-diff-hdr">--- a/src/utils/auth.ts</div>', delay: 200 },
       { html: '<div class="term-diff-hdr">+++ b/src/utils/auth.ts</div>', delay: 100 },
       { html: '<div class="term-diff-ctx">@@ -14,7 +14,9 @@ export function validateToken(token: string) {</div>', delay: 150 },
@@ -446,26 +446,26 @@ class Terminal {
       { html: '<div class="term-diff-add">  return decoded;</div>', delay: 80 },
       { html: '<div class="term-diff-ctx">}</div>', delay: 80 },
       { html: '<hr class="term-hr">', delay: 200 },
-      { html: '<div class="term-stat"><span class="term-stat__key">Files changed</span><span class="term-stat__val">1</span></div>', delay: 100 },
-      { html: '<div class="term-stat"><span class="term-stat__key">Insertions</span><span class="term-stat__val term-text--success">+4</span></div>', delay: 80 },
-      { html: '<div class="term-stat"><span class="term-stat__key">Deletions</span><span class="term-stat__val term-text--error">-1</span></div>', delay: 0 },
+      { html: '<div class="term-stat"><span class="term-stat__key">Изменено файлов</span><span class="term-stat__val">1</span></div>', delay: 100 },
+      { html: '<div class="term-stat"><span class="term-stat__key">Вставки</span><span class="term-stat__val term-text--success">+4</span></div>', delay: 80 },
+      { html: '<div class="term-stat"><span class="term-stat__key">Удаления</span><span class="term-stat__val term-text--error">-1</span></div>', delay: 0 },
     ]);
   }
 
   _cmdStatus() {
     this._appendHtml(`
       <div class="term-block">
-        <div class="term-heading">Claude Code Status</div>
-        <div class="term-stat"><span class="term-stat__key">Version</span><span class="term-stat__val">1.0.42</span></div>
-        <div class="term-stat"><span class="term-stat__key">Model</span><span class="term-stat__val term-stat__val--accent">claude-opus-4-6</span></div>
-        <div class="term-stat"><span class="term-stat__key">Account</span><span class="term-stat__val">user@example.com</span></div>
-        <div class="term-stat"><span class="term-stat__key">Plan</span><span class="term-stat__val">Max (5x usage)</span></div>
-        <div class="term-stat"><span class="term-stat__key">Project</span><span class="term-stat__val">my-project</span></div>
-        <div class="term-stat"><span class="term-stat__key">Working dir</span><span class="term-stat__val">~/code/my-project</span></div>
+        <div class="term-heading">Статус Claude Code</div>
+        <div class="term-stat"><span class="term-stat__key">Версия</span><span class="term-stat__val">1.0.42</span></div>
+        <div class="term-stat"><span class="term-stat__key">Модель</span><span class="term-stat__val term-stat__val--accent">claude-opus-4-6</span></div>
+        <div class="term-stat"><span class="term-stat__key">Аккаунт</span><span class="term-stat__val">user@example.com</span></div>
+        <div class="term-stat"><span class="term-stat__key">Тариф</span><span class="term-stat__val">Max (5x лимит)</span></div>
+        <div class="term-stat"><span class="term-stat__key">Проект</span><span class="term-stat__val">my-project</span></div>
+        <div class="term-stat"><span class="term-stat__key">Рабочая директория</span><span class="term-stat__val">~/code/my-project</span></div>
         <hr class="term-hr">
-        <div class="term-stat"><span class="term-stat__key">MCP servers</span><span class="term-stat__val">2 connected</span></div>
-        <div class="term-stat"><span class="term-stat__key">CLAUDE.md</span><span class="term-stat__val term-text--success">loaded</span></div>
-        <div class="term-stat"><span class="term-stat__key">Permissions</span><span class="term-stat__val">default + 3 custom</span></div>
+        <div class="term-stat"><span class="term-stat__key">MCP серверы</span><span class="term-stat__val">2 подключено</span></div>
+        <div class="term-stat"><span class="term-stat__key">CLAUDE.md</span><span class="term-stat__val term-text--success">загружен</span></div>
+        <div class="term-stat"><span class="term-stat__key">Разрешения</span><span class="term-stat__val">default + 3 пользовательских</span></div>
       </div>
     `);
   }
@@ -473,7 +473,7 @@ class Terminal {
   _cmdConfig() {
     this._appendHtml(`
       <div class="term-block">
-        <div class="term-text--dim">Opening settings...</div>
+        <div class="term-text--dim">Открытие настроек...</div>
       </div>
     `);
     // Navigate to settings.json in the file explorer
@@ -486,16 +486,16 @@ class Terminal {
 
   _cmdMemory() {
     this._animateSequence([
-      { html: '<div class="term-heading">Auto-Memory Entries</div>', delay: 300 },
-      { html: '<div class="term-text--dim">from ~/.claude/projects/.../memory/MEMORY.md</div>', delay: 200 },
+      { html: '<div class="term-heading">Записи авто-памяти</div>', delay: 300 },
+      { html: '<div class="term-text--dim">из ~/.claude/projects/.../memory/MEMORY.md</div>', delay: 200 },
       { html: '<hr class="term-hr">', delay: 150 },
-      { html: '<div class="term-text">\u2022 User prefers functional components over classes</div>', delay: 150 },
-      { html: '<div class="term-text">\u2022 Always run tests with --coverage flag</div>', delay: 120 },
-      { html: '<div class="term-text">\u2022 Project uses pnpm, not npm</div>', delay: 120 },
-      { html: '<div class="term-text">\u2022 Prefer named exports over default exports</div>', delay: 120 },
-      { html: '<div class="term-text">\u2022 Error messages should be user-friendly, not technical</div>', delay: 120 },
+      { html: '<div class="term-text">\u2022 Пользователь предпочитает функциональные компоненты классам</div>', delay: 150 },
+      { html: '<div class="term-text">\u2022 Всегда запускать тесты с флагом --coverage</div>', delay: 120 },
+      { html: '<div class="term-text">\u2022 Проект использует pnpm, не npm</div>', delay: 120 },
+      { html: '<div class="term-text">\u2022 Предпочитать именованные экспорты дефолтным</div>', delay: 120 },
+      { html: '<div class="term-text">\u2022 Сообщения об ошибках должны быть понятны пользователю, не технические</div>', delay: 120 },
       { html: '<hr class="term-hr">', delay: 150 },
-      { html: '<div class="term-text--dim">5 entries. Edit with <span class="term-text--accent">/memory --edit</span></div>', delay: 0 },
+      { html: '<div class="term-text--dim">5 записей. Редактировать через <span class="term-text--accent">/memory --edit</span></div>', delay: 0 },
     ]);
   }
 

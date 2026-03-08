@@ -30,16 +30,16 @@ class ContentLoader {
     content.innerHTML = `
       <div class="welcome">
         <div class="welcome__label">// explore-claude-code</div>
-        <h1 class="welcome__title">Learn <em>Claude Code</em><br>by exploring it.</h1>
+        <h1 class="welcome__title">Изучай <em>Claude Code</em><br>исследуя его.</h1>
         <p class="welcome__subtitle">
-          This is a simulated Claude Code project. Every file and folder in the
-          sidebar is a real Claude Code concept &mdash; the same <code>.claude/</code>
-          directory, config files, and scaffolding you'd find in an actual repo.
-          Click any file to learn what it does, how to set it up, and see
-          annotated examples you can copy into your own projects.
+          Это симулированный проект Claude Code. Каждый файл и папка в боковой панели &mdash;
+          реальная концепция Claude Code: та же директория <code>.claude/</code>,
+          конфигурационные файлы и структура, которые вы найдёте в реальном репозитории.
+          Кликните на любой файл, чтобы узнать, что он делает, как его настроить, и увидеть
+          примеры с комментариями, которые можно скопировать в свои проекты.
         </p>
         <p class="welcome__subtitle welcome__subtitle--secondary">
-          Open a file. Read the source. Learn. Build.
+          Открой файл. Прочитай исходный код. Учись. Создавай.
         </p>
         <div class="feature-cards">${cardsHtml}</div>
       </div>`;
@@ -115,11 +115,11 @@ class ContentLoader {
 
     // Deprecation notice
     if (feature && feature.deprecated) {
-      html += `<div class="file-view__deprecated">Deprecated: this feature has been superseded by <strong>skills</strong>. Commands still work, but skills offer frontmatter, supporting files, and auto-loading.</div>`;
+      html += `<div class="file-view__deprecated">Устарело: эта функция заменена <strong>навыками</strong>. Команды всё ещё работают, но навыки предлагают frontmatter, вспомогательные файлы и автозагрузку.</div>`;
     }
 
     // File path
-    html += `<div class="file-view__meta">File: <code>${node.path}</code></div>`;
+    html += `<div class="file-view__meta">Файл: <code>${node.path}</code></div>`;
 
     // Command
     if (node.command) {
@@ -127,7 +127,7 @@ class ContentLoader {
         <div class="file-view__command">
           <span class="file-view__command-prompt">$</span>
           <span class="file-view__command-text">${this._escapeHtml(node.command)}</span>
-          <button class="file-view__command-copy" data-command="${this._escapeAttr(node.command)}">Copy</button>
+          <button class="file-view__command-copy" data-command="${this._escapeAttr(node.command)}">Копировать</button>
         </div>`;
     }
 
@@ -139,7 +139,7 @@ class ContentLoader {
       const others = relatedNodes.filter(n => n.path !== node.path);
       if (others.length > 0) {
         html += '<div class="file-view__related">';
-        html += '<div class="file-view__related-title">Related files</div>';
+        html += '<div class="file-view__related-title">Связанные файлы</div>';
         for (const other of others) {
           html += `<a class="file-view__related-link" data-path="${other.path}">${other.path}</a>`;
         }
@@ -171,10 +171,10 @@ class ContentLoader {
               <span>${node.path}</span>
               <div class="code-preview__actions">
                 <div class="code-preview__toggle">
-                  <button class="code-preview__toggle-btn active" data-view="rendered">Rendered</button>
-                  <button class="code-preview__toggle-btn" data-view="raw">Raw</button>
+                  <button class="code-preview__toggle-btn active" data-view="rendered">Отрендерено</button>
+                  <button class="code-preview__toggle-btn" data-view="raw">Исходник</button>
                 </div>
-                <button class="code-preview__copy" data-content="${this._escapeAttr(node.content)}">Copy</button>
+                <button class="code-preview__copy" data-content="${this._escapeAttr(node.content)}">Копировать</button>
               </div>
             </div>
             <div class="code-preview__rendered">${rendered}</div>
@@ -187,7 +187,7 @@ class ContentLoader {
           <div class="code-preview">
             <div class="code-preview__header">
               <span>${node.path}</span>
-              <button class="code-preview__copy" data-content="${this._escapeAttr(node.content)}">Copy</button>
+              <button class="code-preview__copy" data-content="${this._escapeAttr(node.content)}">Копировать</button>
             </div>
             <div class="code-preview__body">
               <pre class="language-${lang}"><code class="language-${lang}">${highlighted}</code></pre>
@@ -205,7 +205,7 @@ class ContentLoader {
 
   /** Attach click handlers for copy buttons and related links */
   _attachHandlers(container) {
-    // Copy buttons
+    // Копировать buttons
     container.querySelectorAll('[data-command]').forEach(btn => {
       if (btn.classList.contains('file-view__command-copy')) {
         btn.addEventListener('click', () => this._copyText(btn, btn.getAttribute('data-command')));
@@ -244,11 +244,11 @@ class ContentLoader {
     });
   }
 
-  /** Copy text to clipboard and show feedback */
+  /** Копировать text to clipboard and show feedback */
   _copyText(btn, text) {
     navigator.clipboard.writeText(text).then(() => {
       const original = btn.textContent;
-      btn.textContent = 'Copied!';
+      btn.textContent = 'Скопировано!';
       setTimeout(() => { btn.textContent = original; }, 1500);
     });
   }
@@ -440,7 +440,7 @@ class ContentLoader {
         if (rows.length > 0) {
           const hasComments = rows.some(r => r.comment);
           frontmatter += '<table class="md-table md-frontmatter__table"><thead><tr>';
-          frontmatter += `<th>${esc('field')}</th><th>${esc('value')}</th>`;
+          frontmatter += `<th>${esc('поле')}</th><th>${esc('значение')}</th>`;
           if (hasComments) frontmatter += `<th></th>`;
           frontmatter += '</tr></thead><tbody>';
           for (const r of rows) {

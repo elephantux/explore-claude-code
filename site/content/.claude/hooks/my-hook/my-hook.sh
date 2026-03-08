@@ -1,14 +1,14 @@
 #!/bin/bash
 # .claude/hooks/my-hook.sh
 #
-# A PreToolUse hook that inspects Bash commands before they run.
-# Claude sends JSON context on stdin. Your script reads it, checks
-# conditions, and exits with the right code:
+# PreToolUse хук, который проверяет Bash-команды перед выполнением.
+# Claude отправляет JSON-контекст на stdin. Ваш скрипт читает его,
+# проверяет условия и завершается с правильным кодом:
 #
-#   exit 0   allow the tool call
-#   exit 2   block it (stderr is fed back to Claude as an error)
+#   exit 0   разрешить вызов инструмента
+#   exit 2   заблокировать его (stderr передаётся Claude как ошибка)
 #
-# Register this hook in .claude/settings.json:
+# Зарегистрируйте этот хук в .claude/settings.json:
 #
 #   {
 #     "hooks": {
@@ -26,45 +26,45 @@
 #     }
 #   }
 
-# ── Read JSON input from stdin ──────────────────────────────────
-# Every hook receives a JSON object with common fields (session_id,
-# cwd, hook_event_name) plus event-specific fields. For PreToolUse
-# on Bash, the key field is tool_input.command.
+# ── Чтение JSON-ввода из stdin ──────────────────────────────────
+# Каждый хук получает JSON-объект с общими полями (session_id,
+# cwd, hook_event_name) плюс поля, специфичные для события.
+# Для PreToolUse на Bash ключевое поле — tool_input.command.
 
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command')
 TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name')
 
-# ── Check conditions ────────────────────────────────────────────
-# This example blocks destructive shell commands. Replace this
-# logic with whatever validation your project needs: file path
-# checks, environment gates, command allowlists, etc.
+# ── Проверка условий ────────────────────────────────────────────
+# Этот пример блокирует деструктивные shell-команды. Замените эту
+# логику на любую валидацию, нужную вашему проекту: проверки путей,
+# гейты окружения, белые списки команд и т.д.
 
 if echo "$COMMAND" | grep -q 'rm -rf'; then
-  # stderr goes back to Claude as an error message
-  echo "Blocked: 'rm -rf' is not allowed by project hooks." >&2
+  # stderr возвращается Claude как сообщение об ошибке
+  echo "Заблокировано: 'rm -rf' не разрешён хуками проекта." >&2
   exit 2
 fi
 
 if echo "$COMMAND" | grep -q 'git push.*--force'; then
-  echo "Blocked: force-pushing is not allowed by project hooks." >&2
+  echo "Заблокировано: force-push не разрешён хуками проекта." >&2
   exit 2
 fi
 
-# ── Allow everything else ───────────────────────────────────────
-# Exit 0 with no output means "proceed normally." You can also
-# print JSON to stdout for finer control:
+# ── Разрешить всё остальное ───────────────────────────────────────
+# Выход 0 без вывода означает "продолжить нормально". Вы также можете
+# вывести JSON в stdout для более тонкого контроля:
 #
-#   # Auto-approve (skip permission prompt):
+#   # Автоодобрение (пропустить диалог разрешения):
 #   echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"allow"}}'
 #
-#   # Deny with a reason Claude sees:
-#   echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"Reason here"}}'
+#   # Отказать с причиной, которую увидит Claude:
+#   echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"Причина здесь"}}'
 #
-#   # Ask the user to confirm:
+#   # Спросить пользователя для подтверждения:
 #   echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask"}}'
 #
-#   # Modify the tool input before execution:
+#   # Модифицировать ввод инструмента перед выполнением:
 #   echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"allow","updatedInput":{"command":"safer-command"}}}'
 
 exit 0

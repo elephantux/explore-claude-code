@@ -1,41 +1,41 @@
-Review the changes in this PR. Focus on:
+Проверь изменения в этом PR. Сфокусируйся на:
 
-1. **Correctness**: Does the logic do what it claims?
-2. **Security**: Any injection risks, leaked secrets, or auth bypasses?
-3. **Tests**: Are edge cases covered?
-4. **Style**: Does it follow our conventions in CLAUDE.md?
+1. **Корректность**: Логика делает то, что заявляет?
+2. **Безопасность**: Есть риски инъекций, утечки секретов или обхода авторизации?
+3. **Тесты**: Покрыты ли граничные случаи?
+4. **Стиль**: Следует ли код нашим конвенциям в CLAUDE.md?
 
-For each issue found, classify as:
-- **Must fix**: Bugs, security issues
-- **Should fix**: Missing tests, unclear naming
-- **Nit**: Style preferences, optional improvements
+Для каждой найденной проблемы классифицируй как:
+- **Must fix**: Баги, проблемы безопасности
+- **Should fix**: Отсутствующие тесты, неясные имена
+- **Nit**: Стилевые предпочтения, опциональные улучшения
 
-Start by running `git diff main...HEAD` to see all changes.
+Начни с запуска `git diff main...HEAD`, чтобы увидеть все изменения.
 
 $ARGUMENTS
 
 ---
 
-This is a starter command file. The filename `my-command.md` becomes the slash command `/my-command`.
+Это стартовый файл команды. Имя файла `my-command.md` становится слэш-командой `/my-command`.
 
-Everything above the `---` is the prompt that Claude receives when you invoke the command. `$ARGUMENTS` is replaced with whatever you type after the command name.
+Всё выше `---` — это промпт, который Claude получает при вызове команды. `$ARGUMENTS` заменяется на то, что вы вводите после имени команды.
 
-For example, `/my-command focus on auth` would replace `$ARGUMENTS` with "focus on auth".
+Например, `/my-command focus on auth` заменит `$ARGUMENTS` на "focus on auth".
 
-## What Makes a Good Command
+## Что делает хорошую команду
 
-- A clear, specific task (not open-ended)
-- Context about your project's standards or conventions
-- Structured output format so results are consistent
-- `$ARGUMENTS` to allow per-invocation customisation
+- Чёткая, конкретная задача (не открытая)
+- Контекст о стандартах или конвенциях вашего проекта
+- Структурированный формат вывода для согласованности результатов
+- `$ARGUMENTS` для кастомизации при каждом вызове
 
-## Limitations
+## Ограничения
 
-Commands are simple prompt templates. They do not support:
+Команды — это простые шаблоны промптов. Они не поддерживают:
 
-- Frontmatter (model overrides, invocation control, tool restrictions)
-- Supporting files (scripts, references, assets)
-- Dynamic context injection (`!` backtick syntax)
-- Auto-loading based on task relevance
+- Frontmatter (переопределение модели, контроль вызова, ограничения инструментов)
+- Вспомогательные файлы (скрипты, справочники, ассеты)
+- Динамическую инъекцию контекста (синтаксис `!` backtick)
+- Автозагрузку по релевантности задачи
 
-For any of those features, use a [skill](^Skills are the newer, more powerful replacement for commands. See the skills/ directory for the full structure) instead. Commands and skills create the same `/slash-command` interface.
+Для любой из этих возможностей используйте [навык](^Навыки — это новая, более мощная замена команд. Смотрите директорию skills/ для полной структуры). Команды и навыки создают одинаковый интерфейс `/слэш-команды`.

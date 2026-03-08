@@ -1,40 +1,40 @@
 {
-  // Permissions control which tools Claude can use without asking.
-  // Each entry is a glob pattern matched against the tool + arguments.
+  // Разрешения контролируют, какие инструменты Claude может использовать без запроса.
+  // Каждая запись — это glob-паттерн, сопоставляемый с инструментом + аргументами.
   "permissions": {
     "allow": [
-      // Let Claude read any file without prompting
+      // Позволить Claude читать любой файл без запроса
       "Read",
-      // Let Claude search files freely
+      // Позволить Claude свободно искать файлы
       "Glob",
       "Grep",
-      // Let Claude run your test suite
+      // Позволить Claude запускать набор тестов
       "Bash(npm test)",
       "Bash(npm run lint)",
-      // Let Claude run dev server
+      // Позволить Claude запускать dev-сервер
       "Bash(npm run dev)",
-      // Allow git status and diff (read-only git)
+      // Разрешить git status и diff (только чтение git)
       "Bash(git status)",
       "Bash(git diff*)",
       "Bash(git log*)"
     ],
     "deny": [
-      // Never let Claude push to remote
+      // Никогда не позволять Claude пушить в удалённый репозиторий
       "Bash(git push*)",
-      // Never let Claude install packages without asking
+      // Никогда не позволять Claude устанавливать пакеты без запроса
       "Bash(npm install*)",
-      // Block destructive git commands
+      // Блокировать деструктивные git-команды
       "Bash(git reset --hard*)",
       "Bash(git clean*)"
     ]
   },
 
-  // API configuration
+  // Конфигурация API
   "model": "claude-sonnet-4-6",
   "maxTokens": 16384,
 
-  // Hooks run custom scripts at specific points in Claude's workflow.
-  // See .claude/hooks/ for the full overview and example scripts.
+  // Хуки запускают пользовательские скрипты в определённых точках рабочего процесса Claude.
+  // Смотрите .claude/hooks/ для полного обзора и примеров скриптов.
   "hooks": {
     "PreToolUse": [
       {

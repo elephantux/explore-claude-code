@@ -1,58 +1,58 @@
 {
-  // .claude-plugin/marketplace.json — Marketplace Catalogue
+  // .claude-plugin/marketplace.json — Каталог маркетплейса
   //
-  // This file defines a plugin marketplace: a catalogue that lists
-  // plugins and tells Claude Code where to fetch them. Host this
-  // in a git repo and share it with your team or community.
+  // Этот файл определяет маркетплейс плагинов: каталог, который перечисляет
+  // плагины и указывает Claude Code, откуда их загружать. Разместите это
+  // в git-репозитории и поделитесь с командой или сообществом.
   //
-  // Users add your marketplace:
+  // Пользователи добавляют ваш маркетплейс:
   //   /plugin marketplace add owner/repo
   //
-  // Then install individual plugins:
+  // Затем устанавливают отдельные плагины:
   //   /plugin install review-plugin@my-marketplace
 
-  // ── Marketplace identity ───────────────────────────────────────
+  // ── Идентичность маркетплейса ───────────────────────────────────────
 
-  // Public-facing name (kebab-case). Users see this when installing:
+  // Публичное имя (kebab-case). Пользователи видят его при установке:
   //   /plugin install <plugin>@my-marketplace
   "name": "my-marketplace",
 
-  // Who maintains this marketplace
+  // Кто поддерживает этот маркетплейс
   "owner": {
-    "name": "Your Team",
+    "name": "Ваша Команда",
     "email": "team@example.com"
   },
 
-  // ── Optional metadata ──────────────────────────────────────────
+  // ── Опциональные метаданные ──────────────────────────────────────
   "metadata": {
-    "description": "A starter marketplace showing the catalogue format",
+    "description": "Стартовый маркетплейс, показывающий формат каталога",
     "version": "1.0.0",
 
-    // Base directory for relative plugin sources.
-    // With this set, "source": "review-plugin" resolves to "./plugins/review-plugin"
+    // Базовая директория для относительных источников плагинов.
+    // С этой настройкой "source": "review-plugin" разрешается в "./plugins/review-plugin"
     "pluginRoot": "./plugins"
   },
 
-  // ── Plugin catalogue ───────────────────────────────────────────
+  // ── Каталог плагинов ───────────────────────────────────────────
   //
-  // Each entry needs at minimum a name and source.
-  // You can also include any field from the plugin.json schema.
+  // Каждая запись нуждается как минимум в name и source.
+  // Вы также можете включить любое поле из схемы plugin.json.
 
   "plugins": [
 
-    // ── Relative path source ─────────────────────────────────────
-    // Plugin lives in the same repo as the marketplace.
-    // The simplest option for self-contained marketplaces.
+    // ── Источник с относительным путём ─────────────────────────────────
+    // Плагин живёт в том же репозитории, что и маркетплейс.
+    // Простейший вариант для самодостаточных маркетплейсов.
     {
       "name": "review-plugin",
       "source": "./plugins/review-plugin",
-      "description": "Adds a /review skill for quick code reviews",
+      "description": "Добавляет навык /review для быстрого код-ревью",
       "version": "1.0.0"
     },
 
-    // ── GitHub source ────────────────────────────────────────────
-    // Plugin lives in a separate GitHub repo.
-    // Supports ref (branch/tag) and sha (exact commit) pinning.
+    // ── Источник GitHub ────────────────────────────────────────────
+    // Плагин живёт в отдельном GitHub-репозитории.
+    // Поддерживает ref (ветка/тег) и sha (точный коммит) pinning.
     {
       "name": "deploy-tools",
       "source": {
@@ -60,14 +60,14 @@
         "repo": "your-org/deploy-plugin",
         "ref": "v2.0.0"
       },
-      "description": "Deployment automation and environment management",
+      "description": "Автоматизация деплоя и управление окружениями",
       "category": "devops",
       "tags": ["deploy", "ci", "automation"]
     },
 
-    // ── npm source ───────────────────────────────────────────────
-    // Plugin distributed as an npm package.
-    // Supports version ranges and custom registries.
+    // ── Источник npm ───────────────────────────────────────────────
+    // Плагин распространяется как npm-пакет.
+    // Поддерживает диапазоны версий и пользовательские реестры.
     {
       "name": "lint-plugin",
       "source": {
@@ -75,15 +75,15 @@
         "package": "@your-org/claude-lint-plugin",
         "version": "^1.0.0"
       },
-      "description": "Auto-linting hooks for JavaScript and TypeScript"
+      "description": "Авто-линтинг хуки для JavaScript и TypeScript"
     }
 
-    // Other source types:
+    // Другие типы источников:
     //
     //   Git URL:
     //   { "source": "url", "url": "https://gitlab.com/team/plugin.git" }
     //
-    //   Git subdirectory (sparse clone for monorepos):
+    //   Git поддиректория (sparse clone для монорепозиториев):
     //   { "source": "git-subdir", "url": "https://...", "path": "tools/plugin" }
     //
     //   pip:

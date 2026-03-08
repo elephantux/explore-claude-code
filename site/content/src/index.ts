@@ -1,15 +1,15 @@
 // src/index.ts
 //
-// This is a placeholder source file. In a real project, your
-// actual application code would live here alongside the .claude/
-// configuration directory and other Claude Code files.
+// Это placeholder исходного файла. В реальном проекте ваш
+// фактический код приложения находился бы здесь рядом с директорией
+// .claude/ конфигурации и другими файлами Claude Code.
 //
-// Claude Code works with any language or framework. The .claude/
-// directory, CLAUDE.md, and .mcp.json sit at the project root
-// while your source code lives wherever it normally would.
+// Claude Code работает с любым языком или фреймворком. Директория
+// .claude/, CLAUDE.md и .mcp.json располагаются в корне проекта,
+// а ваш исходный код живёт там, где обычно.
 
 export function main(): void {
-  console.log("Hello from your project.");
+  console.log("Привет из вашего проекта.");
 }
 
 main();

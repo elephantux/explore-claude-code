@@ -1,86 +1,86 @@
-# Skills
+# Навыки
 
-Reusable packages of instructions, references, and scripts that Claude discovers and loads [on demand](^Claude reads only the skill name and description at startup. The full content loads only when the skill is relevant to your current task). A skill is a directory containing a `SKILL.md` file. That is the only requirement.
+Переиспользуемые пакеты инструкций, справочных материалов и скриптов, которые Claude обнаруживает и загружает [по требованию](^Claude читает только название и описание навыка при запуске. Полное содержимое загружается только когда навык релевантен текущей задаче). Навык — это директория, содержащая файл `SKILL.md`. Это единственное требование.
 
-## Quick Start
+## Быстрый старт
 
-1. Create a folder: `.claude/skills/my-skill/`
-2. Add a `SKILL.md` with [frontmatter](^A YAML block at the top of the file between --- markers. Contains metadata like name and description) name and description
-3. Write instructions in the body. Claude reads them when the skill activates
-4. Invoke with `/my-skill` or let Claude load it automatically when relevant
+1. Создайте папку: `.claude/skills/my-skill/`
+2. Добавьте `SKILL.md` с [frontmatter](^YAML-блок в начале файла между маркерами ---. Содержит метаданные вроде имени и описания) name и description
+3. Напишите инструкции в теле файла. Claude читает их при активации навыка
+4. Вызовите через `/my-skill` или позвольте Claude загрузить автоматически, когда это уместно
 
-Skills follow the [Agent Skills open standard](https://agentskills.io), so they work across multiple AI tools, not just Claude Code.
+Навыки следуют открытому стандарту [Agent Skills](https://agentskills.io), поэтому работают с несколькими AI-инструментами, не только с Claude Code.
 
-## How It Works
+## Как это работает
 
-Skills use [progressive disclosure](^A pattern that manages context efficiently: load a little upfront, load more only when needed. Keeps Claude focused and reduces token usage) to stay efficient:
+Навыки используют [прогрессивное раскрытие](^Паттерн эффективного управления контекстом: загружай немного сначала, загружай больше только когда нужно. Держит Claude сфокусированным и уменьшает использование токенов) для эффективности:
 
-1. **Discovery**: At startup, Claude loads only each skill's `name` and `description`. Just enough to know when it might be relevant
-2. **Activation**: When a task matches, Claude reads the full `SKILL.md` into context
-3. **Execution**: Claude follows the instructions, optionally loading referenced files or running bundled scripts
+1. **Обнаружение**: При запуске Claude загружает только `name` и `description` каждого навыка. Ровно столько, чтобы понять, когда он может понадобиться
+2. **Активация**: Когда задача соответствует навыку, Claude читает полный `SKILL.md` в контекст
+3. **Выполнение**: Claude следует инструкциям, опционально загружая связанные файлы или запуская встроенные скрипты
 
-## Two Types of Skill
+## Два типа навыков
 
-| Type | Purpose | Example | Invocation |
+| Тип | Назначение | Пример | Вызов |
 |---|---|---|---|
-| Reference | Knowledge Claude applies to your work | Style guides, conventions, domain rules | Auto-loaded when relevant |
-| Task | Step-by-step instructions for a specific action | Deploy, scaffold, generate | Usually invoked with `/skill-name` |
+| Справочный | Знания, которые Claude применяет к вашей работе | Руководства по стилю, конвенции, доменные правила | Автозагрузка при необходимости |
+| Задачный | Пошаговые инструкции для конкретного действия | Деплой, генерация, создание | Обычно вызывается через `/skill-name` |
 
-## Where Skills Live
+## Где живут навыки
 
-| Location | Path | Scope |
+| Расположение | Путь | Область |
 |---|---|---|
-| Enterprise | [Managed settings](^A system-level path managed by IT/DevOps for organisation-wide policies) | All users in your org |
-| Personal | `~/.claude/skills/<name>/SKILL.md` | All your projects |
-| Project | `.claude/skills/<name>/SKILL.md` | This project only |
-| Plugin | `<plugin>/skills/<name>/SKILL.md` | Where plugin is enabled |
+| Корпоративный | [Управляемые настройки](^Системный путь, управляемый IT/DevOps для политик всей организации) | Все пользователи в вашей организации |
+| Персональный | `~/.claude/skills/<name>/SKILL.md` | Все ваши проекты |
+| Проектный | `.claude/skills/<name>/SKILL.md` | Только этот проект |
+| Плагинный | `<plugin>/skills/<name>/SKILL.md` | Где плагин включён |
 
-When skills share the same name across levels, higher-priority locations win: Enterprise > Personal > Project.
+Когда навыки имеют одинаковое имя на разных уровнях, побеждают расположения с более высоким приоритетом: Корпоративный > Персональный > Проектный.
 
-## Commands and Skills
+## Команды и навыки
 
-[Custom commands](^Markdown files in .claude/commands/ that created slash commands. Now unified under skills) and skills are now the same system. A file at `.claude/commands/review.md` and a skill at `.claude/skills/review/SKILL.md` both create `/review` and work identically. Existing command files keep working. Skills add optional features: supporting files, frontmatter controls, and automatic loading.
+[Пользовательские команды](^Markdown-файлы в .claude/commands/, создававшие слэш-команды. Теперь объединены с навыками) и навыки теперь — одна система. Файл в `.claude/commands/review.md` и навык в `.claude/skills/review/SKILL.md` оба создают `/review` и работают идентично. Существующие файлы команд продолжают работать. Навыки добавляют опциональные возможности: вспомогательные файлы, контроль через frontmatter и автозагрузку.
 
-## Invocation Control
+## Контроль вызова
 
-Control who can trigger a skill using [frontmatter](^YAML metadata at the top of SKILL.md between --- markers) settings:
+Контролируйте, кто может активировать навык, с помощью настроек [frontmatter](^YAML-метаданные в начале SKILL.md между маркерами ---):
 
-| Setting | You Can Invoke | Claude Can Invoke |
+| Настройка | Вы можете вызвать | Claude может вызвать |
 |---|---|---|
-| (default) | Yes | Yes |
-| `disable-model-invocation: true` | Yes | No |
-| `user-invocable: false` | No | Yes |
+| (по умолчанию) | Да | Да |
+| `disable-model-invocation: true` | Да | Нет |
+| `user-invocable: false` | Нет | Да |
 
-Use `disable-model-invocation` for actions with side effects (deploys, sends, destructive operations). Use `user-invocable: false` for background knowledge Claude should apply but users should not trigger directly.
+Используйте `disable-model-invocation` для действий с побочными эффектами (деплои, отправки, деструктивные операции). Используйте `user-invocable: false` для фоновых знаний, которые Claude должен применять, но пользователи не должны запускать напрямую.
 
-## Permission Control
+## Контроль разрешений
 
-Restrict which skills Claude can use via [permission rules](^Configured in settings.json or .claude/settings.json. See the Settings & Permissions section for details):
+Ограничьте, какие навыки может использовать Claude, через [правила разрешений](^Настраивается в settings.json или .claude/settings.json. Смотрите раздел Настройки и разрешения для деталей):
 
-- `Skill(commit)`: allow a specific skill
-- `Skill(deploy *)`: deny a skill prefix
-- Deny the `Skill` tool entirely to disable all skills
+- `Skill(commit)`: разрешить конкретный навык
+- `Skill(deploy *)`: запретить префикс навыка
+- Запретите инструмент `Skill` целиком, чтобы отключить все навыки
 
-## Bundled Skills
+## Встроенные навыки
 
-These ship with Claude Code and are available in every session:
+Эти навыки поставляются с Claude Code и доступны в каждой сессии:
 
-| Command | What It Does |
+| Команда | Что делает |
 |---|---|
-| `/simplify` | Reviews changed files for reuse, quality, and efficiency, then fixes issues |
-| `/batch <instruction>` | Orchestrates large-scale parallel changes across a codebase |
-| `/debug [description]` | Troubleshoots your session by reading debug logs |
-| `/claude-api` | Loads Claude API reference for your project's language |
+| `/simplify` | Проверяет изменённые файлы на переиспользование, качество и эффективность, затем исправляет проблемы |
+| `/batch <instruction>` | Организует крупномасштабные параллельные изменения по всей кодовой базе |
+| `/debug [description]` | Отлаживает вашу сессию, читая логи отладки |
+| `/claude-api` | Загружает справочник Claude API для языка вашего проекта |
 
-## Tips
+## Советы
 
-- Skill directory names must be lowercase with hyphens, max 64 characters
-- Keep `SKILL.md` under 500 lines. Move detailed material to `references/` or `assets/` subdirectories
-- The `description` field is what Claude uses to decide relevance. Include keywords users would naturally say
-- Use `$ARGUMENTS` in the body to accept user input: `/my-skill some input here`
-- Use the `!` backtick syntax for [dynamic context injection](^Shell commands that run before SKILL.md reaches Claude. The output replaces the placeholder, e.g. injecting the list of changed files)
-- Test skills by invoking them directly with `/skill-name` before relying on auto-loading
+- Имена директорий навыков должны быть в нижнем регистре с дефисами, максимум 64 символа
+- Держите `SKILL.md` до 500 строк. Переносите детальный материал в поддиректории `references/` или `assets/`
+- Поле `description` — это то, что Claude использует для определения релевантности. Включайте ключевые слова, которые пользователи естественно скажут
+- Используйте `$ARGUMENTS` в теле для приёма пользовательского ввода: `/my-skill some input here`
+- Используйте синтаксис с `!` обратными кавычками для [динамической инъекции контекста](^Shell-команды, которые запускаются перед тем, как SKILL.md достигнет Claude. Вывод заменяет placeholder, например, инъекция списка изменённых файлов)
+- Тестируйте навыки, вызывая их напрямую через `/skill-name`, прежде чем полагаться на автозагрузку
 
-## Explore the Anatomy
+## Изучите анатомию
 
-Open the `my-skill/` folder below to see the complete file structure of a skill, with every field and directory explained.
+Откройте папку `my-skill/` ниже, чтобы увидеть полную файловую структуру навыка с объяснением каждого поля и директории.

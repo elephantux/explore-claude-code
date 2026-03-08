@@ -1,71 +1,71 @@
-# Agents
+# Агенты
 
-Agents are isolated Claude instances you create and configure for specialised tasks. They come in two forms: [subagents](^Focused workers that run inside your session, do a job, and return a summary) that operate within your session, and [agent teams](^Multiple independent Claude Code sessions coordinating through a shared task list) that coordinate across separate sessions.
+Агенты — это изолированные экземпляры Claude, которые вы создаёте и настраиваете для специализированных задач. Они бывают двух видов: [субагенты](^Сфокусированные работники, которые работают внутри вашей сессии, выполняют задачу и возвращают сводку), работающие внутри вашей сессии, и [команды агентов](^Несколько независимых сессий Claude Code, координирующихся через общий список задач), координирующиеся между отдельными сессиями.
 
-## Quick Start
+## Быстрый старт
 
-1. Run `/agents` inside Claude Code to open the interactive agent manager
-2. Select **Create new agent**, then choose a scope (project or user)
-3. Use **Generate with Claude** and describe what the agent should do
-4. Select which tools the agent can access, pick a model, and save
+1. Запустите `/agents` внутри Claude Code, чтобы открыть интерактивный менеджер агентов
+2. Выберите **Create new agent**, затем выберите область (проект или пользователь)
+3. Используйте **Generate with Claude** и опишите, что агент должен делать
+4. Выберите, какие инструменты агент может использовать, выберите модель и сохраните
 
-Your agent is available immediately. Try it: "Use the my-agent agent to review this module."
+Ваш агент доступен немедленно. Попробуйте: "Используй агента my-agent для ревью этого модуля."
 
-## How Subagents Work
+## Как работают субагенты
 
-Subagents are `.md` files with YAML frontmatter for configuration and a Markdown body that becomes the system prompt. Each subagent runs in its own context window, uses only the tools you allow, and returns a summary to your main conversation.
+Субагенты — это `.md` файлы с YAML frontmatter для конфигурации и Markdown-телом, которое становится системным промптом. Каждый субагент работает в своём собственном контекстном окне, использует только разрешённые вами инструменты и возвращает сводку в ваш основной разговор.
 
-1. Claude matches your request to a subagent's `description` field
-2. A new context window is created with the subagent's system prompt
-3. The subagent works independently (reading files, running commands, etc.)
-4. Results are summarised back to your main conversation
+1. Claude сопоставляет ваш запрос с полем `description` субагента
+2. Создаётся новое контекстное окно с системным промптом субагента
+3. Субагент работает независимо (читает файлы, запускает команды и т.д.)
+4. Результаты суммируются обратно в ваш основной разговор
 
-Subagents can run in the foreground (blocking) or background (concurrent). Press `Ctrl+B` to send a running task to the background.
+Субагенты могут работать на переднем плане (блокирующий режим) или в фоне (параллельно). Нажмите `Ctrl+B`, чтобы отправить выполняющуюся задачу в фон.
 
-## Where Agents Live
+## Где живут агенты
 
-| Location | Scope | Priority |
+| Расположение | Область | Приоритет |
 |----------|-------|----------|
-| `--agents` CLI flag | Current session only | 1 (highest) |
-| `.claude/agents/` | This project (check into version control) | 2 |
-| `~/.claude/agents/` | All your projects | 3 |
-| Plugin `agents/` directory | Where the plugin is enabled | 4 (lowest) |
+| Флаг CLI `--agents` | Только текущая сессия | 1 (высший) |
+| `.claude/agents/` | Этот проект (коммитьте в систему контроля версий) | 2 |
+| `~/.claude/agents/` | Все ваши проекты | 3 |
+| Директория `agents/` плагина | Где плагин включён | 4 (низший) |
 
-When multiple agents share the same name, the higher-priority location wins.
+Когда несколько агентов имеют одно имя, побеждает расположение с более высоким приоритетом.
 
-## Built-in Subagents
+## Встроенные субагенты
 
-Claude Code ships with subagents it uses automatically:
+Claude Code поставляется с субагентами, которые использует автоматически:
 
-- **Explore**: fast, read-only codebase search (runs on Haiku)
-- **Plan**: structured planning and analysis
-- **General-purpose**: flexible helper for miscellaneous delegation
+- **Explore**: быстрый поиск по кодовой базе только для чтения (работает на Haiku)
+- **Plan**: структурированное планирование и анализ
+- **General-purpose**: гибкий помощник для разнообразного делегирования
 
-You can create custom agents that override built-ins by using the same name at a higher priority scope.
+Вы можете создавать пользовательских агентов, которые переопределяют встроенных, используя то же имя с более высоким приоритетом области.
 
-## Frontmatter Reference
+## Справочник frontmatter
 
-| Field | Required | Purpose |
+| Поле | Обязательно | Назначение |
 |-------|----------|---------|
-| `name` | Yes | Unique identifier (lowercase, hyphens) |
-| `description` | Yes | When Claude should delegate to this agent |
-| `tools` | No | Allowlist of tools (inherits all if omitted) |
-| `disallowedTools` | No | Denylist removed from inherited tools |
-| `model` | No | `sonnet`, `opus`, `haiku`, or `inherit` (default) |
-| `permissionMode` | No | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan` |
-| `maxTurns` | No | Maximum agentic turns before the agent stops |
-| `skills` | No | Skills to inject into the agent's context at startup |
-| `mcpServers` | No | MCP servers available to this agent |
-| `hooks` | No | Lifecycle hooks scoped to this agent |
-| `memory` | No | Persistent memory scope: `user`, `project`, or `local` |
-| `background` | No | Set `true` to always run as a background task |
-| `isolation` | No | Set `worktree` to run in a temporary git worktree |
+| `name` | Да | Уникальный идентификатор (нижний регистр, дефисы) |
+| `description` | Да | Когда Claude должен делегировать этому агенту |
+| `tools` | Нет | Белый список инструментов (наследует все, если опущено) |
+| `disallowedTools` | Нет | Чёрный список, исключаемый из унаследованных инструментов |
+| `model` | Нет | `sonnet`, `opus`, `haiku`, или `inherit` (по умолчанию) |
+| `permissionMode` | Нет | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan` |
+| `maxTurns` | Нет | Максимум агентных ходов до остановки агента |
+| `skills` | Нет | Навыки для инъекции в контекст агента при запуске |
+| `mcpServers` | Нет | MCP-серверы, доступные этому агенту |
+| `hooks` | Нет | Хуки жизненного цикла, ограниченные этим агентом |
+| `memory` | Нет | Область постоянной памяти: `user`, `project`, или `local` |
+| `background` | Нет | Установите `true` для постоянной работы как фоновая задача |
+| `isolation` | Нет | Установите `worktree` для работы во временном git worktree |
 
-## Agent Teams
+## Команды агентов
 
-Agent teams coordinate multiple independent Claude Code sessions working in parallel. One session acts as the lead; others are teammates with their own context windows.
+Команды агентов координируют несколько независимых сессий Claude Code, работающих параллельно. Одна сессия действует как ведущий; остальные — товарищи по команде со своими контекстными окнами.
 
-Agent teams are experimental. Enable them in `settings.json`:
+Команды агентов экспериментальны. Включите их в `settings.json`:
 
 ```json
 {
@@ -75,37 +75,37 @@ Agent teams are experimental. Enable them in `settings.json`:
 }
 ```
 
-Then describe the team structure in natural language:
+Затем опишите структуру команды на естественном языке:
 
 ```
-Create an agent team to review PR #142. Spawn three reviewers:
-one focused on security, one checking performance, one validating tests.
+Создай команду агентов для ревью PR #142. Запусти три ревьюера:
+одного сфокусированного на безопасности, одного проверяющего производительность, одного валидирующего тесты.
 ```
 
-### Subagents vs Agent Teams
+### Субагенты vs Команды агентов
 
-| | Subagents | Agent Teams |
+| | Субагенты | Команды агентов |
 |---|-----------|-------------|
-| Communication | Report results back to caller only | Teammates message each other directly |
-| Context | Own window; results return to main session | Own window; fully independent |
-| Coordination | Main agent manages all work | Shared task list with self-coordination |
-| Best for | Focused tasks where only the result matters | Complex work requiring discussion |
-| Token cost | Lower (results summarised back) | Higher (each teammate is a separate instance) |
+| Коммуникация | Только отчёт результатов вызывающему | Товарищи по команде пишут друг другу напрямую |
+| Контекст | Своё окно; результаты возвращаются в основную сессию | Своё окно; полностью независимы |
+| Координация | Основной агент управляет всей работой | Общий список задач с самокоординацией |
+| Лучше для | Сфокусированных задач, где важен только результат | Сложной работы, требующей обсуждения |
+| Стоимость токенов | Ниже (результаты суммируются обратно) | Выше (каждый товарищ — отдельный экземпляр) |
 
-Use subagents for quick, focused workers. Use agent teams when teammates need to share findings and coordinate on their own.
+Используйте субагенты для быстрых, сфокусированных работников. Используйте команды агентов, когда товарищам нужно делиться находками и координироваться самостоятельно.
 
-## Common Patterns
+## Типичные паттерны
 
-- **Isolate verbose output**: delegate test runs or log analysis to a subagent so the output stays out of your main context
-- **Parallel research**: spawn multiple subagents to investigate different parts of a codebase simultaneously
-- **Chain subagents**: use one for analysis, pass its findings to another for implementation
-- **Competing hypotheses**: spawn agent team members to investigate different theories and debate each other
+- **Изоляция многословного вывода**: делегируйте запуски тестов или анализ логов субагенту, чтобы вывод не попал в ваш основной контекст
+- **Параллельное исследование**: запустите нескольких субагентов для исследования разных частей кодовой базы одновременно
+- **Цепочка субагентов**: используйте одного для анализа, передайте его находки другому для реализации
+- **Конкурирующие гипотезы**: запустите членов команды агентов для исследования разных теорий и дебатов друг с другом
 
-## Tips
+## Советы
 
-- Write detailed `description` fields so Claude knows when to delegate. Include "use proactively" for agents you want used automatically
-- Grant only the tools an agent needs. A read-only reviewer should not have Write or Edit
-- Subagents cannot spawn other subagents. For nested delegation, use skills or chain from the main conversation
-- Use `memory: user` to let agents build knowledge across sessions. Ask them to "check your memory" before starting and "save what you learned" after finishing
-- Agent teams work best with 3-5 teammates and 5-6 tasks each. More teammates means more coordination overhead
-- Teammates load `CLAUDE.md` from the working directory, so project conventions apply to the whole team
+- Пишите детальные поля `description`, чтобы Claude знал, когда делегировать. Включите "use proactively" для агентов, которых хотите использовать автоматически
+- Давайте только те инструменты, которые нужны агенту. Ревьюер только для чтения не должен иметь Write или Edit
+- Субагенты не могут запускать других субагентов. Для вложенного делегирования используйте навыки или цепочку из основного разговора
+- Используйте `memory: user`, чтобы агенты накапливали знания между сессиями. Попросите их "проверить свою память" перед началом и "сохранить изученное" после завершения
+- Команды агентов лучше работают с 3-5 товарищами и 5-6 задачами на каждого. Больше товарищей — больше накладных расходов на координацию
+- Товарищи по команде загружают `CLAUDE.md` из рабочей директории, поэтому конвенции проекта применяются ко всей команде
